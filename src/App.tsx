@@ -1,23 +1,24 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import {
-	AboutPage,
-	ContactPage,
-	Footer,
-	Header,
-	HomePage,
-	PredispositionsPage,
-	PrinciplesPage,
-	ShopPage,
-	ToolkitPage,
-	TrainingPage,
-	ValueModal,
-	type Value,
-} from "./components";
+import { type Value } from "./components";
+import { TrainingPage } from "./TrainingPage";
+import { PrinciplesPage } from "./PrinciplesPage";
+import { ValueModal } from "./ValueModal";
+import { ContactPage } from "./ContactPage";
+import { PredispositionsPage } from "./PredispositionsPage";
+import { ShopPage } from "./ShopPage";
+import { ToolkitPage } from "./ToolkitPage";
+import { AboutPage } from "./AboutPage";
+import { HomePage } from "./HomePage";
+import { Footer } from "./components/Footer";
+import { Header } from "./components/Header";
 
 function App() {
-	const [modalData, setModalData] = useState<{ name: string; value: Value; } | null>(null);
+	const [modalData, setModalData] = useState<{
+		name: string;
+		value: Value;
+	} | null>(null);
 
 	const handleValueClick = (name: string, value: Value) => {
 		setModalData({ name, value });
@@ -35,11 +36,22 @@ function App() {
 					<Routes>
 						<Route path="/" element={<HomePage />} />
 						<Route path="/about" element={<AboutPage />} />
-						<Route path="/toolkit" element={<ToolkitPage onValueClick={handleValueClick} />} />
+						<Route
+							path="/toolkit"
+							element={
+								<ToolkitPage onValueClick={handleValueClick} />
+							}
+						/>
 						<Route path="/training" element={<TrainingPage />} />
 						<Route path="/shop" element={<ShopPage />} />
-						<Route path="/principles" element={<PrinciplesPage />} />
-						<Route path="/predispositions" element={<PredispositionsPage />} />
+						<Route
+							path="/principles"
+							element={<PrinciplesPage />}
+						/>
+						<Route
+							path="/predispositions"
+							element={<PredispositionsPage />}
+						/>
 						<Route path="/contact" element={<ContactPage />} />
 					</Routes>
 				</main>
