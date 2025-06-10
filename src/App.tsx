@@ -30,7 +30,7 @@ function App() {
 
 	return (
 		<Router>
-			<div className="bg-gray-50">
+			<div className="bg-gray-50 min-h-screen w-full flex flex-col" >
 				<Header />
 				<main>
 					<Routes>
