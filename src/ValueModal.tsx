@@ -1,6 +1,10 @@
-import type React from "react";
 import * as react from "react";
-import type { ValueModalProps } from "./components";
+import type { Value } from "./ToolkitPage";
+interface ValueModalProps {
+	isOpen: boolean;
+	onClose: () => void;
+	data: { name: string; value: Value } | null;
+}
 
 export const ValueModal: react.FC<ValueModalProps> = ({
 	isOpen,

@@ -1,11 +1,8 @@
 import * as react from "react";
-import type { FooterProps } from "../components";
+import { Link } from "react-router-dom";
 
-export const Footer: react.FC<FooterProps> = ({ onPageChange }) => {
-	const handleNavClick = (pageId: string) => {
-		onPageChange(pageId);
-		window.scrollTo(0, 0);
-	};
+export const Footer: react.FC = () => {
+	const activePage = location.pathname.split("/")[1];
 
 	return (
 		<footer className="bg-gray-800 text-white">
@@ -20,76 +17,48 @@ export const Footer: react.FC<FooterProps> = ({ onPageChange }) => {
 						</p>
 					</div>
 					<div>
-						<h3 className="text-lg font-bold">Quick Links</h3>
+						<h3 className="text-lg font-bold mb-2">Quick Links</h3>
 						<ul className="mt-2 space-y-2">
 							<li>
-								<a
-									href="#home"
-									onClick={e => {
-										e.preventDefault();
-										handleNavClick("home");
-									}}
-									className="text-gray-400 hover:text-white">
+								<Link
+									to="/"
+									className={`text-gray-400 hover:text-white ${
+										activePage === "" ? "active" : ""
+									}`}>
 									Home
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a
-									href="#about"
-									onClick={e => {
-										e.preventDefault();
-										handleNavClick("about");
-									}}
-									className="text-gray-400 hover:text-white">
+								<Link
+									to="/about"
+									className={`text-gray-400 hover:text-white ${
+										activePage === "about" ? "active" : ""
+									}`}>
 									About
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a
-									href="#toolkit"
-									onClick={e => {
-										e.preventDefault();
-										handleNavClick("toolkit");
-									}}
-									className="text-gray-400 hover:text-white">
+								<Link
+									to="/toolkit"
+									className={`text-gray-400 hover:text-white ${
+										activePage === "toolkit" ? "active" : ""
+									}`}>
 									The Toolkit
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a
-									href="#training"
-									onClick={e => {
-										e.preventDefault();
-										handleNavClick("training");
-									}}
-									className="text-gray-400 hover:text-white">
+								<Link
+									to="/training"
+									className={`text-gray-400 hover:text-white ${
+										activePage === "training"
+											? "active"
+											: ""
+									}`}>
 									Training
-								</a>
-							</li>
-							<li>
-								<a
-									href="#shop"
-									onClick={e => {
-										e.preventDefault();
-										handleNavClick("shop");
-									}}
-									className="text-gray-400 hover:text-white">
-									Shop
-								</a>
+								</Link>
 							</li>
 						</ul>
 					</div>
-					<div>
-						<h3 className="text-lg font-bold">Contact</h3>
-						<ul className="mt-2 space-y-2 text-gray-400">
-							<li>Email: info@corepath.com</li>
-							<li>Phone: +1 (555) 123-4567</li>
-						</ul>
-					</div>
-				</div>
-				<hr className="my-6 border-gray-700" />
-				<div className="text-center text-gray-400">
-					&copy; 2024 CorePath Impact Publishers. All Rights Reserved.
 				</div>
 			</div>
 		</footer>

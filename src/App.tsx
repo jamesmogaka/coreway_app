@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import { type Value } from "./components";
+import type { Value } from "./ToolkitPage";
 import { TrainingPage } from "./TrainingPage";
 import { PrinciplesPage } from "./PrinciplesPage";
 import { ValueModal } from "./ValueModal";

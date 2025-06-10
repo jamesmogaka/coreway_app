@@ -1,4 +1,3 @@
-import type React from "react";
 import * as react from "react";
 
 export const PrinciplesPage: react.FC = () => (
