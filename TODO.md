@@ -10,7 +10,7 @@
 
 ### ✅ Features:
 
--   [ ] React project setup with Tailwind
+-   [x] React project setup with Tailwind
 -   [ ] React Router with basic routes:
     -   `/` (Home/Product list)
     -   `/product/:id` (Product detail)
