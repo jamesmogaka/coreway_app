@@ -1,25 +1,38 @@
 import { LoginForm } from "@/components/LoginForm";
 import { SignupForm } from "@/components/SignupForm";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAuth } from "@/contexts/AuthContext";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-//
-//This page contains both the login and signup forms on success in either of the operations
-//you will be redirected to the dashboard
-export function Auth() {
-	return (
-		<div className="w-screen h-screen flex items-center justify-center border">
-			<Tabs defaultValue="signin" className="w-[400px]">
-				<TabsList className="grid w-full grid-cols-2">
-					<TabsTrigger value="signup">Signup</TabsTrigger>
-					<TabsTrigger value="signin">Signin</TabsTrigger>
-				</TabsList>
-				<TabsContent value="signup">
-					<SignupForm></SignupForm>
-				</TabsContent>
-				<TabsContent value="signin">
-					<LoginForm></LoginForm>
-				</TabsContent>
-			</Tabs>
-		</div>
-	);
+export const Auth = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
+
+  if (user) {
+    return null; // or a loading spinner
+  }
+
+  return (
+    <div className="w-full flex items-center justify-center p-4">
+      <Tabs defaultValue="login" className="w-[400px]">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="login">Login</TabsTrigger>
+          <TabsTrigger value="signup">Sign up</TabsTrigger>
+        </TabsList>
+        <TabsContent value="login">
+          <LoginForm />
+        </TabsContent>
+        <TabsContent value="signup">
+          <SignupForm />
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
 }

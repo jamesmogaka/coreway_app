@@ -48,13 +48,8 @@ export default function UsersPage() {
 
 		try {
 			setDataLoading(true);
-			const { data, error } = await supabase
-				.from("profiles")
-				.select(
-					"id, email, full_name, created_at, last_sign_in_at, user_role"
-				)
-				.order("created_at", { ascending: false });
 
+			const { data, error } = await supabase.from("users").select("*");
 			if (error) throw error;
 
 			setUsers(data || []);
@@ -93,7 +88,7 @@ export default function UsersPage() {
 
 		try {
 			const { error } = await supabase
-				.from("profiles")
+				.from("auth.users")
 				.update({ user_role: newRole })
 				.eq("id", userId);
 
