@@ -7,14 +7,17 @@ import { PrinciplesPage } from "./PrinciplesPage";
 import { ValueModal } from "./ValueModal";
 import { ContactPage } from "./ContactPage";
 import { PredispositionsPage } from "./PredispositionsPage";
-import { ShopPage } from "./ShopPage";
+import { ShopLayout } from "./components/ShopLayout";
 import { ToolkitPage } from "./ToolkitPage";
 import { AboutPage } from "./AboutPage";
 import { HomePage } from "./HomePage";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
+import { Auth } from "./Auth";
+import { CartProvider } from "./contexts/CartContext";
+import { Toaster } from "sonner";
 
-function App() {
+function AppContent() {
 	const [modalData, setModalData] = useState<{
 		name: string;
 		value: Value;
@@ -30,7 +33,7 @@ function App() {
 
 	return (
 		<Router>
-			<div className="bg-gray-50 min-h-screen w-full flex flex-col" >
+			<div className="bg-gray-50 min-h-screen w-full flex flex-col">
 				<Header />
 				<main>
 					<Routes>
@@ -43,7 +46,7 @@ function App() {
 							}
 						/>
 						<Route path="/training" element={<TrainingPage />} />
-						<Route path="/shop" element={<ShopPage />} />
+						<Route path="/shop/*" element={<ShopLayout />} />
 						<Route
 							path="/principles"
 							element={<PrinciplesPage />}
@@ -53,6 +56,7 @@ function App() {
 							element={<PredispositionsPage />}
 						/>
 						<Route path="/contact" element={<ContactPage />} />
+						<Route path="/auth" element={<Auth />} />
 					</Routes>
 				</main>
 				<Footer />
@@ -62,7 +66,16 @@ function App() {
 				onClose={handleCloseModal}
 				data={modalData}
 			/>
+			<Toaster />
 		</Router>
+	);
+}
+
+function App() {
+	return (
+		<CartProvider>
+			<AppContent />
+		</CartProvider>
 	);
 }
 
