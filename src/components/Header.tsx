@@ -1,6 +1,8 @@
 import * as react from "react";
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "./ui/button";
 export interface NavLinkProps {
 	pageId: string;
 	title: string;
@@ -40,8 +42,19 @@ const NavLink: react.FC<NavLinkProps> = ({ pageId, title, activePage }) => (
 // --- Components ---
 export const Header: react.FC = () => {
 	const location = useLocation();
+	const navigate = useNavigate();
+	const { user, logout, isAdmin } = useAuth();
+	const [isUserAdmin, setIsUserAdmin] = useState(false);
 	const activePage = location.pathname.split("/")[1];
 	const [isMobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+
+	useEffect(() => {
+		const checkAdminStatus = async () => {
+			const adminStatus = await isAdmin();
+			setIsUserAdmin(adminStatus);
+		};
+		checkAdminStatus();
+	}, [isAdmin]);
 
 	return (
 		<header className="bg-white shadow-md sticky top-0 z-50">
@@ -50,19 +63,33 @@ export const Header: react.FC = () => {
 					CorePath International
 				</Link>
 				<div className="hidden md:flex items-center space-x-4">
-					{navLinks.map(link => (
-						<NavLink
-							key={link.id}
-							pageId={link.id}
-							title={link.title}
-							activePage={activePage}
-						/>
-					))}
-					<Link
-						to="/members"
-						className="ml-4 bg-blue-600 text-white hover:bg-blue-700 inline-block font-bold py-2 px-6 rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg hover:-translate-y-1">
-						Members Login
-					</Link>
+					{navLinks
+						.filter(link => !isUserAdmin || link.id !== "contact")
+						.map(link => (
+							<NavLink
+								key={link.id}
+								pageId={link.id}
+								title={link.title}
+								activePage={activePage}
+							/>
+						))}
+					{user ? (
+						<Button
+							onClick={async () => {
+								await logout();
+								navigate("/");
+							}}
+							variant="default"
+							className="ml-4 bg-red-600 hover:bg-red-700">
+							Logout
+						</Button>
+					) : (
+						<Link
+							to="/auth"
+							className="ml-4 bg-blue-600 text-white hover:bg-blue-700 inline-block font-bold py-2 px-6 rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg hover:-translate-y-1">
+							Members Login
+						</Link>
+					)}
 				</div>
 				<div className="md:hidden">
 					<button
@@ -85,19 +112,34 @@ export const Header: react.FC = () => {
 			</nav>
 			{isMobileMenuOpen && (
 				<div className="md:hidden px-2 pt-2 pb-3 space-y-1 sm:px-3">
-					{navLinks.map(link => (
-						<MobileNavLink
-							key={link.id}
-							pageId={link.id}
-							title={link.title}
-							activePage={activePage}
-						/>
-					))}
-					<Link
-						to="/members"
-						className="w-full mt-2 bg-blue-600 text-white hover:bg-blue-700 inline-block font-bold py-2 px-6 rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg hover:-translate-y-1">
-						Members Login
-					</Link>
+					{navLinks
+						.filter(link => !isUserAdmin || link.id !== "contact")
+						.map(link => (
+							<MobileNavLink
+								key={link.id}
+								pageId={link.id}
+								title={link.title}
+								activePage={activePage}
+							/>
+						))}
+					{user ? (
+						<Button
+							onClick={async () => {
+								await logout();
+								setMobileMenuOpen(false);
+								navigate("/");
+							}}
+							variant="default"
+							className="w-full mt-2 bg-red-600 hover:bg-red-700">
+							Logout
+						</Button>
+					) : (
+						<Link
+							to="/auth"
+							className="w-full mt-2 bg-blue-600 text-white hover:bg-blue-700 inline-block font-bold py-2 px-6 rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg hover:-translate-y-1">
+							Members Login
+						</Link>
+					)}
 				</div>
 			)}
 		</header>
