@@ -1,4 +1,3 @@
-import * as react from "react";
 import React, { useState } from "react";
 
 interface DescriptionProps {
@@ -21,9 +20,10 @@ export interface Predisposition {
 	parenting: string;
 }
 
-export interface Predispositions {
+type Predispositions = {
 	[key: string]: Predisposition;
-}
+};
+
 const predispositions: Predispositions = {
 	blue: {
 		title: "The Blue Child",
@@ -59,7 +59,7 @@ const predispositions: Predispositions = {
 	},
 };
 
-const Card: react.FC<CardProps> = ({ color, children, active, onClick }) => (
+const Card: React.FC<CardProps> = ({ color, children, active, onClick }) => (
 	<div
 		className={`p-6 bg-${color}-100 rounded-t-lg shadow-md predisposition-card ${
 			active === color ? "active-card" : ""
@@ -71,7 +71,7 @@ const Card: react.FC<CardProps> = ({ color, children, active, onClick }) => (
 	</div>
 );
 
-const Description: react.FC<DescriptionProps> = ({ color, data, active }) => (
+const Description: React.FC<DescriptionProps> = ({ color, data, active }) => (
 	<div className={`description-panel ${active === color ? "show" : ""}`}>
 		<div className="description-content fade-in">
 			<h2 className={`text-2xl font-bold text-${color}-800 mb-4`}>
@@ -86,7 +86,7 @@ const Description: react.FC<DescriptionProps> = ({ color, data, active }) => (
 		</div>
 	</div>
 );
-export const PredispositionsPage: react.FC = () => {
+export const PredispositionsPage: React.FC = () => {
 	const [active, setActive] = useState<string>("blue");
 
 	const handleCardClick = (color: string) => {

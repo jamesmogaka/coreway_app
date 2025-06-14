@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import type { Value } from "./ToolkitPage";
-import { TrainingPage } from "./TrainingPage";
-import { PrinciplesPage } from "./PrinciplesPage";
-import { ValueModal } from "./ValueModal";
-import { ContactPage } from "./ContactPage";
-import { PredispositionsPage } from "./PredispositionsPage";
+import type { Value } from "./pages/ToolkitPage";
+import { TrainingPage } from "./pages/TrainingPage";
+import { PrinciplesPage } from "./pages/PrinciplesPage";
+import { ValueModal } from "./pages/ValueModal";
+import { ContactPage } from "./pages/ContactPage";
+import { PredispositionsPage } from "./pages/PredispositionsPage";
 import { ShopLayout } from "./components/ShopLayout";
-import { ToolkitPage } from "./ToolkitPage";
-import { AboutPage } from "./AboutPage";
-import { HomePage } from "./HomePage";
+import { ToolkitPage } from "./pages/ToolkitPage";
+import { AboutPage } from "./pages/AboutPage";
+import { HomePage } from "./pages/HomePage";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
-import { Auth } from "./Auth";
+import { Auth } from "./pages/Auth";
 import { CartProvider } from "./contexts/CartContext";
 import { Toaster } from "sonner";
 

@@ -1,11 +1,11 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { ShopPage } from "../ShopPage";
-import { ProductDetail } from "../ProductDetail";
-import { AdminDashboard } from "../AdminDashboard.tsx";
+import { ShopPage } from "../pages/ShopPage";
+import { ProductDetail } from "../pages/ProductDetail";
+import { AdminDashboard } from "../pages/AdminDashboard";
 import UsersPage from "../pages/admin/Users";
 import { ContactsPage } from "../pages/admin/ContactsPage";
 import { ShopHeader } from "./ShopHeader";
-import { Auth } from "../Auth.tsx";
+import { Auth } from "../pages/Auth";
 import { CartSidebar } from "./CartSidebar";
 import { useCart } from "../contexts/useCart";
 import { useAuth } from "../contexts/AuthContext";

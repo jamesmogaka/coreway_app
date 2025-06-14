@@ -1,0 +1,156 @@
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useProducts } from "../hooks/useProducts";
+import { useCart } from "../contexts/useCart";
+import type { Product } from "../types/product";
+import { Button } from "../components/ui/button";
+import { toast } from "sonner";
+
+export const ProductDetail = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const { getProductById } = useProducts();
+  const { addToCart } = useCart();
+  const [product, setProduct] = useState<Product | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  const handleAddToCart = () => {
+    if (!product) return;
+
+    if (product.stock <= 0) {
+      toast.error("This product is out of stock");
+      return;
+    }
+
+    addToCart(product, 1);
+    toast.success(`${product.name} added to cart`);
+  };
+
+  useEffect(() => {
+    const loadProduct = async () => {
+      if (!id) {
+        navigate('/shop');
+        return;
+      }
+
+      setIsLoading(true);
+      setError(null);
+      
+      try {
+        const productData = await getProductById(id);
+        if (productData === null) {
+          throw new Error('Product not found');
+        }
+        setProduct(productData);
+      } catch (err) {
+        console.error('Error loading product:', err);
+        const error = err as Error;
+        setError(error);
+        toast.error(error.message || 'Error loading product. Please try again.');
+        navigate('/shop');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadProduct();
+  }, [id, getProductById, navigate]);
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        <p className="text-gray-600">Loading product details...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-red-500 mb-4">Error: {error.message}</p>
+        <Button
+          onClick={() => window.location.reload()}
+          className="bg-blue-600 hover:bg-blue-700 text-white"
+        >
+          Retry
+        </Button>
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="text-center py-12">
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+          Product Not Found
+        </h2>
+        <p className="text-gray-600 mb-6">
+          The product you're looking for doesn't exist or has been removed.
+        </p>
+        <Button
+          onClick={() => navigate("/shop")}
+          className="bg-blue-600 hover:bg-blue-700 text-white"
+        >
+          Back to Shop
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Product Image */}
+        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          {product.image_url && (
+            <img
+              src={product.image_url}
+              alt={product.name}
+              className="w-full h-auto object-cover"
+            />
+          )}
+        </div>
+
+        {/* Product Info */}
+        <div className="space-y-6">
+          <h1 className="text-3xl font-bold text-gray-900">
+            {product.name}
+          </h1>
+
+          <div className="flex items-center">
+            <p className="text-2xl font-bold text-gray-900">
+              KSh{product.price.toFixed(2)}
+            </p>
+            <span className="ml-4 px-2 py-1 bg-green-100 text-green-800 text-sm rounded-full">
+              {product.stock > 0
+                ? `In Stock (${product.stock} available)`
+                : "Out of Stock"}
+            </span>
+          </div>
+
+          <p className="text-gray-700">{product.description}</p>
+
+          <div className="pt-4">
+            <Button
+              onClick={handleAddToCart}
+              disabled={product.stock <= 0}
+              className="w-full md:w-auto"
+            >
+              {product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
+            </Button>
+          </div>
+
+          {product.stock <= 5 && product.stock > 0 && (
+            <p className="text-sm text-amber-600 mt-2">
+              Only {product.stock} left in stock!
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductDetail;

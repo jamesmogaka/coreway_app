@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { Sidebar } from "./components/admin/Sidebar";
-import { StatsCards } from "./components/admin/StatsCards";
-import { ProductsTable } from "./components/admin/ProductsTable";
-import { OrdersTable } from "./components/admin/OrdersTable";
-import { ProductFormDialog } from "./components/admin/ProductFormDialog";
-import { DeleteDialog } from "./components/admin/DeleteDialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
-import type { Order, Product } from "./types/admin";
-import { initialOrders } from "./types/admin";
-import { useProducts } from "./hooks/useProducts";
-import { supabase } from "./lib/supabase";
+import { Sidebar } from "../components/admin/Sidebar";
+import { StatsCards } from "../components/admin/StatsCards";
+import { ProductsTable } from "../components/admin/ProductsTable";
+import { OrdersTable } from "../components/admin/OrdersTable";
+import { ProductFormDialog } from "../components/admin/ProductFormDialog";
+import { DeleteDialog } from "../components/admin/DeleteDialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
+import type { Order, Product } from "../types/admin";
+import { initialOrders } from "../types/admin";
+import { useProducts } from "../hooks/useProducts";
+import { supabase } from "../lib/supabase";
 
 const initialFormData: Omit<Product, "id"> = {
   product: "",

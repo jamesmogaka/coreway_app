@@ -1,7 +1,7 @@
-import * as react from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export const HomePage: react.FC = () => {
+export const HomePage: React.FC = () => {
 	const navigate = useNavigate();
 	return (
 		<div className="fade-in">

@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import { supabase } from "./lib/supabase";
+import { supabase } from "../lib/supabase";
 import {
 	Card,
 	CardContent,
@@ -8,10 +8,10 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from "./components/ui/card";
-import { Button } from "./components/ui/button";
-import { CartContext } from "./contexts/cart-context";
-import type { Product } from "./types/product";
+} from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { CartContext } from "../contexts/cart-context";
+import type { Product } from "../types/product";
 
 export const ShopPage: React.FC = () => {
 	const [products, setProducts] = useState<Product[]>([]);
@@ -34,14 +34,17 @@ export const ShopPage: React.FC = () => {
 
 			if (error) throw error;
 			// Map the data to match the Product type
-			const formattedProducts = (data || []).map(dbProduct => ({
-				product: dbProduct.product, // Keep as 'product' to match the Product type
-				image: dbProduct.image_url, // Map 'image_url' to 'image'
-				name: dbProduct.name,
-				description: dbProduct.description,
-				price: dbProduct.price,
-				stock: dbProduct.stock || 0,
-			} as Product));
+			const formattedProducts = (data || []).map(
+				dbProduct =>
+					({
+						product: dbProduct.product,
+						image_url: dbProduct.image_url,
+						name: dbProduct.name,
+						description: dbProduct.description,
+						price: dbProduct.price,
+						stock: dbProduct.stock || 0,
+					} as Product)
+			);
 			setProducts(formattedProducts);
 		} catch (err) {
 			setError("Failed to fetch products");
@@ -71,7 +74,7 @@ export const ShopPage: React.FC = () => {
 								<Card className="overflow-hidden h-full flex flex-col">
 									<CardHeader className="p-0">
 										<img
-											src={product.image}
+											src={product.image_url}
 											alt={product.name}
 											className="w-full h-56 object-cover"
 										/>
