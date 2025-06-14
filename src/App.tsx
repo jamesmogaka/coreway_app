@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 
 import type { Value } from "./pages/ToolkitPage";
 import { TrainingPage } from "./pages/TrainingPage";
@@ -16,6 +16,10 @@ import { Header } from "./components/Header";
 import { Auth } from "./pages/Auth";
 import { CartProvider } from "./contexts/CartContext";
 import { Toaster } from "sonner";
+import { AdminLayout } from "./layouts/AdminLayout";
+import { AdminDashboard } from "./pages/admin/AdminDashboard";
+import { UsersPage } from "./pages/admin/UsersPage";
+import { ContractSubmissionsPage } from "./pages/admin/ContractSubmissionsPage";
 
 function AppContent() {
 	const [modalData, setModalData] = useState<{
@@ -57,6 +61,14 @@ function AppContent() {
 						/>
 						<Route path="/contact" element={<ContactPage />} />
 						<Route path="/auth" element={<Auth />} />
+						
+						{/* Admin Routes */}
+						<Route path="/admin" element={<AdminLayout />}>
+							<Route index element={<Navigate to="dashboard" replace />} />
+							<Route path="dashboard" element={<AdminDashboard />} />
+							<Route path="users" element={<UsersPage />} />
+							<Route path="contract-submissions" element={<ContractSubmissionsPage />} />
+						</Route>
 					</Routes>
 				</main>
 				<Footer />

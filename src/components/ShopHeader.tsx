@@ -30,7 +30,7 @@ export function ShopHeader() {
 					<nav className="flex items-center space-x-4">
 						{isUserAdmin ? (
 							<Link
-								to="/shop/admin"
+								to="/admin"
 								className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
 								Admin Dashboard
 							</Link>

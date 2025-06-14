@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { ShopPage } from "../pages/ShopPage";
 import { ProductDetail } from "../pages/ProductDetail";
-import { AdminDashboard } from "../pages/AdminDashboard";
+import { AdminDashboard } from "../pages/admin/AdminDashboard";
 import UsersPage from "../pages/admin/Users";
 import { ContactsPage } from "../pages/admin/ContactsPage";
 import { ShopHeader } from "./ShopHeader";
