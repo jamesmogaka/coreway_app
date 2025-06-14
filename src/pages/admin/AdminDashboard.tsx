@@ -13,6 +13,7 @@ export function AdminDashboard() {
   const navigate = useNavigate();
 
   const handleEdit = (product: Product) => {
+    // Navigate to edit product page with the product ID
     navigate(`/admin/products/edit/${product.product}`);
   };
 
@@ -35,7 +36,18 @@ export function AdminDashboard() {
   };
 
   const handleAddNew = () => {
+    // Navigate to add new product page
     navigate('/admin/products/new');
+  };
+  
+  // Navigate to users page
+  const navigateToUsers = () => {
+    navigate('/admin/users');
+  };
+  
+  // Navigate to contacts page
+  const navigateToContacts = () => {
+    navigate('/admin/contacts');
   };
 
   const handleStatusChange = (orderId: string, status: OrderStatus) => {
@@ -73,13 +85,32 @@ export function AdminDashboard() {
   }));
 
   return (
-    <div>
-      <Tabs defaultValue="products" className="w-full">
+    <div className="container mx-auto p-6">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">Admin Dashboard</h2>
+        <div className="flex space-x-4">
+          <button
+            onClick={() => navigateToUsers()}
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+          >
+            Manage Users
+          </button>
+          <button
+            onClick={() => navigateToContacts()}
+            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+          >
+            View Contact Submissions
+          </button>
+        </div>
+      </div>
+
+      <Tabs defaultValue="products" className="space-y-4">
         <TabsList>
           <TabsTrigger value="products">Products</TabsTrigger>
           <TabsTrigger value="orders">Orders</TabsTrigger>
         </TabsList>
-        <TabsContent value="products" className="mt-4">
+
+        <TabsContent value="products">
           <ProductsTable 
             products={mappedProducts} 
             onEdit={handleEdit}

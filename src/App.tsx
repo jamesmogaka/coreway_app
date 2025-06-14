@@ -18,8 +18,8 @@ import { CartProvider } from "./contexts/CartContext";
 import { Toaster } from "sonner";
 import { AdminLayout } from "./layouts/AdminLayout";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
-import { UsersPage } from "./pages/admin/UsersPage";
-import { ContractSubmissionsPage } from "./pages/admin/ContractSubmissionsPage";
+import UsersPage from "./pages/admin/Users";
+import ContactsPage from "./pages/admin/ContactsPage";
 
 function AppContent() {
 	const [modalData, setModalData] = useState<{
@@ -67,7 +67,7 @@ function AppContent() {
 							<Route index element={<Navigate to="dashboard" replace />} />
 							<Route path="dashboard" element={<AdminDashboard />} />
 							<Route path="users" element={<UsersPage />} />
-							<Route path="contract-submissions" element={<ContractSubmissionsPage />} />
+							<Route path="contacts" element={<ContactsPage />} />
 						</Route>
 					</Routes>
 				</main>
