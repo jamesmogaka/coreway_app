@@ -27,14 +27,13 @@ export const ContactsPage = () => {
 		fetchContacts();
 	}, []);
 
-	const fetchContacts = async () => {
+	async function fetchContacts() {
 		try {
 			setLoading(true);
 			const { data, error } = await supabase
 				.from("contact")
 				.select("*")
 				.order("created_at", { ascending: false });
-
 			if (error) throw error;
 			setContacts(data || []);
 		} catch (err) {
@@ -43,8 +42,7 @@ export const ContactsPage = () => {
 		} finally {
 			setLoading(false);
 		}
-	};
-
+	}
 	const updateStatus = async (
 		id: string,
 		newStatus: "unread" | "read" | "replied"

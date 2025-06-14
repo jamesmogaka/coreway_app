@@ -20,8 +20,10 @@ export interface ShippingInfo {
 }
 
 export interface PaymentInfo {
-  cardName: string;
-  cardNumber: string;
-  expiryDate: string;
-  cvv: string;
+  paymentMethod: 'visa' | 'mpesa';
+  cardName?: string;
+  cardNumber?: string;
+  expiryDate?: string;
+  cvv?: string;
+  mpesaPhoneNumber?: string;
 }

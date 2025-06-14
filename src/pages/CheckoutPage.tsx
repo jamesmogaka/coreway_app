@@ -1,15 +1,16 @@
-import { useState, useMemo, useCallback } from "react";
-import type { FC, ChangeEvent } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
+import type { FC, ChangeEvent, FocusEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { Stepper } from "@/components/checkout/Stepper";
+import type { CartItemProps, PaymentInfo, ShippingInfo } from "@/components/checkout/types";
+import { shippingSchema } from '@/components/checkout/validation';
 import { ShippingForm } from "@/components/checkout/ShippingForm";
 import { PaymentForm } from "@/components/checkout/PaymentForm";
 import { ReviewOrder } from "@/components/checkout/ReviewOrder";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
-import type { ShippingInfo, PaymentInfo, CartItemProps } from "@/components/checkout/types";
 
 const STEPS = ["Shipping Information", "Payment Details", "Review Order"] as const;
 
@@ -30,12 +31,37 @@ const CheckoutPage: FC = () => {
     saveInfo: false,
   });
 
+  const [shippingErrors, setShippingErrors] = useState<Partial<Record<keyof ShippingInfo, string>>>({});
+  const [isShippingFormValid, setIsShippingFormValid] = useState(false);
+  const [touched, setTouched] = useState<Partial<Record<keyof ShippingInfo, boolean>>>({});
+
   const [paymentInfo, setPaymentInfo] = useState<PaymentInfo>({
+    paymentMethod: 'visa',
     cardName: "",
     cardNumber: "",
     expiryDate: "",
     cvv: "",
+    mpesaPhoneNumber: "",
   });
+
+  useEffect(() => {
+    const result = shippingSchema.safeParse(shippingInfo);
+    setIsShippingFormValid(result.success);
+    if (!result.success) {
+      const errors: Partial<Record<keyof ShippingInfo, string>> = {};
+      for (const error of result.error.errors) {
+        errors[error.path[0] as keyof ShippingInfo] = error.message;
+      }
+      setShippingErrors(errors);
+    } else {
+      setShippingErrors({});
+    }
+  }, [shippingInfo]);
+
+  const handleBlur = useCallback((e: FocusEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+  }, []);
 
   // Mock cart items - replace with your actual cart data
   const cartItems: CartItemProps[] = useMemo(() => [
@@ -85,6 +111,10 @@ const CheckoutPage: FC = () => {
     }));
   }, []);
 
+  const handlePaymentMethodChange = useCallback((method: 'visa' | 'mpesa') => {
+    setPaymentInfo((prev) => ({ ...prev, paymentMethod: method }));
+  }, []);
+
   const handleEditStep = (step: number) => {
     setActiveStep(step);
   };
@@ -92,9 +122,9 @@ const CheckoutPage: FC = () => {
   const renderStepContent = () => {
     switch (activeStep) {
       case 0:
-        return <ShippingForm shippingInfo={shippingInfo} onChange={handleShippingInfoChange} />;
+        return <ShippingForm shippingInfo={shippingInfo} onChange={handleShippingInfoChange} onBlur={handleBlur} errors={shippingErrors} touched={touched} />;
       case 1:
-        return <PaymentForm paymentInfo={paymentInfo} onChange={handlePaymentInfoChange} />;
+        return <PaymentForm paymentInfo={paymentInfo} onInputChange={handlePaymentInfoChange} onPaymentMethodChange={handlePaymentMethodChange} />;
       case 2:
         return <ReviewOrder shippingInfo={shippingInfo} paymentInfo={paymentInfo} onEdit={handleEditStep} />;
       default:
@@ -122,7 +152,7 @@ const CheckoutPage: FC = () => {
               ) : (
                 <div />
               )}
-              <Button onClick={handleNext}>
+              <Button onClick={handleNext} disabled={activeStep === 0 && !isShippingFormValid}>
                 {activeStep === STEPS.length - 1 ? "Place Order" : "Next"}
               </Button>
             </CardFooter>

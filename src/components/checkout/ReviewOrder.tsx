@@ -36,7 +36,13 @@ export const ReviewOrder: FC<ReviewOrderProps> = ({ shippingInfo, paymentInfo, o
         </Button>
       </CardHeader>
       <CardContent>
-        <p>Card ending in {paymentInfo.cardNumber.slice(-4)}</p>
+        {
+          paymentInfo.paymentMethod === 'visa' ? (
+            <p>Card ending in {paymentInfo.cardNumber?.slice(-4)}</p>
+          ) : (
+            <p>M-PESA: {paymentInfo.mpesaPhoneNumber}</p>
+          )
+        }
       </CardContent>
     </Card>
   </div>
