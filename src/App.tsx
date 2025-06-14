@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
+import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 
 import type { Value } from "./pages/ToolkitPage";
 import { TrainingPage } from "./pages/TrainingPage";
@@ -63,7 +65,14 @@ function AppContent() {
 						<Route path="/auth" element={<Auth />} />
 						
 						{/* Admin Routes */}
-						<Route path="/admin" element={<AdminLayout />}>
+						<Route
+							path="/admin"
+							element={
+								<ProtectedRoute requireAdmin>
+									<AdminLayout />
+								</ProtectedRoute>
+							}
+						>
 							<Route index element={<Navigate to="dashboard" replace />} />
 							<Route path="dashboard" element={<AdminDashboard />} />
 							<Route path="users" element={<UsersPage />} />
@@ -85,9 +94,11 @@ function AppContent() {
 
 function App() {
 	return (
-		<CartProvider>
-			<AppContent />
-		</CartProvider>
+		<AuthProvider>
+			<CartProvider>
+				<AppContent />
+			</CartProvider>
+		</AuthProvider>
 	);
 }
 
