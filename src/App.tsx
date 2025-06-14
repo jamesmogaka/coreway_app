@@ -22,6 +22,7 @@ import { AdminLayout } from "./layouts/AdminLayout";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import UsersPage from "./pages/admin/Users";
 import ContactsPage from "./pages/admin/ContactsPage";
+import { NotFoundPage } from "./pages/NotFoundPage";
 
 function AppContent() {
 	const [modalData, setModalData] = useState<{
@@ -78,6 +79,9 @@ function AppContent() {
 							<Route path="users" element={<UsersPage />} />
 							<Route path="contacts" element={<ContactsPage />} />
 						</Route>
+
+						{/* 404 - Catch all unmatched routes */}
+						<Route path="*" element={<NotFoundPage />} />
 					</Routes>
 				</main>
 				<Footer />
