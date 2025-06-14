@@ -9,6 +9,7 @@ import { supabase } from "../../lib/supabase";
 import type { Product, Order, OrderStatus } from "../../types/admin";
 import type { Product as SupabaseProduct } from "../../types/product";
 import { ProductFormDialog } from "../../components/admin/ProductFormDialog";
+import { DeleteDialog } from "../../components/admin/DeleteDialog";
 
 const initialProductState: Omit<Product, 'id'> = {
   product: "",
@@ -26,6 +27,9 @@ export function AdminDashboard() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<Omit<Product, 'id'>>(initialProductState);
   const [isEditing, setIsEditing] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [productToDelete, setProductToDelete] = useState<string | null>(null);
+  const [productToDeleteName, setProductToDeleteName] = useState<string>('');
 
   const handleEdit = (product: Product) => {
     setCurrentProduct({
@@ -40,21 +44,31 @@ export function AdminDashboard() {
     setIsDialogOpen(true);
   };
 
-  const handleDelete = async (productId: string) => {
-    if (window.confirm('Are you sure you want to delete this product?')) {
-      try {
-        const { error } = await supabase
-          .from('products')
-          .delete()
-          .eq('product', productId);
-        
-        if (error) throw error;
-        
-        toast.success('Product deleted successfully');
-        refetch();
-      } catch (err) {
-        toast.error(`Error deleting product: ${(err as Error).message}`);
-      }
+  const handleDeleteClick = (productId: string, productName: string) => {
+    setProductToDelete(productId);
+    setProductToDeleteName(productName);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDelete = async () => {
+    if (!productToDelete) return;
+    
+    try {
+      const { error } = await supabase
+        .from('products')
+        .delete()
+        .eq('product', productToDelete);
+      
+      if (error) throw error;
+      
+      toast.success('Product deleted successfully');
+      setDeleteDialogOpen(false);
+      refetch();
+    } catch (err) {
+      toast.error(`Error deleting product: ${(err as Error).message}`);
+    } finally {
+      setProductToDelete(null);
+      setProductToDeleteName('');
     }
   };
 
@@ -87,7 +101,7 @@ export function AdminDashboard() {
         toast.success('Product updated successfully');
       } else {
         // Handle create - exclude product ID as it's auto-generated
-        const { product, ...newProduct } = currentProduct;
+        const { ['product']: _, ...newProduct } = currentProduct;
         const { error } = await supabase
           .from('products')
           .insert([newProduct]);
@@ -158,6 +172,13 @@ export function AdminDashboard() {
         isEditing={isEditing}
       />
       
+      <DeleteDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={handleDelete}
+        itemName={productToDeleteName}
+      />
+      
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Admin Dashboard</h2>
         <div className="flex space-x-4">
@@ -186,7 +207,7 @@ export function AdminDashboard() {
           <ProductsTable 
             products={mappedProducts} 
             onEdit={handleEdit}
-            onDelete={handleDelete}
+            onDelete={handleDeleteClick}
             onAddNew={handleAddNew}
           />
         </TabsContent>

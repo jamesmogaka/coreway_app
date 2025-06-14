@@ -13,7 +13,7 @@ import type { Product } from "../../types/admin";
 type ProductsTableProps = {
 	products: Product[];
 	onEdit: (product: Product) => void;
-	onDelete: (productId: string) => void;
+	onDelete: (productId: string, productName: string) => void;
 	onAddNew: () => void;
 };
 
@@ -54,18 +54,18 @@ export function ProductsTable({
 									<TableCell>{product.stock}</TableCell>
 									<TableCell className="text-right space-x-2">
 										<Button
-											variant="outline"
+											variant="ghost"
 											size="sm"
-											onClick={() => onEdit(product)}>
+											onClick={() => onEdit(product)}
+										>
 											Edit
 										</Button>
 										<Button
-											variant="destructive"
+											variant="ghost"
 											size="sm"
-											onClick={() =>
-												product.product &&
-												onDelete(product.product)
-											}>
+											className="text-red-600 hover:text-red-800"
+											onClick={() => onDelete(product.product, product.name)}
+										>
 											Delete
 										</Button>
 									</TableCell>
