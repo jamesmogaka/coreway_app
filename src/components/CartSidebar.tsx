@@ -4,11 +4,11 @@ import type { CartItem as CartItemType } from "../contexts/cart-context.types";
 import { CartItem } from "./CartItem";
 
 interface CartSidebarProps {
-  isOpen: boolean;
-  onClose: () => void;
-  cartItems: CartItemType[];
-  onRemoveItem: (cartItemId: string) => void;
-  onQuantityChange: (cartItemId: string, newQuantity: number) => void;
+	isOpen: boolean;
+	onClose: () => void;
+	cartItems: CartItemType[];
+	onRemoveItem: (cartItemId: string) => void;
+	onQuantityChange: (cartItemId: string, newQuantity: number) => void;
 }
 
 export function CartSidebar({
@@ -39,7 +39,7 @@ export function CartSidebar({
 			return;
 		}
 		onClose();
-		navigate("/checkout");
+		navigate("/shop/checkout");
 	};
 
 	if (!isMounted) return null;
@@ -94,10 +94,17 @@ export function CartSidebar({
 							<ul className="divide-y divide-gray-200">
 								{cartItems.map(item => (
 									<li key={item.id}>
-										<CartItem 
-											item={item} 
-											onRemoveItem={() => onRemoveItem(item.id)}
-											onQuantityChange={(newQuantity) => onQuantityChange(item.id, newQuantity)}
+										<CartItem
+											item={item}
+											onRemoveItem={() =>
+												onRemoveItem(item.id)
+											}
+											onQuantityChange={newQuantity =>
+												onQuantityChange(
+													item.id,
+													newQuantity
+												)
+											}
 										/>
 									</li>
 								))}

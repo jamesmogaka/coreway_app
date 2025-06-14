@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { ShopPage } from "../pages/ShopPage";
 import { ProductDetail } from "../pages/ProductDetail";
+import CheckoutPage from "../pages/CheckoutPage";
 import { ShopHeader } from "./ShopHeader";
 import { Auth } from "../pages/Auth";
 import { CartSidebar } from "./CartSidebar";
@@ -18,6 +19,7 @@ export function ShopLayout() {
 					<Route index element={<ShopPage />} />
 					<Route path="product/:id" element={<ProductDetail />} />
 					<Route path="auth" element={<Auth />} />
+					<Route path="checkout" element={<CheckoutPage />} />
 					{/* Admin routes are handled in App.tsx */}
 					<Route path="*" element={<Navigate to="/" replace />} />
 				</Routes>
