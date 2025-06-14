@@ -7,7 +7,7 @@ type SidebarProps = {
 export function Sidebar({ className = "" }: SidebarProps) {
   return (
     <div 
-      className={`fixed top-0 left-0 h-full bg-white shadow-md z-50 ${className}`}
+      className={`h-full bg-white shadow-md overflow-y-auto ${className}`}
       style={{ width: '16rem' }}
     >
       <div className="p-4 border-b">

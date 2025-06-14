@@ -12,258 +12,177 @@ import { initialOrders } from "./types/admin";
 import { useProducts } from "./hooks/useProducts";
 import { supabase } from "./lib/supabase";
 
+const initialFormData: Omit<Product, "id"> = {
+  product: "",
+  name: "",
+  description: "",
+  price: 0,
+  stock: 0,
+  image_url: "",
+};
+
 export function AdminDashboard() {
-	const [activeTab, setActiveTab] = useState("products");
-	const {
-		products: supabaseProducts,
-		loading,
-		error,
-		refetch,
-	} = useProducts();
-	const [products, setProducts] = useState<Product[]>([]);
+  // UI State
+  const [activeTab, setActiveTab] = useState("products");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
-	useEffect(() => {
-		if (supabaseProducts) {
-			const adminProducts = supabaseProducts.map(p => ({
-				id: p.product,
-				product: p.product,
-				name: p.name,
-				description: p.description,
-				price: p.price,
-				stock: p.stock,
-				image_url: p.image_url || "",
-			}));
-			setProducts(adminProducts);
-		}
-	}, [supabaseProducts]);
+  // Data State
+  const [orders, setOrders] = useState<Order[]>(initialOrders);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [productToDelete, setProductToDelete] = useState<string | null>(null);
+  const [formData, setFormData] = useState<Omit<Product, "id">>(initialFormData);
 
-	const [orders, setOrders] = useState<Order[]>(initialOrders);
-	const [selectedProduct, setSelectedProduct] = useState<Product | null>(
-		null
-	);
-	const [isDialogOpen, setIsDialogOpen] = useState(false);
-	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-	const [productToDelete, setProductToDelete] = useState<string | null>(null);
+  // Fetching products
+  const { products: supabaseProducts = [], loading, error, refetch } = useProducts();
+  const [products, setProducts] = useState<Product[]>([]);
 
-	// Form state
-	const [formData, setFormData] = useState<Omit<Product, "id">>({
-		product: "",
-		name: "",
-		description: "",
-		price: 0,
-		stock: 0,
-		image_url: "",
-	});
+  useEffect(() => {
+    if (supabaseProducts) {
+      const adminProducts = supabaseProducts.map((p) => ({
+        id: p.product,
+        product: p.product,
+        name: p.name,
+        description: p.description,
+        price: p.price,
+        stock: p.stock,
+        image_url: p.image_url || "",
+      }));
+      setProducts(adminProducts);
+    }
+  }, [supabaseProducts]);
 
-	// Handle form input changes
-	const handleInputChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-	) => {
-		const { name, value } = e.target;
-		setFormData(prev => ({
-			...prev,
-			[name]:
-				name === "price" || name === "stock"
-					? parseFloat(value) || 0
-					: value,
-		}));
-	};
+  // Handlers
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: name === "price" || name === "stock" ? parseFloat(value) || 0 : value,
+    }));
+  };
 
-	// Handle form submission
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      if (selectedProduct) {
+        const { error } = await supabase.from("products").update(formData).eq("product", selectedProduct.product);
+        if (error) throw error;
+        toast.success("Product updated successfully");
+      } else {
+        const { error } = await supabase.from("products").insert([formData]);
+        if (error) throw error;
+        toast.success("Product added successfully");
+      }
+      refetch();
+      setIsDialogOpen(false);
+      setSelectedProduct(null);
+      setFormData(initialFormData);
+    } catch (err) {
+      toast.error((err as Error).message);
+    }
+  };
 
-		// Fields from the form
-		const productData = {
-			product: formData.product,
-			name: formData.name,
-			description: formData.description,
-			price: formData.price,
-			stock: formData.stock,
-			image_url: formData.image_url,
-		};
+  const handleEdit = (product: Product) => {
+    setSelectedProduct(product);
+    setFormData(product);
+    setIsDialogOpen(true);
+  };
 
-		if (selectedProduct) {
-			// Update existing product - only update fields from the form
-			const { error } = await supabase
-				.from("products")
-				.update(productData)
-				.eq("product", selectedProduct.product);
+  const handleDelete = (productId: string) => {
+    setProductToDelete(productId);
+    setIsDeleteDialogOpen(true);
+  };
 
-			if (error) {
-				toast.error(`Failed to update product: ${error.message}`);
-			} else {
-				toast.success("Product updated successfully");
-				refetch();
-			}
-		} else {
-			// Add new product - exclude the product ID as it's auto-generated
-			const { product: _, ...newProductData } = productData;
-			const { error } = await supabase
-				.from("products")
-				.insert([newProductData]);
+  const confirmDelete = async () => {
+    if (!productToDelete) return;
+    try {
+      const { error } = await supabase.from("products").delete().eq("product", productToDelete);
+      if (error) throw error;
+      toast.success("Product deleted successfully");
+      refetch();
+      setIsDeleteDialogOpen(false);
+      setProductToDelete(null);
+    } catch (err) {
+      toast.error((err as Error).message);
+    }
+  };
 
-			if (error) {
-				toast.error(`Failed to add product: ${error.message}`);
-			} else {
-				toast.success("Product added successfully");
-				refetch();
-			}
-		}
+  const updateOrderStatus = (orderId: string, status: Order["status"]) => {
+    setOrders(orders.map((order) => (order.id === orderId ? { ...order, status } : order)));
+    toast.success(`Order ${orderId} status updated to ${status}`);
+  };
 
-		// Reset form and close dialog
-		setFormData({
-			product: "",
-			name: "",
-			description: "",
-			price: 0,
-			stock: 0,
-			image_url: "",
-		});
-		setSelectedProduct(null);
-		setIsDialogOpen(false);
-	};
+  const onAddNew = () => {
+    setSelectedProduct(null);
+    setFormData(initialFormData);
+    setIsDialogOpen(true);
+  };
 
-	// Handle edit product
-	const handleEdit = (product: Product) => {
-		setSelectedProduct(product);
-		setFormData({
-			product: product.product,
-			name: product.name,
-			description: product.description,
-			price: product.price,
-			stock: product.stock,
-			image_url: product.image_url,
-		});
-		setIsDialogOpen(true);
-	};
+  // Derived State & Calculations
+  const totalProducts = products.length;
+  const totalOrders = orders.length;
+  const pendingOrders = orders.filter((order) => order.status === "pending").length;
+  const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
+  const contentHeight = 'calc(100vh - 4rem)';
 
-	// Handle delete product
-	const handleDelete = (productId: string) => {
-		setProductToDelete(productId);
-		setIsDeleteDialogOpen(true);
-	};
+  if (error) {
+    return <div className="p-6">Error loading products: {error.message}</div>;
+  }
 
-	const confirmDelete = async () => {
-		if (productToDelete) {
-			const { error } = await supabase
-				.from("products")
-				.delete()
-				.eq("product", productToDelete);
+  return (
+    <div className="flex bg-gray-100" style={{ height: contentHeight }}>
+      <Sidebar />
+      <main className="flex-1 overflow-y-auto">
+        <div className="p-6">
+          <h1 className="text-3xl font-bold mb-2">Admin Dashboard</h1>
+          <p className="text-gray-600 mb-6">Welcome! Here's your shop's summary.</p>
 
-			if (error) {
-				toast.error(`Failed to delete product: ${error.message}`);
-			} else {
-				toast.success("Product deleted successfully");
-				refetch();
-			}
-			setIsDeleteDialogOpen(false);
-			setProductToDelete(null);
-		}
-	};
+          <StatsCards
+            totalProducts={totalProducts}
+            totalOrders={totalOrders}
+            pendingOrders={pendingOrders}
+            totalRevenue={totalRevenue}
+          />
 
-	// Update order status
-	const updateOrderStatus = (orderId: string, status: Order["status"]) => {
-		setOrders(
-			orders.map(order =>
-				order.id === orderId ? { ...order, status } : order
-			)
-		);
-		toast.success(`Order ${orderId} status updated to ${status}`);
-	};
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-6">
+            <TabsList>
+              <TabsTrigger value="products">Products</TabsTrigger>
+              <TabsTrigger value="orders">Orders</TabsTrigger>
+            </TabsList>
+            <TabsContent value="products" className="mt-4">
+              {loading ? (
+                <p>Loading products...</p>
+              ) : (
+                <ProductsTable
+                  products={products}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                  onAddNew={onAddNew}
+                />
+              )}
+            </TabsContent>
+            <TabsContent value="orders" className="mt-4">
+              <OrdersTable orders={orders} onStatusChange={updateOrderStatus} />
+            </TabsContent>
+          </Tabs>
+        </div>
+      </main>
 
-	// Calculate dashboard stats
-	const totalProducts = products.length;
-	const totalOrders = orders.length;
-	const pendingOrders = orders.filter(
-		order => order.status === "pending"
-	).length;
-	const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
+      <ProductFormDialog
+        open={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+        product={formData}
+        onSubmit={handleSubmit}
+        onInputChange={handleInputChange}
+        isEditing={!!selectedProduct}
+      />
 
-	const onAddNew = () => {
-		setSelectedProduct(null);
-		setFormData({
-			product: "",
-			name: "",
-			description: "",
-			price: 0,
-			stock: 0,
-			image_url: "",
-		});
-		setIsDialogOpen(true);
-	};
-
-	return (
-		<div className="flex min-h-screen bg-gray-100">
-			<Sidebar />
-
-			{/* Main Content */}
-			<div className="flex-1 p-8">
-				<div className="mb-8">
-					<h1 className="text-2xl font-bold">Admin Dashboard</h1>
-					<p className="text-gray-600">
-						Welcome back! Here's what's happening with your store.
-					</p>
-				</div>
-
-				<StatsCards
-					totalProducts={totalProducts}
-					totalOrders={totalOrders}
-					pendingOrders={pendingOrders}
-					totalRevenue={totalRevenue}
-				/>
-
-				<Tabs
-					value={activeTab}
-					onValueChange={setActiveTab}
-					className="mt-8">
-					<TabsList>
-						<TabsTrigger value="products">Products</TabsTrigger>
-						<TabsTrigger value="orders">Orders</TabsTrigger>
-					</TabsList>
-					<TabsContent value="products">
-						{loading && <p>Loading products...</p>}
-						{error && (
-							<p className="text-red-500">{error.message}</p>
-						)}
-						{!loading && !error && (
-							<ProductsTable
-								products={products}
-								onEdit={handleEdit}
-								onDelete={handleDelete}
-								onAddNew={onAddNew}
-							/>
-						)}
-					</TabsContent>
-					<TabsContent value="orders">
-						<OrdersTable
-							orders={orders}
-							onStatusChange={updateOrderStatus}
-						/>
-					</TabsContent>
-				</Tabs>
-			</div>
-
-			{/* Product Form Dialog */}
-			<ProductFormDialog
-				open={isDialogOpen}
-				onOpenChange={setIsDialogOpen}
-				product={formData}
-				onSubmit={handleSubmit}
-				onInputChange={handleInputChange}
-				isEditing={!!selectedProduct}
-			/>
-
-			{/* Delete Confirmation Dialog */}
-			<DeleteDialog
-				open={isDeleteDialogOpen}
-				onOpenChange={setIsDeleteDialogOpen}
-				onConfirm={confirmDelete}
-				itemName={
-					products.find(p => p.product === productToDelete)?.name ||
-					"this product"
-				}
-			/>
-		</div>
-	);
+      <DeleteDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+        onConfirm={confirmDelete}
+        itemName={products.find((p) => p.product === productToDelete)?.name || "this item"}
+      />
+    </div>
+  );
 }
