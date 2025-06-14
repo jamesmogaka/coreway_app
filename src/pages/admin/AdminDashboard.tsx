@@ -1,20 +1,43 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs";
 import { ProductsTable } from "../../components/admin/ProductsTable";
 import { OrdersTable } from "../../components/admin/OrdersTable";
+import { useState } from "react";
 import { useProducts } from "../../hooks/useProducts";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { supabase } from "../../lib/supabase";
 import type { Product, Order, OrderStatus } from "../../types/admin";
 import type { Product as SupabaseProduct } from "../../types/product";
+import { ProductFormDialog } from "../../components/admin/ProductFormDialog";
+
+const initialProductState: Omit<Product, 'id'> = {
+  product: "",
+  name: "",
+  description: "",
+  price: 0,
+  stock: 0,
+  image_url: ""
+};
 
 export function AdminDashboard() {
   const { products, loading, error, refetch } = useProducts();
   const navigate = useNavigate();
+  
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState<Omit<Product, 'id'>>(initialProductState);
+  const [isEditing, setIsEditing] = useState(false);
 
   const handleEdit = (product: Product) => {
-    // Navigate to edit product page with the product ID
-    navigate(`/admin/products/edit/${product.product}`);
+    setCurrentProduct({
+      product: product.product, // Include product ID for editing
+      name: product.name,
+      description: product.description || "",
+      price: product.price,
+      stock: product.stock || 0,
+      image_url: product.image_url || ""
+    });
+    setIsEditing(true);
+    setIsDialogOpen(true);
   };
 
   const handleDelete = async (productId: string) => {
@@ -36,8 +59,48 @@ export function AdminDashboard() {
   };
 
   const handleAddNew = () => {
-    // Navigate to add new product page
-    navigate('/admin/products/new');
+    setCurrentProduct(initialProductState);
+    setIsEditing(false);
+    setIsDialogOpen(true);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setCurrentProduct(prev => ({
+      ...prev,
+      [name]: name === 'price' || name === 'stock' ? parseFloat(value) || 0 : value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      if (isEditing) {
+        // Handle update - include product ID for updates
+        const { product, ...updateData } = currentProduct;
+        const { error } = await supabase
+          .from('products')
+          .update(updateData)
+          .eq('product', product);
+        
+        if (error) throw error;
+        toast.success('Product updated successfully');
+      } else {
+        // Handle create - exclude product ID as it's auto-generated
+        const { product, ...newProduct } = currentProduct;
+        const { error } = await supabase
+          .from('products')
+          .insert([newProduct]);
+        
+        if (error) throw error;
+        toast.success('Product created successfully');
+      }
+      
+      setIsDialogOpen(false);
+      refetch();
+    } catch (err) {
+      toast.error(`Error ${isEditing ? 'updating' : 'creating'} product: ${(err as Error).message}`);
+    }
   };
   
   // Navigate to users page
@@ -86,6 +149,15 @@ export function AdminDashboard() {
 
   return (
     <div className="container mx-auto p-6">
+      <ProductFormDialog
+        open={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+        product={currentProduct}
+        onInputChange={handleInputChange}
+        onSubmit={handleSubmit}
+        isEditing={isEditing}
+      />
+      
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Admin Dashboard</h2>
         <div className="flex space-x-4">
