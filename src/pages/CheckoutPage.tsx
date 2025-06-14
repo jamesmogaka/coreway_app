@@ -6,7 +6,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 
 import { Stepper } from "@/components/checkout/Stepper";
 import type { CartItemProps, PaymentInfo, ShippingInfo } from "@/components/checkout/types";
-import { shippingSchema } from '@/components/checkout/validation';
+import { shippingSchema, paymentSchema } from '@/components/checkout/validation';
 import { ShippingForm } from "@/components/checkout/ShippingForm";
 import { PaymentForm } from "@/components/checkout/PaymentForm";
 import { ReviewOrder } from "@/components/checkout/ReviewOrder";
@@ -35,6 +35,10 @@ const CheckoutPage: FC = () => {
   const [isShippingFormValid, setIsShippingFormValid] = useState(false);
   const [touched, setTouched] = useState<Partial<Record<keyof ShippingInfo, boolean>>>({});
 
+  const [paymentErrors, setPaymentErrors] = useState<Partial<Record<keyof PaymentInfo, string>>>({});
+  const [isPaymentFormValid, setIsPaymentFormValid] = useState(false);
+  const [paymentTouched, setPaymentTouched] = useState<Partial<Record<keyof PaymentInfo, boolean>>>({});
+
   const [paymentInfo, setPaymentInfo] = useState<PaymentInfo>({
     paymentMethod: 'visa',
     cardName: "",
@@ -58,10 +62,28 @@ const CheckoutPage: FC = () => {
     }
   }, [shippingInfo]);
 
+  useEffect(() => {
+    const result = paymentSchema.safeParse(paymentInfo);
+    setIsPaymentFormValid(result.success);
+    if (!result.success) {
+      const errors: Partial<Record<keyof PaymentInfo, string>> = {};
+      for (const error of result.error.errors) {
+        errors[error.path[0] as keyof PaymentInfo] = error.message;
+      }
+      setPaymentErrors(errors);
+    } else {
+      setPaymentErrors({});
+    }
+  }, [paymentInfo]);
+
   const handleBlur = useCallback((e: FocusEvent<HTMLInputElement>) => {
     const { name } = e.target;
-    setTouched((prev) => ({ ...prev, [name]: true }));
-  }, []);
+    if (Object.keys(shippingInfo).includes(name)) {
+      setTouched((prev) => ({ ...prev, [name]: true }));
+    } else if (Object.keys(paymentInfo).includes(name)) {
+      setPaymentTouched((prev) => ({ ...prev, [name]: true }));
+    }
+  }, [shippingInfo, paymentInfo]);
 
   // Mock cart items - replace with your actual cart data
   const cartItems: CartItemProps[] = useMemo(() => [
@@ -124,7 +146,7 @@ const CheckoutPage: FC = () => {
       case 0:
         return <ShippingForm shippingInfo={shippingInfo} onChange={handleShippingInfoChange} onBlur={handleBlur} errors={shippingErrors} touched={touched} />;
       case 1:
-        return <PaymentForm paymentInfo={paymentInfo} onInputChange={handlePaymentInfoChange} onPaymentMethodChange={handlePaymentMethodChange} />;
+        return <PaymentForm paymentInfo={paymentInfo} onInputChange={handlePaymentInfoChange} onPaymentMethodChange={handlePaymentMethodChange} onBlur={handleBlur} errors={paymentErrors} touched={paymentTouched} />;
       case 2:
         return <ReviewOrder shippingInfo={shippingInfo} paymentInfo={paymentInfo} onEdit={handleEditStep} />;
       default:
@@ -152,7 +174,7 @@ const CheckoutPage: FC = () => {
               ) : (
                 <div />
               )}
-              <Button onClick={handleNext} disabled={activeStep === 0 && !isShippingFormValid}>
+              <Button onClick={handleNext} disabled={(activeStep === 0 && !isShippingFormValid) || (activeStep === 1 && !isPaymentFormValid)}>
                 {activeStep === STEPS.length - 1 ? "Place Order" : "Next"}
               </Button>
             </CardFooter>

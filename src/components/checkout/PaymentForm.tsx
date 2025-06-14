@@ -1,4 +1,4 @@
-import type { FC, ChangeEvent } from "react";
+import type { FC, ChangeEvent, FocusEvent } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -8,9 +8,12 @@ interface PaymentFormProps {
   paymentInfo: PaymentInfo;
   onInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onPaymentMethodChange: (method: 'visa' | 'mpesa') => void;
+  onBlur: (e: FocusEvent<HTMLInputElement>) => void;
+  errors: Partial<Record<keyof PaymentInfo, string>>;
+  touched: Partial<Record<keyof PaymentInfo, boolean>>;
 }
 
-export const PaymentForm: FC<PaymentFormProps> = ({ paymentInfo, onInputChange, onPaymentMethodChange }) => (
+export const PaymentForm: FC<PaymentFormProps> = ({ paymentInfo, onInputChange, onPaymentMethodChange, onBlur, errors, touched }) => (
   <div className="space-y-6">
     <h2 className="text-xl font-semibold">Payment Details</h2>
     <RadioGroup
@@ -32,8 +35,10 @@ export const PaymentForm: FC<PaymentFormProps> = ({ paymentInfo, onInputChange, 
                 name="cardName"
                 value={paymentInfo.cardName}
                 onChange={onInputChange}
+                onBlur={onBlur}
                 required
               />
+              {errors.cardName && touched.cardName && <p className="text-sm text-red-500">{errors.cardName}</p>}
             </div>
             <div className="md:col-span-2 space-y-2">
               <Label htmlFor="cardNumber">Card Number</Label>
@@ -42,8 +47,10 @@ export const PaymentForm: FC<PaymentFormProps> = ({ paymentInfo, onInputChange, 
                 name="cardNumber"
                 value={paymentInfo.cardNumber}
                 onChange={onInputChange}
+                onBlur={onBlur}
                 required
               />
+              {errors.cardNumber && touched.cardNumber && <p className="text-sm text-red-500">{errors.cardNumber}</p>}
             </div>
             <div className="space-y-2">
               <Label htmlFor="expiryDate">Expiry Date</Label>
@@ -53,8 +60,10 @@ export const PaymentForm: FC<PaymentFormProps> = ({ paymentInfo, onInputChange, 
                 placeholder="MM/YY"
                 value={paymentInfo.expiryDate}
                 onChange={onInputChange}
+                onBlur={onBlur}
                 required
               />
+              {errors.expiryDate && touched.expiryDate && <p className="text-sm text-red-500">{errors.expiryDate}</p>}
             </div>
             <div className="space-y-2">
               <Label htmlFor="cvv">CVV</Label>
@@ -63,8 +72,10 @@ export const PaymentForm: FC<PaymentFormProps> = ({ paymentInfo, onInputChange, 
                 name="cvv"
                 value={paymentInfo.cvv}
                 onChange={onInputChange}
+                onBlur={onBlur}
                 required
               />
+              {errors.cvv && touched.cvv && <p className="text-sm text-red-500">{errors.cvv}</p>}
             </div>
           </div>
         )}
@@ -83,8 +94,10 @@ export const PaymentForm: FC<PaymentFormProps> = ({ paymentInfo, onInputChange, 
               name="mpesaPhoneNumber"
               value={paymentInfo.mpesaPhoneNumber}
               onChange={onInputChange}
+              onBlur={onBlur}
               required
             />
+            {errors.mpesaPhoneNumber && touched.mpesaPhoneNumber && <p className="text-sm text-red-500">{errors.mpesaPhoneNumber}</p>}
           </div>
         )}
       </fieldset>
