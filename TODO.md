@@ -11,19 +11,19 @@
 ### ✅ Features:
 
 -   [x] React project setup with Tailwind
--   [ ] React Router with basic routes:
+-   [x] React Router with basic routes:
     -   `/` (Home/Product list)
     -   `/product/:id` (Product detail)
     -   `/cart` (Shopping cart)
     -   `/checkout` (Checkout form)
     -   `/login`, `/register` (Auth pages)
     -   `/admin` (Admin dashboard)
--   [ ] Supabase project created
--   [ ] Supabase schema: `products` table
+-   [x] Supabase project created
+-   [x] Supabase schema: `products` table
     -   `id`, `name`, `description`, `price`, `image_url`
--   [ ] Upload product images to Supabase bucket
--   [ ] Product list UI (`ProductCard`, `ProductListPage`)
--   [ ] Product detail UI
+-   [x] Upload product images to Supabase bucket
+-   [x] Product list UI (`ProductCard`, `ProductListPage`)
+-   [x] Product detail UI
 
 ---
 
@@ -37,10 +37,10 @@
 
 ### ✅ Features:
 
--   [ ] Supabase Auth (email/password)
--   [ ] `AuthContext` to manage user state
--   [ ] `CartContext` for managing cart items
--   [ ] Cart UI:
+-   [x] Supabase Auth (email/password)
+-   [x] `AuthContext` to manage user state
+-   [x] `CartContext` for managing cart items
+-   [x] Cart UI:
     -   Show added products
     -   Quantity and total price
 -   [ ] Admin dashboard page:
