@@ -1,14 +1,17 @@
 import { useState } from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import {
+	BrowserRouter as Router,
+	Route,
+	Routes,
+	Navigate,
+} from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 
-import type { Value } from "./pages/ToolkitPage";
+import type { Value } from "./data/toolkitData";
 import { TrainingPage } from "./pages/TrainingPage";
-import { PrinciplesPage } from "./pages/PrinciplesPage";
 import { ValueModal } from "./pages/ValueModal";
 import { ContactPage } from "./pages/ContactPage";
-import { PredispositionsPage } from "./pages/PredispositionsPage";
 import { ShopLayout } from "./components/ShopLayout";
 import { ToolkitPage } from "./pages/ToolkitPage";
 import { AboutPage } from "./pages/AboutPage";
@@ -54,17 +57,9 @@ function AppContent() {
 						/>
 						<Route path="/training" element={<TrainingPage />} />
 						<Route path="/shop/*" element={<ShopLayout />} />
-						<Route
-							path="/principles"
-							element={<PrinciplesPage />}
-						/>
-						<Route
-							path="/predispositions"
-							element={<PredispositionsPage />}
-						/>
 						<Route path="/contact" element={<ContactPage />} />
 						<Route path="/auth" element={<Auth />} />
-						
+
 						{/* Admin Routes */}
 						<Route
 							path="/admin"
@@ -72,10 +67,15 @@ function AppContent() {
 								<ProtectedRoute requireAdmin>
 									<AdminLayout />
 								</ProtectedRoute>
-							}
-						>
-							<Route index element={<Navigate to="dashboard" replace />} />
-							<Route path="dashboard" element={<AdminDashboard />} />
+							}>
+							<Route
+								index
+								element={<Navigate to="dashboard" replace />}
+							/>
+							<Route
+								path="dashboard"
+								element={<AdminDashboard />}
+							/>
 							<Route path="users" element={<UsersPage />} />
 							<Route path="contacts" element={<ContactsPage />} />
 						</Route>

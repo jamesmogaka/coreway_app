@@ -12,11 +12,9 @@ export interface NavLinkProps {
 const navLinks = [
 	{ id: "", title: "Home" },
 	{ id: "about", title: "About" },
-	{ id: "toolkit", title: "The Toolkit" },
+	{ id: "toolkit", title: "VDC Toolkit" },
 	{ id: "training", title: "Training" },
 	{ id: "shop", title: "Shop" },
-	{ id: "principles", title: "Principles" },
-	{ id: "predispositions", title: "Predispositions" },
 	{ id: "contact", title: "Contact" },
 ];
 

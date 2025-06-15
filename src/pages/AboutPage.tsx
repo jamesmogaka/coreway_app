@@ -2,12 +2,12 @@ import * as react from "react";
 
 export const AboutPage: react.FC = () => (
 	<div className="fade-in">
-		<section className="py-20 bg-white">
+		<section className="py-20 bg-[#096B68] text-[#FFFBDE]">
 			<div className="container mx-auto px-6">
-				<h1 className="text-4xl font-bold text-center text-gray-800 mb-12">
+				<h1 className="text-4xl font-bold text-center mb-12">
 					About The VDC Toolkit
 				</h1>
-				<div className="max-w-4xl mx-auto text-gray-700 space-y-6">
+				<div className="max-w-4xl mx-auto space-y-6">
 					<p className="text-lg">
 						Welcome to the Value Driven Child (VDC) Toolkit, a
 						transformative journey of intentional parenting. This
@@ -25,7 +25,7 @@ export const AboutPage: react.FC = () => (
 						strong character and instill enduring values that will
 						serve children throughout their lives.
 					</p>
-					<h2 className="text-2xl font-bold text-gray-800 pt-6">
+					<h2 className="text-2xl font-bold pt-6">
 						Why Choose the VDC Toolkit?
 					</h2>
 					<p>
