@@ -91,14 +91,14 @@ export const ContactPage: react.FC = () => {
 	};
 
 	return (
-		<div className="fade-in">
-			<section className="py-20 bg-gray-100">
+		<div className="fade-in bg-[#096B68]" id="contact">
+			<section className="py-20">
 				<div className="container mx-auto px-6">
-					<div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-						<h1 className="text-4xl font-bold text-center text-gray-800 mb-8">
+					<div className="max-w-2xl mx-auto bg-[#129990] p-8 rounded-lg shadow-lg text-[#FFFBDE]">
+						<h1 className="text-4xl font-bold text-center mb-8">
 							Contact Us
 						</h1>
-						<p className="text-center text-gray-600 mb-8">
+						<p className="text-center mb-8">
 							We'd love to hear from you. Please fill out the form
 							below to get in touch.
 						</p>
@@ -107,18 +107,18 @@ export const ContactPage: react.FC = () => {
 							<div
 								className={`mb-6 p-4 rounded-lg ${
 									submitStatus.success
-										? "bg-green-100 text-green-800"
-										: "bg-red-100 text-red-800"
+										? "bg-green-200 text-green-900"
+										: "bg-red-200 text-red-900"
 								}`}>
 								{submitStatus.message}
 							</div>
 						)}
 
-						<form onSubmit={handleSubmit}>
-							<div className="mb-4">
+						<form onSubmit={handleSubmit} className="space-y-6">
+							<div>
 								<label
 									htmlFor="name"
-									className="block text-gray-700 font-bold mb-2">
+									className="block font-bold mb-2">
 									Name
 								</label>
 								<input
@@ -127,21 +127,21 @@ export const ContactPage: react.FC = () => {
 									name="name"
 									value={formData.name}
 									onChange={handleChange}
-									className={`w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-blue-500 ${
+									className={`w-full px-4 py-2 border rounded-lg bg-[#FFFBDE] text-gray-800 border-[#0d7a73] focus:outline-none focus:ring-2 focus:ring-[#FFFBDE] ${
 										formErrors.name ? "border-red-500" : ""
 									}`}
 									disabled={isSubmitting}
 								/>
 								{formErrors.name && (
-									<p className="text-red-500 text-sm mt-1">
+									<p className="text-red-300 text-sm mt-1">
 										{formErrors.name}
 									</p>
 								)}
 							</div>
-							<div className="mb-4">
+							<div>
 								<label
 									htmlFor="email"
-									className="block text-gray-700 font-bold mb-2">
+									className="block font-bold mb-2">
 									Email
 								</label>
 								<input
@@ -150,21 +150,21 @@ export const ContactPage: react.FC = () => {
 									name="email"
 									value={formData.email}
 									onChange={handleChange}
-									className={`w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-blue-500 ${
+									className={`w-full px-4 py-2 border rounded-lg bg-[#FFFBDE] text-gray-800 border-[#0d7a73] focus:outline-none focus:ring-2 focus:ring-[#FFFBDE] ${
 										formErrors.email ? "border-red-500" : ""
 									}`}
 									disabled={isSubmitting}
 								/>
 								{formErrors.email && (
-									<p className="text-red-500 text-sm mt-1">
+									<p className="text-red-300 text-sm mt-1">
 										{formErrors.email}
 									</p>
 								)}
 							</div>
-							<div className="mb-4">
+							<div>
 								<label
 									htmlFor="message"
-									className="block text-gray-700 font-bold mb-2">
+									className="block font-bold mb-2">
 									Message
 								</label>
 								<textarea
@@ -173,14 +173,14 @@ export const ContactPage: react.FC = () => {
 									value={formData.message}
 									onChange={handleChange}
 									rows={5}
-									className={`w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-blue-500 ${
+									className={`w-full px-4 py-2 border rounded-lg bg-[#FFFBDE] text-gray-800 border-[#0d7a73] focus:outline-none focus:ring-2 focus:ring-[#FFFBDE] ${
 										formErrors.message
 											? "border-red-500"
 											: ""
 									}`}
 									disabled={isSubmitting}></textarea>
 								{formErrors.message && (
-									<p className="text-red-500 text-sm mt-1">
+									<p className="text-red-300 text-sm mt-1">
 										{formErrors.message}
 									</p>
 								)}
@@ -189,11 +189,11 @@ export const ContactPage: react.FC = () => {
 								<button
 									type="submit"
 									disabled={isSubmitting}
-									className={`${
+									className={`inline-block font-bold py-3 px-8 text-lg rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg hover:-translate-y-1 ${
 										isSubmitting
-											? "bg-blue-400"
-											: "bg-blue-600 hover:bg-blue-700"
-									} text-white inline-block font-bold py-2 px-6 rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg hover:-translate-y-1`}>
+											? "bg-gray-400 text-gray-800 cursor-not-allowed"
+											: "bg-[#FFFBDE] hover:bg-opacity-90 text-[#096B68]"
+									}`}>
 									{isSubmitting
 										? "Sending..."
 										: "Send Message"}

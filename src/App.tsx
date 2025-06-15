@@ -31,12 +31,19 @@ function AppContent() {
 				<Header />
 				<main>
 					<Routes>
-						<Route path="/" element={<HomePage />} />
-						<Route path="/about" element={<AboutPage />} />
-						<Route path="/toolkit" element={<ToolkitPage />} />
-						<Route path="/training" element={<TrainingPage />} />
+						<Route
+							path="/"
+							element={
+								<>
+									<HomePage />
+									<AboutPage />
+									<ToolkitPage />
+									<TrainingPage />
+									<ContactPage />
+								</>
+							}
+						/>
 						<Route path="/shop/*" element={<ShopLayout />} />
-						<Route path="/contact" element={<ContactPage />} />
 						<Route path="/auth" element={<Auth />} />
 
 						{/* Admin Routes */}

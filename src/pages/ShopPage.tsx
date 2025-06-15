@@ -59,7 +59,7 @@ export const ShopPage: React.FC = () => {
 		return <div className="text-center text-red-500 py-12">{error}</div>;
 
 	return (
-		<div className="fade-in">
+		<div className="fade-in" id="shop">
 			<section className="py-20">
 				<div className="container mx-auto px-6">
 					<h1 className="text-4xl font-bold text-center text-gray-800 mb-12">

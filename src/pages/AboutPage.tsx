@@ -1,7 +1,7 @@
 import * as react from "react";
 
 export const AboutPage: react.FC = () => (
-	<div className="fade-in">
+	<div className="fade-in" id="about">
 		<section className="py-20 bg-[#096B68] text-[#FFFBDE]">
 			<div className="container mx-auto px-6">
 				<h1 className="text-4xl font-bold text-center mb-12">

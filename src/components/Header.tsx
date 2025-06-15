@@ -4,13 +4,14 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
+import { HashLink } from "react-router-hash-link";
 export interface NavLinkProps {
 	pageId: string;
 	title: string;
 	activePage: string;
 }
 const navLinks = [
-	{ id: "", title: "Home" },
+	{ id: "home", title: "Home" },
 	{ id: "about", title: "About" },
 	{ id: "toolkit", title: "VDC Toolkit" },
 	{ id: "training", title: "Training" },
@@ -20,34 +21,49 @@ const navLinks = [
 
 const MobileNavLink: React.FC<
 	NavLinkProps & { setMobileMenuOpen: (open: boolean) => void }
-> = ({ pageId, title, activePage, setMobileMenuOpen }) => (
-	<Link
-		to={`/${pageId}`}
-		onClick={() => setMobileMenuOpen(false)}
-		className={`block py-3 px-6 text-lg font-medium rounded-lg transition-all duration-300 ease-in-out ${
-			activePage === pageId
-				? "bg-[#FFFBDE] text-[#096B68] font-semibold shadow-md"
-				: "text-[#FFFBDE] hover:bg-[#129990] hover:bg-opacity-80"
-		}`}>
-		{title}
-	</Link>
-);
+> = ({ pageId, title, activePage, setMobileMenuOpen }) => {
+	const isLinkActive =
+		activePage === pageId || (pageId === "home" && activePage === "");
+	const className = `block py-3 px-6 text-lg font-medium rounded-lg transition-all duration-300 ease-in-out ${
+		isLinkActive
+			? "bg-[#FFFBDE] text-[#096B68] font-semibold shadow-md"
+			: "text-[#FFFBDE] hover:bg-[#129990] hover:bg-opacity-80"
+	}`;
 
-const NavLink: React.FC<NavLinkProps> = ({ pageId, title, activePage }) => (
-	<Link
-		to={`/${pageId}`}
-		className={cn(
-			"relative px-4 py-2 mx-1 rounded-lg text-base font-medium transition-all duration-200 ease-in-out text-[#FFFBDE]",
-			"after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-[#FFFBDE] after:transition-transform after:duration-300 after:ease-in-out after:origin-center",
-			"hover:after:scale-x-100",
-			{
-				"after:scale-x-100 group-hover:after:scale-x-0":
-					activePage === pageId,
-			}
-		)}>
-		{title}
-	</Link>
-);
+	const handleClick = () => {
+		setMobileMenuOpen(false);
+	};
+
+	return (
+		<HashLink
+			to={pageId === "shop" ? "/shop#shop" : `/#${pageId}`}
+			onClick={handleClick}
+			className={className}>
+			{title}
+		</HashLink>
+	);
+};
+
+const NavLink: React.FC<NavLinkProps> = ({ pageId, title, activePage }) => {
+	const className = cn(
+		"relative px-4 py-2 mx-1 rounded-lg text-base font-medium transition-all duration-200 ease-in-out text-[#FFFBDE]",
+		"after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-[#FFFBDE] after:transition-transform after:duration-300 after:ease-in-out after:origin-center",
+		"hover:after:scale-x-100",
+		{
+			"after:scale-x-100 group-hover:after:scale-x-0":
+				activePage === pageId ||
+				(pageId === "home" && activePage === ""),
+		}
+	);
+
+	return (
+		<HashLink
+			to={pageId === "shop" ? "/shop#shop" : `/#${pageId}`}
+			className={className}>
+			{title}
+		</HashLink>
+	);
+};
 
 export const Header: React.FC = () => {
 	const location = useLocation();

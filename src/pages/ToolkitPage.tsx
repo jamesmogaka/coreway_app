@@ -170,7 +170,7 @@ export const ToolkitPage: React.FC = () => {
 	};
 
 	return (
-		<div className="fade-in bg-[#096B68] text-[#FFFBDE]">
+		<div className="fade-in bg-[#096B68] text-[#FFFBDE]" id="toolkit">
 			{/* Toolkit Section */}
 			<section className="py-20">
 				<div className="container mx-auto px-6">

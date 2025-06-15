@@ -29,7 +29,7 @@ export const HomePage: React.FC = () => {
 	const navigate = useNavigate();
 
 	return (
-		<div className="fade-in min-h-screen">
+		<div className="fade-in min-h-screen" id="home">
 			{/* Hero Section - Dark Teal */}
 			<section className="relative text-[#FFFBDE] h-[40vh] ">
 				<div className="absolute inset-0 z-0">
