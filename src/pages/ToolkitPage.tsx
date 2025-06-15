@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 import {
+	HoverCard,
+	HoverCardContent,
+	HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import {
 	type Value,
 	type ValueData,
 	kit1Data,
@@ -129,28 +134,34 @@ const Description: React.FC<DescriptionProps> = ({ color, data, active }) => {
 };
 
 // Original ToolkitPage content
-export interface ToolkitPageProps {
-	onValueClick: (name: string, valueData: Value) => void;
-}
-
 const ValueList: React.FC<{
 	data: ValueData;
-	onValueClick: (name: string, valueData: Value) => void;
-}> = ({ data, onValueClick }) => (
+}> = ({ data }) => (
 	<div className="grid grid-cols-3 gap-2 text-center">
-		{Object.entries(data).map(([name, valueData]) => (
-			<div
-				key={name}
-				onClick={() => onValueClick(name, valueData)}
-				className="p-2 rounded-md cursor-pointer hover:bg-[#129990] transition-colors"
-			>
-				{name}
-			</div>
+		{Object.entries(data).map(([name, valueData]: [string, Value]) => (
+			<HoverCard key={name}>
+				<HoverCardTrigger asChild>
+					<div className="p-2 rounded-md cursor-pointer hover:bg-[#129990] transition-colors">
+						{name}
+					</div>
+				</HoverCardTrigger>
+				<HoverCardContent className="w-80 bg-[#0d7a73] text-white border-none">
+					<p className="text-sm mb-2">{valueData.description}</p>
+					<div className="mt-2">
+						<h4 className="font-semibold">Why it's important:</h4>
+						<p className="text-xs mb-2">{valueData.importance}</p>
+						<h4 className="font-semibold">
+							What it looks like when lacking:
+						</h4>
+						<p className="text-xs">{valueData.lacking}</p>
+					</div>
+				</HoverCardContent>
+			</HoverCard>
 		))}
 	</div>
 );
 
-export const ToolkitPage: React.FC<ToolkitPageProps> = ({ onValueClick }) => {
+export const ToolkitPage: React.FC = () => {
 	// State from PredispositionsPage
 	const [active, setActive] = useState<ColorKey>("blue");
 
@@ -183,10 +194,7 @@ export const ToolkitPage: React.FC<ToolkitPageProps> = ({ onValueClick }) => {
 								basis of moral and ethical growth during early
 								childhood. Click on a value to learn more.
 							</p>
-							<ValueList
-								data={kit1Data}
-								onValueClick={onValueClick}
-							/>
+							<ValueList data={kit1Data} />
 						</div>
 						<div className="bg-[#0d7a73] p-8 rounded-lg shadow-lg">
 							<h2 className="text-2xl font-bold text-white mb-4">
@@ -198,10 +206,7 @@ export const ToolkitPage: React.FC<ToolkitPageProps> = ({ onValueClick }) => {
 								into young adulthood. Click on a value to learn
 								more.
 							</p>
-							<ValueList
-								data={kit2Data}
-								onValueClick={onValueClick}
-							/>
+							<ValueList data={kit2Data} />
 						</div>
 					</div>
 				</div>

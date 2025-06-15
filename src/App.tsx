@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
 	BrowserRouter as Router,
 	Route,
@@ -8,9 +7,7 @@ import {
 import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 
-import type { Value } from "./data/toolkitData";
 import { TrainingPage } from "./pages/TrainingPage";
-import { ValueModal } from "./pages/ValueModal";
 import { ContactPage } from "./pages/ContactPage";
 import { ShopLayout } from "./components/ShopLayout";
 import { ToolkitPage } from "./pages/ToolkitPage";
@@ -28,19 +25,6 @@ import ContactsPage from "./pages/admin/ContactsPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 
 function AppContent() {
-	const [modalData, setModalData] = useState<{
-		name: string;
-		value: Value;
-	} | null>(null);
-
-	const handleValueClick = (name: string, value: Value) => {
-		setModalData({ name, value });
-	};
-
-	const handleCloseModal = () => {
-		setModalData(null);
-	};
-
 	return (
 		<Router>
 			<div className="bg-gray-50 min-h-screen w-full flex flex-col">
@@ -49,12 +33,7 @@ function AppContent() {
 					<Routes>
 						<Route path="/" element={<HomePage />} />
 						<Route path="/about" element={<AboutPage />} />
-						<Route
-							path="/toolkit"
-							element={
-								<ToolkitPage onValueClick={handleValueClick} />
-							}
-						/>
+						<Route path="/toolkit" element={<ToolkitPage />} />
 						<Route path="/training" element={<TrainingPage />} />
 						<Route path="/shop/*" element={<ShopLayout />} />
 						<Route path="/contact" element={<ContactPage />} />
@@ -86,11 +65,6 @@ function AppContent() {
 				</main>
 				<Footer />
 			</div>
-			<ValueModal
-				isOpen={!!modalData}
-				onClose={handleCloseModal}
-				data={modalData}
-			/>
 			<Toaster />
 		</Router>
 	);
