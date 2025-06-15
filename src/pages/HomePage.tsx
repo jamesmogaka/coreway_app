@@ -1,5 +1,29 @@
-import React from "react";
+import * as React from "react";
 import { useNavigate } from "react-router-dom";
+import { HeroCarousel } from "../components/HeroCarousel";
+
+const features = [
+	{
+		title: "Affirm",
+		description:
+			"Reinforce your child's positive self-identity by recognizing and celebrating their inherent worth.",
+	},
+	{
+		title: "Train",
+		description:
+			"Equip your child with essential life skills and values through consistent guidance and practical lessons.",
+	},
+	{
+		title: "Correct",
+		description:
+			"Guide your child with compassionate discipline that promotes learning and growth.",
+	},
+	{
+		title: "Encourage",
+		description:
+			"Foster a growth mindset by celebrating efforts and providing supportive feedback.",
+	},
+];
 
 export const HomePage: React.FC = () => {
 	const navigate = useNavigate();
@@ -7,25 +31,31 @@ export const HomePage: React.FC = () => {
 	return (
 		<div className="fade-in min-h-screen">
 			{/* Hero Section - Dark Teal */}
-			<section className="bg-[#096B68] text-[#FFFBDE] py-20">
-				<div className="container mx-auto px-6 text-center">
-					<h1 className="text-4xl md:text-6xl font-bold mb-4">
-						Intentional Parenting for a Value-Driven Child
-					</h1>
-					<p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
-						Nurture morally grounded, resilient, and successful
-						children with the VDC Toolkit.
-					</p>
-					<a
-						href="#toolkit"
-						onClick={e => {
-							e.preventDefault();
-							navigate("/toolkit");
-							window.scrollTo(0, 0);
-						}}
-						className="bg-[#129990] hover:bg-[#0d7a73] text-[#FFFBDE] inline-block font-bold py-3 px-8 text-lg rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg hover:-translate-y-1">
-						Discover the Toolkit
-					</a>
+			<section className="relative text-[#FFFBDE] h-[40vh] ">
+				<div className="absolute inset-0 z-0">
+					<HeroCarousel />
+				</div>
+				<div className="absolute inset-0 z-0 bg-[rgba(12,153,144,0.5)]"></div>
+				<div className="relative z-20 h-full flex flex-col items-center justify-center text-center">
+					<div className="container px-6 mx-auto">
+						<h1 className="text-4xl md:text-6xl font-bold mb-4">
+							Intentional Parenting for a Value-Driven Child
+						</h1>
+						<p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
+							Nurture morally grounded, resilient, and successful
+							children with the VDC Toolkit.
+						</p>
+						<a
+							href="#toolkit"
+							onClick={e => {
+								e.preventDefault();
+								navigate("/toolkit");
+								window.scrollTo(0, 0);
+							}}
+							className="bg-[#129990] hover:bg-[#0d7a73] text-[#FFFBDE] inline-block font-bold py-3 px-8 text-lg rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg hover:-translate-y-1">
+							Discover the Toolkit
+						</a>
+					</div>
 				</div>
 			</section>
 
@@ -47,28 +77,7 @@ export const HomePage: React.FC = () => {
 					</div>
 
 					<div className="grid md:grid-cols-4 gap-8 text-center">
-						{[
-							{
-								title: "Affirm",
-								description:
-									"Reinforce your child's positive self-identity by recognizing and celebrating their inherent worth.",
-							},
-							{
-								title: "Train",
-								description:
-									"Equip your child with essential life skills and values through consistent guidance and practical lessons.",
-							},
-							{
-								title: "Correct",
-								description:
-									"Guide your child with compassionate discipline that promotes learning and growth.",
-							},
-							{
-								title: "Encourage",
-								description:
-									"Foster a growth mindset by celebrating efforts and providing supportive feedback.",
-							},
-						].map((item, index) => (
+						{features.map((item, index) => (
 							<div
 								key={index}
 								className="p-6 bg-[#0d7a73] hover:bg-[#0e8a82] rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
