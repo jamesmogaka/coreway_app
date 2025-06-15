@@ -43,7 +43,8 @@ const NavLink: React.FC<NavLinkProps> = ({ pageId, title, activePage }) => (
 			"after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-[#FFFBDE] after:transition-transform after:duration-300 after:ease-in-out after:origin-center",
 			"hover:after:scale-x-100",
 			{
-				"after:scale-x-100": activePage === pageId,
+				"after:scale-x-100 group-hover:after:scale-x-0":
+					activePage === pageId,
 			}
 		)}>
 		{title}
@@ -66,7 +67,7 @@ export const Header: React.FC = () => {
 							Coreway Parenting
 						</span>
 					</Link>
-					<div className="hidden md:flex items-center space-x-1">
+					<div className="hidden md:flex items-center space-x-1 group">
 						{navLinks.map(link => (
 							<NavLink
 								key={link.id}
