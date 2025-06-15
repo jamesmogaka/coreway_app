@@ -59,10 +59,10 @@ export const ShopPage: React.FC = () => {
 		return <div className="text-center text-red-500 py-12">{error}</div>;
 
 	return (
-		<div className="fade-in" id="shop">
+		<div className="fade-in bg-[#096B68] text-[#FFFBDE] min-h-screen" id="shop">
 			<section className="py-20">
 				<div className="container mx-auto px-6">
-					<h1 className="text-4xl font-bold text-center text-gray-800 mb-12">
+					<h1 className="text-4xl font-bold text-center text-white mb-12">
 						Shop Our Toolkit & Accessories
 					</h1>
 					<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -70,8 +70,8 @@ export const ShopPage: React.FC = () => {
 							<Link
 								to={`/shop/product/${product.product}`}
 								key={product.product}
-								className="block h-full">
-								<Card className="overflow-hidden h-full flex flex-col">
+								className="block h-full group">
+								<Card className="bg-[#129990] rounded-lg shadow-lg overflow-hidden h-full flex flex-col transition-all duration-300 group-hover:shadow-2xl group-hover:-translate-y-1">
 									<CardHeader className="p-0">
 										<img
 											src={product.image_url}
@@ -80,19 +80,19 @@ export const ShopPage: React.FC = () => {
 										/>
 									</CardHeader>
 									<CardContent className="p-6 flex-grow">
-										<CardTitle className="text-xl mb-2">
+										<CardTitle className="text-xl mb-2 text-[#C2EAE7]">
 											{product.name}
 										</CardTitle>
-										<CardDescription className="text-gray-600 mb-4 line-clamp-3">
+										<CardDescription className="text-[#FFFBDE] mb-4 line-clamp-3">
 											{product.description}
 										</CardDescription>
 									</CardContent>
 									<CardFooter className="flex justify-between items-center p-6 pt-0 mt-auto">
-										<span className="text-2xl font-bold text-primary">
+										<span className="text-2xl font-bold text-[#FFD59A]">
 											KSh.{product.price.toFixed(2)}
 										</span>
 										<Button
-											className="rounded-full"
+											className="bg-[#FFD59A] text-[#3A3A3A] rounded-full hover:bg-[#FFAD60] transition-colors font-semibold"
 											onClick={e => {
 												e.preventDefault();
 												e.stopPropagation();
