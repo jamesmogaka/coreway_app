@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
 export interface NavLinkProps {
 	pageId: string;
 	title: string;
@@ -19,17 +20,16 @@ const navLinks = [
 	{ id: "contact", title: "Contact" },
 ];
 
-const MobileNavLink: React.FC<NavLinkProps> = ({
-	pageId,
-	title,
-	activePage,
-}) => (
+const MobileNavLink: React.FC<
+	NavLinkProps & { setMobileMenuOpen: (open: boolean) => void }
+> = ({ pageId, title, activePage, setMobileMenuOpen }) => (
 	<Link
 		to={`/${pageId}`}
-		className={`block py-2 px-4 font-semibold text-[#FFFBDE] rounded-md transition-colors ${
+		onClick={() => setMobileMenuOpen(false)}
+		className={`block py-3 px-6 text-lg font-medium rounded-lg transition-all duration-300 ease-in-out ${
 			activePage === pageId
-				? "bg-[#FFFBDE] text-[#096B68] font-semibold"
-				: "hover:bg-[#129990]"
+				? "bg-[#FFFBDE] text-[#096B68] font-semibold shadow-md"
+				: "text-[#FFFBDE] hover:bg-[#129990] hover:bg-opacity-80"
 		}`}>
 		{title}
 	</Link>
@@ -38,11 +38,14 @@ const MobileNavLink: React.FC<NavLinkProps> = ({
 const NavLink: React.FC<NavLinkProps> = ({ pageId, title, activePage }) => (
 	<Link
 		to={`/${pageId}`}
-		className={`px-3 py-2 rounded-md text-base font-semibold text-[#FFFBDE] transition-colors ${
-			activePage === pageId
-				? "bg-[#FFFBDE] text-[#096B68] font-semibold"
-				: "hover:bg-[#129990]"
-		}`}>
+		className={cn(
+			"relative px-4 py-2 mx-1 rounded-lg text-base font-medium transition-all duration-200 ease-in-out text-[#FFFBDE]",
+			"after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-[#FFFBDE] after:transition-transform after:duration-300 after:ease-in-out after:origin-center",
+			"hover:after:scale-x-100",
+			{
+				"after:scale-x-100": activePage === pageId,
+			}
+		)}>
 		{title}
 	</Link>
 );
@@ -51,16 +54,16 @@ export const Header: React.FC = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { user, logout } = useAuth();
-	const activePage = location.pathname.split("/")[1];
 	const [isMobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+	const activePage = location.pathname.split("/")[1];
 
 	return (
-		<header className="bg-[#096B68] shadow-md sticky top-0 z-50">
+		<header className="bg-[#096B68] shadow-lg sticky top-0 z-50 backdrop-blur-sm bg-opacity-95">
 			<nav className="container mx-auto px-4">
-				<div className="flex justify-between items-center h-16">
-					<Link to="/" className="flex items-center">
-						<span className="text-xl font-bold text-[#FFFBDE]">
-							Coreway
+				<div className="flex justify-between items-center h-20">
+					<Link to="/" className="flex items-center group">
+						<span className="text-2xl font-bold text-[#FFFBDE] transition-transform duration-300 group-hover:scale-105">
+							Coreway Parenting
 						</span>
 					</Link>
 					<div className="hidden md:flex items-center space-x-1">
@@ -78,7 +81,7 @@ export const Header: React.FC = () => {
 									variant="outline"
 									size="sm"
 									onClick={logout}
-									className="ml-2 border-[#FFFBDE] text-[#FFFBDE] hover:bg-[#129990] hover:text-[#FFFBDE]">
+									className="ml-4 border-[#FFFBDE] text-[#FFFBDE] hover:bg-[#129990] hover:text-[#FFFBDE] hover:border-[#129990] transition-all duration-200">
 									Logout
 								</Button>
 							</div>
@@ -87,7 +90,7 @@ export const Header: React.FC = () => {
 								variant="outline"
 								size="sm"
 								onClick={() => navigate("/auth")}
-								className="ml-4 border-[#FFFBDE] text-[#FFFBDE] hover:bg-[#129990] hover:text-[#FFFBDE]">
+								className="ml-4 border-cream text-cream hover:bg-teal-medium hover:text-cream hover:border-teal-medium transition-all duration-200">
 								Login
 							</Button>
 						)}
@@ -95,32 +98,50 @@ export const Header: React.FC = () => {
 					<div className="md:hidden">
 						<button
 							onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
-							className="text-[#FFFBDE] hover:text-[#FFFBDE]/80 focus:outline-none">
-							<svg
-								className="h-6 w-6"
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor">
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth={2}
-									d="M4 6h16M4 12h16M4 18h16"
-								/>
-							</svg>
+							className="p-2 rounded-md text-[#FFFBDE] hover:bg-[#129990] hover:bg-opacity-30 focus:outline-none transition-colors duration-200"
+							aria-label="Toggle menu">
+							{isMobileMenuOpen ? (
+								<svg
+									className="h-6 w-6"
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor">
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={2}
+										d="M6 18L18 6M6 6l12 12"
+									/>
+								</svg>
+							) : (
+								<svg
+									className="h-6 w-6"
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor">
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={2}
+										d="M4 6h16M4 12h16M4 18h16"
+									/>
+								</svg>
+							)}
 						</button>
 					</div>
 				</div>
 			</nav>
 			{isMobileMenuOpen && (
-				<nav className="flex-1 p-4 space-y-1">
+				<nav className="flex-1 p-4 space-y-2 bg-opacity-95 backdrop-blur-sm">
 					{navLinks.map(link => (
 						<MobileNavLink
 							key={link.id}
 							pageId={link.id}
 							title={link.title}
 							activePage={activePage}
+							setMobileMenuOpen={setMobileMenuOpen}
 						/>
 					))}
 					{user ? (
@@ -132,7 +153,7 @@ export const Header: React.FC = () => {
 									logout();
 									setMobileMenuOpen(false);
 								}}
-								className="w-full border-[#FFFBDE] text-[#FFFBDE] hover:bg-[#129990] hover:text-[#FFFBDE]">
+								className="w-full mt-2 border-[#FFFBDE] text-[#FFFBDE] hover:bg-[#129990] hover:text-[#FFFBDE] hover:border-[#129990] transition-all duration-200">
 								Logout
 							</Button>
 						</div>
@@ -144,7 +165,7 @@ export const Header: React.FC = () => {
 								navigate("/auth");
 								setMobileMenuOpen(false);
 							}}
-							className="w-full mt-4 border-[#FFFBDE] text-[#FFFBDE] hover:bg-[#129990] hover:text-[#FFFBDE]">
+							className="w-full mt-4 border-[#FFFBDE] text-[#FFFBDE] hover:bg-[#129990] hover:text-[#FFFBDE] hover:border-[#129990] transition-all duration-200">
 							Login
 						</Button>
 					)}
