@@ -1,18 +1,19 @@
 import * as react from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export const Footer: react.FC = () => {
+	const location = useLocation();
 	const activePage = location.pathname.split("/")[1];
 
 	return (
-		<footer className="bg-gray-800 text-white">
+		<footer className="bg-[#90D1CA] text-[#096B68]">
 			<div className="container mx-auto px-6 py-8">
 				<div className="sm:flex sm:justify-between">
 					<div className="mb-4 sm:mb-0">
 						<h3 className="text-lg font-bold">
 							CorePath International
 						</h3>
-						<p className="text-gray-400 mt-2">
+						<p className="text-[#096B68]/80 mt-2">
 							Building a brighter future, one value at a time.
 						</p>
 					</div>
@@ -22,8 +23,8 @@ export const Footer: react.FC = () => {
 							<li>
 								<Link
 									to="/"
-									className={`text-gray-400 hover:text-white ${
-										activePage === "" ? "active" : ""
+									className={`text-[#096B68]/90 hover:text-[#096B68] transition-colors ${
+										activePage === "" ? "font-bold" : ""
 									}`}>
 									Home
 								</Link>
@@ -31,8 +32,10 @@ export const Footer: react.FC = () => {
 							<li>
 								<Link
 									to="/about"
-									className={`text-gray-400 hover:text-white ${
-										activePage === "about" ? "active" : ""
+									className={`text-[#096B68]/90 hover:text-[#096B68] transition-colors ${
+										activePage === "about"
+											? "font-bold"
+											: ""
 									}`}>
 									About
 								</Link>
@@ -40,8 +43,10 @@ export const Footer: react.FC = () => {
 							<li>
 								<Link
 									to="/toolkit"
-									className={`text-gray-400 hover:text-white ${
-										activePage === "toolkit" ? "active" : ""
+									className={`text-[#096B68]/90 hover:text-[#096B68] transition-colors ${
+										activePage === "toolkit"
+											? "font-bold"
+											: ""
 									}`}>
 									The Toolkit
 								</Link>
@@ -49,9 +54,9 @@ export const Footer: react.FC = () => {
 							<li>
 								<Link
 									to="/training"
-									className={`text-gray-400 hover:text-white ${
+									className={`text-[#096B68]/90 hover:text-[#096B68] transition-colors ${
 										activePage === "training"
-											? "active"
+											? "font-bold"
 											: ""
 									}`}>
 									Training

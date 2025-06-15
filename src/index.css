@@ -3,50 +3,63 @@
 
 @custom-variant dark (&:is(.dark *));
 :root {
-	font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-	line-height: 1.5;
-	font-weight: 400;
-
-	color-scheme: light dark;
-	color: rgba(255, 255, 255, 0.87);
-	background-color: #242424;
-
-	font-synthesis: none;
-	text-rendering: optimizeLegibility;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	--radius: 0.625rem;
-	--background: oklch(1 0 0);
-	--foreground: oklch(0.145 0 0);
-	--card: oklch(1 0 0);
-	--card-foreground: oklch(0.145 0 0);
-	--popover: oklch(1 0 0);
-	--popover-foreground: oklch(0.145 0 0);
-	--primary: oklch(0.205 0 0);
-	--primary-foreground: oklch(0.985 0 0);
-	--secondary: oklch(0.97 0 0);
-	--secondary-foreground: oklch(0.205 0 0);
-	--muted: oklch(0.97 0 0);
-	--muted-foreground: oklch(0.556 0 0);
-	--accent: oklch(0.97 0 0);
-	--accent-foreground: oklch(0.205 0 0);
-	--destructive: oklch(0.577 0.245 27.325);
-	--border: oklch(0.922 0 0);
-	--input: oklch(0.922 0 0);
-	--ring: oklch(0.708 0 0);
-	--chart-1: oklch(0.646 0.222 41.116);
-	--chart-2: oklch(0.6 0.118 184.704);
-	--chart-3: oklch(0.398 0.07 227.392);
-	--chart-4: oklch(0.828 0.189 84.429);
-	--chart-5: oklch(0.769 0.188 70.08);
-	--sidebar: oklch(0.985 0 0);
-	--sidebar-foreground: oklch(0.145 0 0);
-	--sidebar-primary: oklch(0.205 0 0);
-	--sidebar-primary-foreground: oklch(0.985 0 0);
-	--sidebar-accent: oklch(0.97 0 0);
-	--sidebar-accent-foreground: oklch(0.205 0 0);
-	--sidebar-border: oklch(0.922 0 0);
-	--sidebar-ring: oklch(0.708 0 0);
+  /* Base styles */
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* Color scheme */
+  color-scheme: light;
+  --radius: 0.625rem;
+  
+  /* Color palette */
+  --color-light: #FFFBDE;
+  --color-teal-light: #90D1CA;
+  --color-teal: #129990;
+  --color-teal-dark: #096B68;
+  
+  /* Theme variables */
+  --background: var(--color-teal-dark);
+  --foreground: #ffffff;
+  --primary: var(--color-teal);
+  --primary-foreground: #ffffff;
+  --secondary: var(--color-teal-light);
+  --secondary-foreground: var(--color-teal-dark);
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: var(--color-teal-light);
+  --accent-foreground: var(--color-teal-dark);
+  --destructive: #ef4444;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: var(--color-teal);
+  
+  /* Card styles */
+  --card: #ffffff;
+  --card-foreground: var(--color-teal-dark);
+  --popover: #ffffff;
+  --popover-foreground: var(--color-teal-dark);
+  
+  /* Chart colors */
+  --chart-1: var(--color-teal);
+  --chart-2: var(--color-teal-light);
+  --chart-3: var(--color-light);
+  --chart-4: #90D1CA80;
+  --chart-5: #12999080;
+  
+  /* Sidebar styles */
+  --sidebar: #ffffff;
+  --sidebar-foreground: var(--color-teal-dark);
+  --sidebar-primary: var(--color-teal);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--color-teal-light);
+  --sidebar-accent-foreground: var(--color-teal-dark);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
 }
 html,
 body,
@@ -57,11 +70,14 @@ body,
 
 a {
 	font-weight: 500;
-	color: #646cff;
-	text-decoration: inherit;
+	color: var(--primary);
+	text-decoration: none;
+	transition: color 0.2s ease;
 }
+
 a:hover {
-	color: #535bf2;
+	color: var(--accent);
+	text-decoration: underline;
 }
 
 body {
@@ -70,11 +86,9 @@ body {
 	place-items: center;
 	min-width: 320px;
 	min-height: 100vh;
-}
-
-h1 {
-	font-size: 3.2em;
-	line-height: 1.1;
+	background-color: var(--background);
+	color: var(--foreground);
+	transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* button {
@@ -96,32 +110,36 @@ button:focus-visible {
 	outline: 4px auto -webkit-focus-ring-color;
 } */
 
-@media (prefers-color-scheme: light) {
-	:root {
-		color: #213547;
-		background-color: #ffffff;
-	}
-	a:hover {
-		color: #747bff;
-	}
-	button {
-		background-color: #f9f9f9;
-	}
+/* Dark mode overrides */
+.dark {
+  --background: #0d3b3a; /* Slightly lighter than teal-dark for better contrast */
+  --foreground: #ffffff;
+  --card: #0a2e2d;
+  --card-foreground: #ffffff;
+  --popover: #0a2e2d;
+  --popover-foreground: #ffffff;
+  --border: #1a5c5a;
+  --input: #1a5c5a;
+  --muted: #1a5c5a;
+  --muted-foreground: #90D1CA;
 }
 
 body {
 	font-family: "Inter", sans-serif;
 }
 .hero-bg {
-	background-image: url("https://placehold.co/1920x1080/dbeafe/4f46e5?text=Happy+Family");
-	background-size: cover;
-	background-position: center;
+  background-image: linear-gradient(rgba(9, 107, 104, 0.9), rgba(9, 107, 104, 0.9)), 
+                    url("https://placehold.co/1920x1080/90D1CA/096B68?text=Coreway");
+  background-size: cover;
+  background-position: center;
+  color: white;
+  position: relative;
 }
 .nav-link {
-	@apply px-3 py-2 text-gray-700 hover:text-blue-600 rounded-md text-sm font-medium transition-colors duration-300;
+  @apply px-3 py-2 text-teal-50 hover:text-white rounded-md text-sm font-medium transition-colors duration-300;
 }
 .nav-link.active {
-	@apply text-blue-600 font-bold;
+  @apply text-white font-bold bg-teal-700;
 }
 .fade-in {
 	animation: fadeIn 0.6s ease-in-out;
@@ -167,7 +185,8 @@ body {
 	@apply p-6 bg-white rounded-b-lg shadow-inner;
 }
 .value-item-list div {
-	@apply bg-white p-4 rounded-lg shadow-md cursor-pointer transition-all duration-300 text-gray-900 font-semibold hover:bg-blue-50 hover:ring-2 hover:ring-blue-400 hover:scale-105 hover:shadow-xl hover:text-blue-600;
+  @apply bg-white p-4 rounded-lg shadow-md cursor-pointer transition-all duration-300 text-teal-900 font-semibold 
+         hover:bg-teal-50 hover:ring-2 hover:ring-teal-400 hover:scale-105 hover:shadow-xl hover:text-teal-700;
 }
 
 @theme inline {
@@ -209,37 +228,52 @@ body {
 }
 
 .dark {
-	--background: oklch(0.145 0 0);
-	--foreground: oklch(0.985 0 0);
-	--card: oklch(0.205 0 0);
-	--card-foreground: oklch(0.985 0 0);
-	--popover: oklch(0.205 0 0);
-	--popover-foreground: oklch(0.985 0 0);
-	--primary: oklch(0.922 0 0);
-	--primary-foreground: oklch(0.205 0 0);
-	--secondary: oklch(0.269 0 0);
-	--secondary-foreground: oklch(0.985 0 0);
-	--muted: oklch(0.269 0 0);
-	--muted-foreground: oklch(0.708 0 0);
-	--accent: oklch(0.269 0 0);
-	--accent-foreground: oklch(0.985 0 0);
-	--destructive: oklch(0.704 0.191 22.216);
-	--border: oklch(1 0 0 / 10%);
-	--input: oklch(1 0 0 / 15%);
-	--ring: oklch(0.556 0 0);
-	--chart-1: oklch(0.488 0.243 264.376);
-	--chart-2: oklch(0.696 0.17 162.48);
-	--chart-3: oklch(0.769 0.188 70.08);
-	--chart-4: oklch(0.627 0.265 303.9);
-	--chart-5: oklch(0.645 0.246 16.439);
-	--sidebar: oklch(0.205 0 0);
-	--sidebar-foreground: oklch(0.985 0 0);
-	--sidebar-primary: oklch(0.488 0.243 264.376);
-	--sidebar-primary-foreground: oklch(0.985 0 0);
-	--sidebar-accent: oklch(0.269 0 0);
-	--sidebar-accent-foreground: oklch(0.985 0 0);
-	--sidebar-border: oklch(1 0 0 / 10%);
-	--sidebar-ring: oklch(0.556 0 0);
+  /* Base Colors */
+  --background: #096B68;        /* Dark teal */
+  --foreground: #FFFBDE;       /* Light cream */
+  
+  /* Card & Surface Colors */
+  --card: #0d7a73;            /* Slightly lighter teal */
+  --card-foreground: #FFFBDE;  /* Light cream */
+  --popover: #0d7a73;          /* Slightly lighter teal */
+  --popover-foreground: #FFFBDE; /* Light cream */
+  
+  /* Primary Colors */
+  --primary: #129990;          /* Medium teal */
+  --primary-foreground: #FFFBDE; /* Light cream */
+  
+  /* Secondary Colors */
+  --secondary: #0e8a82;        /* Between medium and dark teal */
+  --secondary-foreground: #FFFBDE; /* Light cream */
+  
+  /* Muted & Accent Colors */
+  --muted: #0d7a73;            /* Slightly lighter teal */
+  --muted-foreground: #90D1CA;  /* Light teal */
+  --accent: #129990;            /* Medium teal */
+  --accent-foreground: #FFFBDE;  /* Light cream */
+  
+  /* UI Colors */
+  --destructive: #ef4444;       /* Standard red for destructive actions */
+  --border: rgba(255, 251, 222, 0.1); /* Light cream with opacity */
+  --input: rgba(255, 251, 222, 0.15); /* Slightly more opaque for inputs */
+  --ring: #90D1CA;              /* Light teal for focus rings */
+  
+  /* Chart Colors */
+  --chart-1: #90D1CA;           /* Light teal */
+  --chart-2: #129990;           /* Medium teal */
+  --chart-3: #0d7a73;           /* Darker teal */
+  --chart-4: #FFFBDE;           /* Light cream */
+  --chart-5: #0e8a82;           /* Between medium and dark teal */
+  
+  /* Sidebar Colors */
+  --sidebar: #0a5a57;           /* Darker teal for sidebar */
+  --sidebar-foreground: #FFFBDE;  /* Light cream */
+  --sidebar-primary: #129990;     /* Medium teal */
+  --sidebar-primary-foreground: #FFFBDE; /* Light cream */
+  --sidebar-accent: #0e8a82;      /* Between medium and dark teal */
+  --sidebar-accent-foreground: #FFFBDE; /* Light cream */
+  --sidebar-border: rgba(255, 251, 222, 0.1); /* Light cream with opacity */
+  --sidebar-ring: #90D1CA;        /* Light teal */
 }
 
 @layer base {

@@ -1,5 +1,5 @@
-import * as react from "react";
-import { useState, useEffect } from "react";
+import * as React from "react";
+import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "./ui/button";
@@ -19,53 +19,52 @@ const navLinks = [
 	{ id: "contact", title: "Contact" },
 ];
 
-const MobileNavLink: react.FC<NavLinkProps> = ({
+const MobileNavLink: React.FC<NavLinkProps> = ({
 	pageId,
 	title,
 	activePage,
 }) => (
 	<Link
 		to={`/${pageId}`}
-		className={`block nav-link ${activePage === pageId ? "active" : ""}`}>
+		className={`block py-2 px-4 font-semibold text-[#FFFBDE] rounded-md transition-colors ${
+			activePage === pageId
+				? "bg-[#FFFBDE] text-[#096B68] font-semibold"
+				: "hover:bg-[#129990]"
+		}`}>
 		{title}
 	</Link>
 );
 
-const NavLink: react.FC<NavLinkProps> = ({ pageId, title, activePage }) => (
+const NavLink: React.FC<NavLinkProps> = ({ pageId, title, activePage }) => (
 	<Link
 		to={`/${pageId}`}
-		className={`nav-link ${activePage === pageId ? "active" : ""}`}>
+		className={`px-3 py-2 rounded-md text-base font-semibold text-[#FFFBDE] transition-colors ${
+			activePage === pageId
+				? "bg-[#FFFBDE] text-[#096B68] font-semibold"
+				: "hover:bg-[#129990]"
+		}`}>
 		{title}
 	</Link>
 );
 
-// --- Components ---
-export const Header: react.FC = () => {
+export const Header: React.FC = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const { user, logout, isAdmin } = useAuth();
-	const [isUserAdmin, setIsUserAdmin] = useState(false);
+	const { user, logout } = useAuth();
 	const activePage = location.pathname.split("/")[1];
 	const [isMobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
-	useEffect(() => {
-		const checkAdminStatus = async () => {
-			const adminStatus = await isAdmin();
-			setIsUserAdmin(adminStatus);
-		};
-		checkAdminStatus();
-	}, [isAdmin]);
-
 	return (
-		<header className="bg-white shadow-md sticky top-0 z-50">
-			<nav className="container mx-auto px-6 py-3 flex justify-between items-center">
-				<Link to="/" className="text-xl font-bold text-blue-600">
-					CorePath International
-				</Link>
-				<div className="hidden md:flex items-center space-x-4">
-					{navLinks
-						.filter(link => !isUserAdmin || link.id !== "contact")
-						.map(link => (
+		<header className="bg-[#096B68] shadow-md sticky top-0 z-50">
+			<nav className="container mx-auto px-4">
+				<div className="flex justify-between items-center h-16">
+					<Link to="/" className="flex items-center">
+						<span className="text-xl font-bold text-[#FFFBDE]">
+							Coreway
+						</span>
+					</Link>
+					<div className="hidden md:flex items-center space-x-1">
+						{navLinks.map(link => (
 							<NavLink
 								key={link.id}
 								pageId={link.id}
@@ -73,74 +72,83 @@ export const Header: react.FC = () => {
 								activePage={activePage}
 							/>
 						))}
-					{user ? (
-						<Button
-							onClick={async () => {
-								await logout();
-								navigate("/");
-							}}
-							variant="default"
-							className="ml-4 bg-red-600 hover:bg-red-700">
-							Logout
-						</Button>
-					) : (
-						<Link
-							to="/auth"
-							className="ml-4 bg-blue-600 text-white hover:bg-blue-700 inline-block font-bold py-2 px-6 rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg hover:-translate-y-1">
-							Members Login
-						</Link>
-					)}
-				</div>
-				<div className="md:hidden">
-					<button
-						onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
-						className="text-gray-700 hover:text-blue-600 focus:outline-none">
-						<svg
-							className="w-6 h-6"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-							xmlns="http://www.w3.org/2000/svg">
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth="2"
-								d="M4 6h16M4 12h16m-7 6h7"></path>
-						</svg>
-					</button>
+						{user ? (
+							<div className="ml-4 flex items-center space-x-2">
+								<Button
+									variant="outline"
+									size="sm"
+									onClick={logout}
+									className="ml-2 border-[#FFFBDE] text-[#FFFBDE] hover:bg-[#129990] hover:text-[#FFFBDE]">
+									Logout
+								</Button>
+							</div>
+						) : (
+							<Button
+								variant="outline"
+								size="sm"
+								onClick={() => navigate("/auth")}
+								className="ml-4 border-[#FFFBDE] text-[#FFFBDE] hover:bg-[#129990] hover:text-[#FFFBDE]">
+								Login
+							</Button>
+						)}
+					</div>
+					<div className="md:hidden">
+						<button
+							onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
+							className="text-[#FFFBDE] hover:text-[#FFFBDE]/80 focus:outline-none">
+							<svg
+								className="h-6 w-6"
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor">
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2}
+									d="M4 6h16M4 12h16M4 18h16"
+								/>
+							</svg>
+						</button>
+					</div>
 				</div>
 			</nav>
 			{isMobileMenuOpen && (
-				<div className="md:hidden px-2 pt-2 pb-3 space-y-1 sm:px-3">
-					{navLinks
-						.filter(link => !isUserAdmin || link.id !== "contact")
-						.map(link => (
-							<MobileNavLink
-								key={link.id}
-								pageId={link.id}
-								title={link.title}
-								activePage={activePage}
-							/>
-						))}
+				<nav className="flex-1 p-4 space-y-1">
+					{navLinks.map(link => (
+						<MobileNavLink
+							key={link.id}
+							pageId={link.id}
+							title={link.title}
+							activePage={activePage}
+						/>
+					))}
 					{user ? (
-						<Button
-							onClick={async () => {
-								await logout();
-								setMobileMenuOpen(false);
-								navigate("/");
-							}}
-							variant="default"
-							className="w-full mt-2 bg-red-600 hover:bg-red-700">
-							Logout
-						</Button>
+						<div className="pt-4 mt-4 border-t border-[#FFFBDE]/20">
+							<Button
+								variant="outline"
+								size="sm"
+								onClick={() => {
+									logout();
+									setMobileMenuOpen(false);
+								}}
+								className="w-full border-[#FFFBDE] text-[#FFFBDE] hover:bg-[#129990] hover:text-[#FFFBDE]">
+								Logout
+							</Button>
+						</div>
 					) : (
-						<Link
-							to="/auth"
-							className="w-full mt-2 bg-blue-600 text-white hover:bg-blue-700 inline-block font-bold py-2 px-6 rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg hover:-translate-y-1">
-							Members Login
-						</Link>
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() => {
+								navigate("/auth");
+								setMobileMenuOpen(false);
+							}}
+							className="w-full mt-4 border-[#FFFBDE] text-[#FFFBDE] hover:bg-[#129990] hover:text-[#FFFBDE]">
+							Login
+						</Button>
 					)}
-				</div>
+				</nav>
 			)}
 		</header>
 	);
