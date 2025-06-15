@@ -81,15 +81,16 @@ export function SignupForm() {
 					name="full_name"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Full Name</FormLabel>
+							<FormLabel className="text-[#FFFBDE] font-bold">Full Name</FormLabel>
 							<FormControl>
 								<Input
 									placeholder="John Doe"
+									className="bg-[#90D1CA] text-[#3A3A3A] border-0 focus:ring-2 focus:ring-[#FFD59A] transition-shadow duration-300 placeholder:text-gray-600 rounded-md"
 									disabled={isLoading}
 									{...field}
 								/>
 							</FormControl>
-							<FormMessage />
+							<FormMessage className="text-red-300" />
 						</FormItem>
 					)}
 				/>
@@ -100,16 +101,17 @@ export function SignupForm() {
 					name="email"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Email</FormLabel>
+							<FormLabel className="text-[#FFFBDE] font-bold">Email</FormLabel>
 							<FormControl>
 								<Input
 									type="email"
 									placeholder="john@example.com"
+									className="bg-[#90D1CA] text-[#3A3A3A] border-0 focus:ring-2 focus:ring-[#FFD59A] transition-shadow duration-300 placeholder:text-gray-600 rounded-md"
 									disabled={isLoading}
 									{...field}
 								/>
 							</FormControl>
-							<FormMessage />
+							<FormMessage className="text-red-300" />
 						</FormItem>
 					)}
 				/>
@@ -121,8 +123,8 @@ export function SignupForm() {
 					render={({ field }) => (
 						<FormItem>
 							<div className="flex items-center justify-between">
-								<FormLabel>Password</FormLabel>
-								<FormDescription className="text-xs">
+								<FormLabel className="text-[#FFFBDE] font-bold">Password</FormLabel>
+								<FormDescription className="text-xs text-[#F5F5F5]">
 									At least 8 characters
 								</FormDescription>
 							</div>
@@ -130,22 +132,26 @@ export function SignupForm() {
 								<Input
 									type="password"
 									placeholder="••••••••"
+									className="bg-[#90D1CA] text-[#3A3A3A] border-0 focus:ring-2 focus:ring-[#FFD59A] transition-shadow duration-300 placeholder:text-gray-600 rounded-md"
 									disabled={isLoading}
 									{...field}
 								/>
 							</FormControl>
-							<FormMessage />
+							<FormMessage className="text-red-300" />
 						</FormItem>
 					)}
 				/>
 
 				{form.formState.errors.root && (
-					<div className="text-sm font-medium text-destructive">
+					<div className="text-sm font-medium text-red-300">
 						{form.formState.errors.root.message}
 					</div>
 				)}
 
-				<Button type="submit" className="w-full" disabled={isLoading}>
+				<Button
+					type="submit"
+					className="w-full bg-[#FFD59A] text-[#3A3A3A] hover:bg-[#FFAD60] rounded-md transition-colors duration-300 font-bold"
+					disabled={isLoading}>
 					{isLoading ? (
 						<>
 							<Loader2 className="mr-2 h-4 w-4 animate-spin" />
