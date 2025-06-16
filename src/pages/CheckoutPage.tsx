@@ -155,37 +155,47 @@ const CheckoutPage: FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Checkout</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Stepper steps={STEPS} activeStep={activeStep} />
-              {renderStepContent()}
-            </CardContent>
-            <CardFooter className="flex justify-between">
-              {activeStep > 0 ? (
-                <Button variant="outline" onClick={handleBack}>
-                  Back
+    <div className="bg-[#096B68] min-h-screen py-8">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+          <div className="lg:col-span-2">
+            <Card className="bg-[#129990] border-none rounded-lg shadow-lg p-6">
+              <CardHeader>
+                <CardTitle className="text-[#F5F5F5]">Checkout</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Stepper steps={STEPS} activeStep={activeStep} />
+                {renderStepContent()}
+              </CardContent>
+              <CardFooter className="flex justify-between mt-6">
+                {activeStep > 0 ? (
+                  <Button
+                    variant="outline"
+                    onClick={handleBack}
+                    className="bg-transparent border-[#90D1CA] text-[#F5F5F5] hover:bg-[#90D1CA] hover:text-[#3A3A3A]"
+                  >
+                    Back
+                  </Button>
+                ) : (
+                  <div />
+                )}
+                <Button
+                  onClick={handleNext}
+                  disabled={(activeStep === 0 && !isShippingFormValid) || (activeStep === 1 && !isPaymentFormValid)}
+                  className="bg-[#FFD59A] text-[#3A3A3A] hover:bg-[#FFAD60] disabled:bg-gray-500 disabled:cursor-not-allowed"
+                >
+                  {activeStep === STEPS.length - 1 ? "Place Order" : "Next"}
                 </Button>
-              ) : (
-                <div />
-              )}
-              <Button onClick={handleNext} disabled={(activeStep === 0 && !isShippingFormValid) || (activeStep === 1 && !isPaymentFormValid)}>
-                {activeStep === STEPS.length - 1 ? "Place Order" : "Next"}
-              </Button>
-            </CardFooter>
-          </Card>
-        </div>
-        <div className="lg:col-span-1">
-          <OrderSummary
-            cartItems={cartItems}
-            subtotal={subtotal}
-            shippingFee={SHIPPING_FEE}
-          />
+              </CardFooter>
+            </Card>
+          </div>
+          <div className="lg:col-span-1">
+            <OrderSummary
+              cartItems={cartItems}
+              subtotal={subtotal}
+              shippingFee={SHIPPING_FEE}
+            />
+          </div>
         </div>
       </div>
     </div>

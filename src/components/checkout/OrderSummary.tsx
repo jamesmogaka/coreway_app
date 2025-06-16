@@ -11,17 +11,17 @@ interface OrderSummaryProps {
 }
 
 export const OrderSummary: FC<OrderSummaryProps> = ({ cartItems, subtotal, shippingFee }) => (
-  <Card>
+  <Card className="bg-[#129990] border-none rounded-lg shadow-lg p-6">
     <CardHeader>
-      <CardTitle>Order Summary</CardTitle>
+      <CardTitle className="text-[#F5F5F5]">Order Summary</CardTitle>
     </CardHeader>
-    <CardContent className="space-y-4">
+    <CardContent className="space-y-4 text-[#F5F5F5]">
       <div className="space-y-4">
         {cartItems.map((item) => (
           <CartItem key={item.id} item={item} />
         ))}
       </div>
-      <Separator />
+      <Separator className="bg-[#90D1CA]" />
       <div className="space-y-2">
         <div className="flex justify-between">
           <span>Subtotal</span>
@@ -31,8 +31,8 @@ export const OrderSummary: FC<OrderSummaryProps> = ({ cartItems, subtotal, shipp
           <span>Shipping</span>
           <span>KSh.{shippingFee.toFixed(2)}</span>
         </div>
-        <Separator />
-        <div className="flex justify-between font-semibold text-lg">
+        <Separator className="bg-[#90D1CA]" />
+        <div className="flex justify-between font-semibold text-lg text-[#FFD59A]">
           <span>Total</span>
           <span>KSh.{(subtotal + shippingFee).toFixed(2)}</span>
         </div>

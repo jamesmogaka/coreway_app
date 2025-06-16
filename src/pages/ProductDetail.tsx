@@ -6,7 +6,7 @@ import type { Product } from "../types/product";
 import { Button } from "../components/ui/button";
 import { toast } from "sonner";
 
-export const ProductDetail = () => {
+const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { getProductById } = useProducts();
@@ -14,6 +14,9 @@ export const ProductDetail = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [activeTab, setActiveTab] = useState<"description" | "reviews">(
+    "description"
+  );
 
   const handleAddToCart = () => {
     if (!product) return;
@@ -30,25 +33,27 @@ export const ProductDetail = () => {
   useEffect(() => {
     const loadProduct = async () => {
       if (!id) {
-        navigate('/shop');
+        navigate("/shop");
         return;
       }
 
       setIsLoading(true);
       setError(null);
-      
+
       try {
         const productData = await getProductById(id);
         if (productData === null) {
-          throw new Error('Product not found');
+          throw new Error("Product not found");
         }
         setProduct(productData);
       } catch (err) {
-        console.error('Error loading product:', err);
+        console.error("Error loading product:", err);
         const error = err as Error;
         setError(error);
-        toast.error(error.message || 'Error loading product. Please try again.');
-        navigate('/shop');
+        toast.error(
+          error.message || "Error loading product. Please try again."
+        );
+        navigate("/shop");
       } finally {
         setIsLoading(false);
       }
@@ -59,20 +64,20 @@ export const ProductDetail = () => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-        <p className="text-gray-600">Loading product details...</p>
+      <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4 bg-[#096B68]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#FFFBDE]"></div>
+        <p className="text-[#FFFBDE]">Loading product details...</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="text-center py-12">
-        <p className="text-red-500 mb-4">Error: {error.message}</p>
+      <div className="text-center py-12 bg-[#096B68]">
+        <p className="text-red-400 mb-4">Error: {error.message}</p>
         <Button
           onClick={() => window.location.reload()}
-          className="bg-blue-600 hover:bg-blue-700 text-white"
+          className="bg-[#FFD59A] text-[#3A3A3A] hover:bg-[#FFAD60]"
         >
           Retry
         </Button>
@@ -82,16 +87,16 @@ export const ProductDetail = () => {
 
   if (!product) {
     return (
-      <div className="text-center py-12">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+      <div className="text-center py-12 bg-[#096B68]">
+        <h2 className="text-2xl font-bold text-[#FFFBDE] mb-2">
           Product Not Found
         </h2>
-        <p className="text-gray-600 mb-6">
+        <p className="text-[#90D1CA] mb-6">
           The product you're looking for doesn't exist or has been removed.
         </p>
         <Button
           onClick={() => navigate("/shop")}
-          className="bg-blue-600 hover:bg-blue-700 text-white"
+          className="bg-[#FFD59A] text-[#3A3A3A] hover:bg-[#FFAD60]"
         >
           Back to Shop
         </Button>
@@ -100,53 +105,105 @@ export const ProductDetail = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Product Image */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          {product.image_url && (
-            <img
-              src={product.image_url}
-              alt={product.name}
-              className="w-full h-auto object-cover"
-            />
-          )}
+    <div className="bg-[#096B68] min-h-screen py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-[#129990] rounded-lg shadow-lg p-8 md:grid md:grid-cols-2 md:gap-8">
+          {/* Product Image */}
+          <div className="rounded-lg overflow-hidden">
+            {product.image_url && (
+              <img
+                src={product.image_url}
+                alt={product.name}
+                className="w-full h-auto object-cover transition-transform duration-300 hover:scale-105"
+              />
+            )}
+          </div>
+
+          {/* Product Info */}
+          <div className="mt-8 md:mt-0">
+            <h1 className="text-4xl font-bold text-[#FFFBDE]">
+              {product.name}
+            </h1>
+
+            <div className="mt-4">
+              <p className="text-3xl font-bold text-[#FFD59A]">
+                KSh{product.price.toFixed(2)}
+              </p>
+            </div>
+
+            <div className="mt-6">
+              <span
+                className={`px-3 py-1 text-sm rounded-full ${
+                  product.stock > 0
+                    ? "bg-green-200 text-green-900"
+                    : "bg-red-200 text-red-900"
+                }`}
+              >
+                {product.stock > 0
+                  ? `In Stock (${product.stock} available)`
+                  : "Out of Stock"}
+              </span>
+              {product.stock <= 5 && product.stock > 0 && (
+                <p className="text-sm text-amber-400 mt-2">
+                  Only {product.stock} left in stock!
+                </p>
+              )}
+            </div>
+
+            <div className="mt-8">
+              <Button
+                onClick={handleAddToCart}
+                disabled={product.stock <= 0}
+                className="w-full bg-[#FFD59A] text-[#3A3A3A] font-bold py-3 rounded-lg shadow-md hover:bg-[#FFAD60] transition-colors duration-300 disabled:bg-gray-500 disabled:cursor-not-allowed"
+              >
+                {product.stock > 0 ? "Buy Now" : "Out of Stock"}
+              </Button>
+            </div>
+          </div>
         </div>
 
-        {/* Product Info */}
-        <div className="space-y-6">
-          <h1 className="text-3xl font-bold text-gray-900">
-            {product.name}
-          </h1>
-
-          <div className="flex items-center">
-            <p className="text-2xl font-bold text-gray-900">
-              KSh{product.price.toFixed(2)}
-            </p>
-            <span className="ml-4 px-2 py-1 bg-green-100 text-green-800 text-sm rounded-full">
-              {product.stock > 0
-                ? `In Stock (${product.stock} available)`
-                : "Out of Stock"}
-            </span>
+        {/* Tabs Section */}
+        <div className="mt-12">
+          <div className="border-b border-[#90D1CA]">
+            <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+              <button
+                onClick={() => setActiveTab("description")}
+                className={`${`
+                  activeTab === "description"
+                    ? "border-[#FFD59A] text-[#FFFBDE]"
+                    : "border-transparent text-[#90D1CA] hover:text-[#FFFBDE] hover:border-[#FFD59A]"`
+                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg transition-colors duration-300`}
+              >
+                Description
+              </button>
+              <button
+                onClick={() => setActiveTab("reviews")}
+                className={`${`
+                  activeTab === "reviews"
+                    ? "border-[#FFD59A] text-[#FFFBDE]"
+                    : "border-transparent text-[#90D1CA] hover:text-[#FFFBDE] hover:border-[#FFD59A]"`
+                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg transition-colors duration-300`}
+              >
+                Reviews
+              </button>
+            </nav>
           </div>
-
-          <p className="text-gray-700">{product.description}</p>
-
-          <div className="pt-4">
-            <Button
-              onClick={handleAddToCart}
-              disabled={product.stock <= 0}
-              className="w-full md:w-auto"
-            >
-              {product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
-            </Button>
+          <div className="py-8">
+            {activeTab === "description" && (
+              <p className="text-[#FFFBDE] leading-relaxed">
+                {product.description}
+              </p>
+            )}
+            {activeTab === "reviews" && (
+              <div>
+                <h3 className="text-2xl font-bold text-[#FFFBDE] mb-4">
+                  Customer Reviews
+                </h3>
+                <p className="text-[#90D1CA]">No reviews yet.</p>
+                {/* Future implementation for reviews can go here */}
+              </div>
+            )}
           </div>
-
-          {product.stock <= 5 && product.stock > 0 && (
-            <p className="text-sm text-amber-600 mt-2">
-              Only {product.stock} left in stock!
-            </p>
-          )}
         </div>
       </div>
     </div>
@@ -154,3 +211,4 @@ export const ProductDetail = () => {
 };
 
 export default ProductDetail;
+
