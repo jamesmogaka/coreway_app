@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { Stepper } from "@/components/checkout/Stepper";
+import { useCart } from '@/contexts/useCart';
 import type { CartItemProps, PaymentInfo, ShippingInfo } from "@/components/checkout/types";
 import { shippingSchema, paymentSchema } from '@/components/checkout/validation';
 import { ShippingForm } from "@/components/checkout/ShippingForm";
@@ -86,20 +87,20 @@ const CheckoutPage: FC = () => {
   }, [shippingInfo, paymentInfo]);
 
   // Mock cart items - replace with your actual cart data
-  const cartItems: CartItemProps[] = useMemo(() => [
-    {
-      id: 1,
-      name: "Sample Product",
-      price: 1999.99,
-      quantity: 2,
-      image: "https://via.placeholder.com/80",
-    },
-  ], []);
+  const { cartItems: contextCartItems, cartTotal } = useCart();
 
-  const subtotal = useMemo(
-    () => cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
-    [cartItems]
+  const cartItems: CartItemProps[] = useMemo(() => 
+    contextCartItems.map(item => ({
+      id: item.id,
+      name: item.product.name,
+      price: item.product.price,
+      quantity: item.quantity,
+      image: item.product.image_url,
+    })),
+    [contextCartItems]
   );
+
+  const subtotal = cartTotal;
 
   const SHIPPING_FEE = 500; // Example shipping fee
 
