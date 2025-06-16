@@ -216,13 +216,22 @@ export const ToolkitPage: React.FC = () => {
 			<section className="bg-[#129990] py-20">
 				<div className="container mx-auto px-6">
 					<h1 className="text-4xl font-bold text-center mb-12">
-						Toolkit Guiding Principles
+						Toolkit Guiding Principles: The Foundation of VDC
+						Parenting
 					</h1>
 					<p className="text-center max-w-3xl mx-auto mb-16">
-						The VDC Train-up Toolkit is anchored on a set of six
-						guiding principles that shape its structure, content,
-						and implementation. These principles ensure that the
-						toolkit is effective, comprehensive, and adaptable.
+						At the heart of the Value Driven Child (VDC) Toolkit
+						lies a robust framework built upon six interconnected
+						guiding principles. These principles are carefully
+						chosen and meticulously integrated, drawing from sound
+						educational, psychological, and neurological theories,
+						to provide parents with a clear, structured, and
+						adaptable roadmap for raising children of strong
+						character and conviction. Together, these principles
+						transform parenting from reactive behavior management
+						into a sacred, intentional journey—one that raises
+						children of deep character, strong identity, and
+						unshakable faith.
 					</p>
 					<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 						<div className="p-6 bg-[#0d7a73] rounded-lg shadow-md">
@@ -230,57 +239,163 @@ export const ToolkitPage: React.FC = () => {
 								1. Foundational Core Values
 							</h3>
 							<p>
-								Some values are more fundamental as they
-								catalyze a wider range of virtues. We focus on
-								24 foundational values that inspire over 170
-								resultant values.
+								Values are not isolated; they are intrinsically
+								linked and interconnected, like roots, branches,
+								and fruits. A touch on one value naturally
+								touches others. Some values are more
+								"foundational" than others because, when
+								cultivated, they naturally lead to the
+								development of many other positive virtues and
+								behaviors (what we call "resultant values and
+								behaviors") compared to others. Why it matters
+								to you: It's practically impossible to
+								intentionally teach a child over 200 different
+								values one by one. This principle helps us focus
+								on a carefully selected set of just 24
+								foundational core values. By concentrating on
+								these high-impact values, your child will
+								naturally develop over 200 additional values and
+								behaviors without your active involvement,
+								resonating with the efficient Pareto's Rule
+								(80/20 principle). These values are
+								strategically divided into age-appropriate sets
+								of 12 for early childhood (4-9 years) and 12 for
+								adolescence (10-18 years).
 							</p>
 						</div>
 						<div className="p-6 bg-[#0d7a73] rounded-lg shadow-md">
 							<h3 className="text-xl font-bold mb-2">
-								2. Exclusive Natural Predispositions
+								2. Natural Exclusive Predispositions
 							</h3>
 							<p>
-								Each child is unique. We help you identify your
-								child's natural predisposition to tailor your
-								parenting for optimal growth.
+								Every child is uniquely wired and is born with a
+								divine imprint—a unique purpose and innate
+								design. This includes their natural
+								predispositions, which are inherent traits
+								shaping their personality, learning style,
+								emotional responses, and overall behavior. These
+								aren't random; they are part of God's purposeful
+								design meant to align each child to their divine
+								purpose and calling. Why it matters to you: This
+								principle moves beyond the "one-size-fits-all"
+								myth of traditional parenting. Trying to mold a
+								child against their natural bent can lead to
+								frustration, disengagement, low self-esteem,
+								anxiety, and even behavioral problems, as their
+								authentic self feels suppressed. The VDC Toolkit
+								includes a Color Predisposition Quiz to help you
+								identify your child's unique type (Blue, Orange,
+								Gold, Green). This allows you to adopt
+								"Exclusive Parenting"—a tailored approach that
+								aligns with your child's inherent traits,
+								fostering their unique strengths and authentic
+								growth- the God-given design.
 							</p>
 						</div>
 						<div className="p-6 bg-[#0d7a73] rounded-lg shadow-md">
 							<h3 className="text-xl font-bold mb-2">
-								3. Age-Specific Relevance
+								3. The Principle of Affirmation
 							</h3>
 							<p>
-								The toolkit is divided into two age-specific
-								kits to ensure content is always relevant and
-								impactful.
+								This principle highlights the profound power of
+								positive statements to shape a child's mindset,
+								reinforce self-belief, and realign their
+								identity with truth, especially when grounded in
+								biblical principles. It's supported by
+								neuroscience (neuroplasticity) and psychology
+								(self-suggestion, cognitive bias), showing how
+								consistent positive declarations strengthen
+								neural pathways. Why it matters to you: The VDC
+								Toolkit uses specially designed Affirmation
+								Cards rooted in biblical truths. These cards
+								help your child internalize their identity as
+								loved, purposed, and uniquely created by God. By
+								regularly affirming their inherent worth,
+								spiritual attributes, character, and purpose,
+								you counter harmful comparisons and build
+								confidence, self-acceptance, and a strong,
+								values-based identity.
 							</p>
 						</div>
 						<div className="p-6 bg-[#0d7a73] rounded-lg shadow-md">
 							<h3 className="text-xl font-bold mb-2">
-								4. Actionable & Practical
+								4. The Operant Conditioning Principle
 							</h3>
 							<p>
-								We provide practical, real-world strategies for
-								everyday parenting challenges.
+								Based on the work of B.F. Skinner, this
+								principle states that a behavior is strengthened
+								or weakened based on the consequences that
+								follows it. Positive behaviors are more likely
+								to be repeated when followed by positive
+								reinforcement, while negative behaviors decrease
+								when followed by consequences. Why it matters to
+								you: The VDC Toolkit applies this principle
+								through its structured Affirm – Train – Track –
+								Reward (ATTR) cycle. It moves beyond merely
+								correcting misbehavior to proactively shaping
+								character. Reward Cards are used for positive
+								reinforcement, celebrating virtues like empathy
+								and diligence, while Corrective Cards offer
+								constructive feedback when improvement is
+								needed. This consistent system promotes
+								accountability, internalizes desired behaviors,
+								and helps children understand that every
+								behavior problem is fundamentally a values
+								problem.
 							</p>
 						</div>
 						<div className="p-6 bg-[#0d7a73] rounded-lg shadow-md">
 							<h3 className="text-xl font-bold mb-2">
-								5. Parent-Child Partnership
+								5. The Habit Loop Principle
 							</h3>
 							<p>
-								We emphasize a collaborative approach where
-								parents and children learn and grow together.
+								Character isn’t built in a day—it’s built in
+								daily routines. Rooted in Charles Duhigg's
+								model, this principle explains that behaviors
+								become automatic habits through a simple loop:
+								Cue (trigger) → Routine (the behavior) → Reward
+								(positive reinforcement). Consistent repetition
+								turns conscious efforts into effortless,
+								ingrained habits. The VDC Train-Up Cards are
+								designed to leverage this principle. They act as
+								the "cue" with specific daily practices forming
+								the "routine". The Reward Cards provide the
+								"reward" (points, praise, privileges) that
+								releases dopamine, making the habit satisfying
+								and strengthening its repetition and retention.
+								This systematic approach helps your child
+								develop lasting positive habits, transforming
+								values from abstract ideas into daily lived
+								behaviors with less conscious effort over time.
 							</p>
 						</div>
 						<div className="p-6 bg-[#0d7a73] rounded-lg shadow-md">
 							<h3 className="text-xl font-bold mb-2">
-								6. Holistic Development
+								6.The Feedback Loop Principle
 							</h3>
 							<p>
-								Our toolkit addresses moral, ethical, and
-								emotional growth for a well-rounded character.
+								Growth needs tracking and managing. This
+								principle emphasizes that continuously tracking,
+								measuring, and evaluating behavior is essential
+								for effective management and improvement. It
+								involves observing a child's actions, tracking
+								their progress, providing feedback, and
+								adjusting guidance accordingly. Why it matters
+								to you: No more parenting in the dark. You’ll
+								see what’s working, where help is needed, and
+								how to guide your child step by step. The VDC
+								Toolkit transforms parenting from guesswork to
+								strategic, data-driven nurturing. The Train-Up
+								Cards, Star Reward Cards, Corrective Cards, and
+								the My VDC Reward Chart work together to create
+								a visible, measurable, and accountable system.
+								This allows you to: • Gain objective insight
+								into behavior patterns. • Provide targeted
+								support and celebrate progress. • Make adaptive
+								adjustments to your parenting strategies based
+								on clear data. • Empower your child to take
+								ownership of their growth and develop a strong
+								sense of responsibility.
 							</p>
 						</div>
 					</div>
