@@ -154,18 +154,18 @@ export default function UsersPage() {
 
 	if (authLoading || dataLoading) {
 		return (
-			<div className="flex items-center justify-center h-screen">
-				<FiLoader className="w-12 h-12 text-blue-500 animate-spin" />
+			<div className="flex items-center justify-center min-h-[calc(100vh-200px)]">
+				<FiLoader className="w-12 h-12 text-[#FFD59A] animate-spin" />
 			</div>
 		);
 	}
 
 	if (!isAdmin) {
 		return (
-			<div className="flex flex-col items-center justify-center h-screen text-center">
-				<FiUserX className="w-16 h-16 mb-4 text-red-500" />
-				<h1 className="text-2xl font-bold">Access Denied</h1>
-				<p className="text-gray-600">
+			<div className="flex flex-col items-center justify-center min-h-[calc(100vh-200px)] text-center">
+				<FiUserX className="w-16 h-16 mb-4 text-red-400" />
+				<h1 className="text-2xl font-bold text-[#FFD59A]">Access Denied</h1>
+				<p className="text-[#F5F5F5]">
 					You do not have permission to view this page.
 				</p>
 			</div>
@@ -173,13 +173,15 @@ export default function UsersPage() {
 	}
 
 	return (
-		<div className="p-6">
-			<header className="flex items-center justify-between pb-4 mb-4 border-b">
-				<h1 className="text-3xl font-bold">User Management</h1>
+		<div className="w-full text-[#F5F5F5]">
+			<header className="flex items-center justify-between pt-4 mt-4 border-t border-white/20">
+				<h1 className="text-3xl font-bold text-[#FFD59A]">
+					User Management
+				</h1>
 				<button
 					onClick={handleRefresh}
 					disabled={refreshing}
-					className="flex items-center px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:bg-gray-400">
+					className="grid items-center grid-cols-12 px-4 py-4 hover:bg-white/10">
 					{refreshing ? (
 						<FiLoader className="mr-2 animate-spin" />
 					) : (
@@ -189,7 +191,7 @@ export default function UsersPage() {
 				</button>
 			</header>
 
-			<div className="grid grid-cols-1 gap-4 mb-6 md:grid-cols-3">
+			<div className="grid grid-cols-12 px-4 py-3 font-bold text-[#FFD59A] bg-transparent">
 				<div className="relative md:col-span-1">
 					<FiSearch className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400" />
 					<input
@@ -199,7 +201,7 @@ export default function UsersPage() {
 						onChange={e =>
 							handleFilterChange({ search: e.target.value })
 						}
-						className="w-full py-2 pl-10 pr-4 border rounded-md"
+						className="w-full py-2 pl-10 pr-4 bg-black/20 border border-[#C2EAE7] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFD59A] text-[#F5F5F5] placeholder:text-gray-400"
 					/>
 				</div>
 				<select
@@ -209,7 +211,8 @@ export default function UsersPage() {
 							role: e.target.value as UserFilters["role"],
 						})
 					}
-					className="w-full p-2 border rounded-md">
+					className="w-full px-4 py-2 bg-black/20 border border-[#C2EAE7] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFD59A] text-[#F5F5F5]"
+				>
 					<option value="all">All Roles</option>
 					<option value="admin">Admins</option>
 					<option value="user">Users</option>
@@ -221,14 +224,15 @@ export default function UsersPage() {
 							status: e.target.value as UserFilters["status"],
 						})
 					}
-					className="w-full p-2 border rounded-md">
+					className="w-full px-4 py-2 bg-black/20 border border-[#C2EAE7] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFD59A] text-[#F5F5F5]"
+				>
 					<option value="all">All Statuses</option>
 					<option value="active">Active</option>
 					<option value="inactive">Inactive</option>
 				</select>
 			</div>
 
-			<div className="overflow-x-auto bg-white rounded-lg shadow">
+			<div className="overflow-hidden bg-[#129990] border border-white/20 rounded-lg shadow">
 				<table className="min-w-full leading-normal">
 					<thead>
 						<tr>
@@ -255,11 +259,11 @@ export default function UsersPage() {
 								<tr key={user.id}>
 									<td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
 										<div className="flex items-center">
-											<div className="ml-3">
-												<p className="font-semibold text-gray-900 whitespace-no-wrap">
+											<div className="divide-y divide-white/20">
+												<p className="font-semibold text-[#F5F5F5]">
 													{user.full_name || "N/A"}
 												</p>
-												<p className="text-gray-600 whitespace-no-wrap">
+												<p className="text-sm text-gray-400">
 													{user.email}
 												</p>
 											</div>
@@ -267,28 +271,41 @@ export default function UsersPage() {
 									</td>
 									<td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
 										<span
-											className={`px-2 py-1 font-semibold leading-tight ${
-												user.user_role === "admin"
-													? "text-green-700 bg-green-100"
-													: "text-gray-700 bg-gray-100"
-											} rounded-full`}>
-											{user.user_role}
+											className={`relative inline-block px-3 py-1 font-semibold leading-tight ${
+												user.last_sign_in_at
+													? "bg-green-400/20 text-green-300"
+													: "bg-gray-400/20 text-gray-300"
+											}`}
+										>
+											<span
+												aria-hidden
+												className={`absolute inset-0 ${
+													user.last_sign_in_at
+														? "bg-green-400/20"
+														: "bg-gray-400/20"
+												}`}
+											></span>
+											<span className="relative">
+												{user.user_role}
+											</span>
 										</span>
 									</td>
 									<td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
 										<span
 											className={`relative inline-block px-3 py-1 font-semibold leading-tight ${
 												user.last_sign_in_at
-													? "text-green-900"
-													: "text-red-900"
-											}`}>
+													? "bg-green-400/20 text-green-300"
+													: "bg-gray-400/20 text-gray-300"
+											}`}
+										>
 											<span
 												aria-hidden
 												className={`absolute inset-0 ${
 													user.last_sign_in_at
-														? "bg-green-200"
-														: "bg-red-200"
-												} opacity-50 rounded-full`}></span>
+														? "bg-green-400/20"
+														: "bg-gray-400/20"
+												}`}
+											></span>
 											<span className="relative">
 												{user.last_sign_in_at
 													? "Active"
@@ -319,7 +336,8 @@ export default function UsersPage() {
 															| "user"
 													)
 												}
-												className="p-1 text-sm border rounded-md">
+												className="w-full px-4 py-2 bg-black/20 border border-[#C2EAE7] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFD59A] text-[#F5F5F5]"
+											>
 												<option value="user">
 													User
 												</option>
@@ -335,7 +353,8 @@ export default function UsersPage() {
 							<tr>
 								<td
 									colSpan={5}
-									className="py-10 text-center text-gray-500">
+									className="py-10 text-center text-gray-400"
+								>
 									No users found.
 								</td>
 							</tr>
@@ -346,20 +365,22 @@ export default function UsersPage() {
 
 			{totalPages > 1 && (
 				<div className="flex items-center justify-between px-4 py-3 bg-white border-t rounded-b-lg shadow">
-					<span className="text-sm text-gray-700">
+					<p className="text-sm text-gray-400">
 						Page {currentPage} of {totalPages}
-					</span>
+					</p>
 					<div className="flex items-center">
 						<button
 							onClick={() => handlePageChange(currentPage - 1)}
 							disabled={currentPage === 1}
-							className="px-3 py-1 mr-2 text-sm font-semibold text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-100 disabled:opacity-50">
+							className="w-full px-4 py-2 bg-black/20 border border-[#C2EAE7] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFD59A] text-[#F5F5F5]"
+						>
 							<FiChevronLeft />
 						</button>
 						<button
 							onClick={() => handlePageChange(currentPage + 1)}
 							disabled={currentPage === totalPages}
-							className="px-3 py-1 text-sm font-semibold text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-100 disabled:opacity-50">
+							className="w-full px-4 py-2 bg-black/20 border border-[#C2EAE7] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFD59A] text-[#F5F5F5]"
+						>
 							<FiChevronRight />
 						</button>
 					</div>

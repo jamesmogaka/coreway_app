@@ -22,16 +22,16 @@ export function DeleteDialog({
 }: DeleteDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="bg-[#129990] border-0 text-[#F5F5F5]">
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
+          <DialogTitle className="text-[#FFD59A]">{title}</DialogTitle>
         </DialogHeader>
-        <p>{description}</p>
+        <p className="text-[#F5F5F5]">{description}</p>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="bg-transparent border-[#FFD59A] text-[#FFD59A] hover:bg-[#FFD59A] hover:text-[#3A3A3A]">
             Cancel
           </Button>
-          <Button variant="destructive" onClick={onConfirm}>
+          <Button variant="destructive" onClick={onConfirm} className="bg-red-600 text-white hover:bg-red-700">
             {confirmText}
           </Button>
         </DialogFooter>

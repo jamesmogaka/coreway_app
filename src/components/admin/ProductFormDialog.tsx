@@ -32,16 +32,16 @@ export function ProductFormDialog({
 }: ProductFormDialogProps) {
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent>
+			<DialogContent className="bg-[#129990] border-0 text-[#F5F5F5]">
 				<DialogHeader>
-					<DialogTitle>
+					<DialogTitle className="text-[#FFD59A]">
 						{isEditing ? "Edit Product" : "Add New Product"}
 					</DialogTitle>
 				</DialogHeader>
 				<form onSubmit={onSubmit}>
 					<div className="grid gap-4 py-4">
 						<div className="grid gap-2">
-							<Label htmlFor="name">Product Name</Label>
+							<Label htmlFor="name" className="text-[#FFFBDE]">Product Name</Label>
 							<Input
 								id="name"
 								name="name"
@@ -49,10 +49,11 @@ export function ProductFormDialog({
 								onChange={onInputChange}
 								placeholder="Enter product name"
 								required
+								className="bg-black/20 border-[#C2EAE7] text-[#F5F5F5] placeholder:text-gray-400 focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-[#FFD59A]"
 							/>
 						</div>
 						<div className="grid gap-2">
-							<Label htmlFor="description">Description</Label>
+							<Label htmlFor="description" className="text-[#FFFBDE]">Description</Label>
 							<Textarea
 								id="description"
 								name="description"
@@ -60,11 +61,12 @@ export function ProductFormDialog({
 								onChange={onInputChange}
 								placeholder="Enter product description"
 								rows={3}
+								className="bg-black/20 border-[#C2EAE7] text-[#F5F5F5] placeholder:text-gray-400 focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-[#FFD59A]"
 							/>
 						</div>
 						<div className="grid grid-cols-2 gap-4">
 							<div className="grid gap-2">
-								<Label htmlFor="price">Price (KSh)</Label>
+								<Label htmlFor="price" className="text-[#FFFBDE]">Price (KSh)</Label>
 								<Input
 									id="price"
 									name="price"
@@ -75,10 +77,11 @@ export function ProductFormDialog({
 									onChange={onInputChange}
 									placeholder="0.00"
 									required
+									className="bg-black/20 border-[#C2EAE7] text-[#F5F5F5] placeholder:text-gray-400 focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-[#FFD59A]"
 								/>
 							</div>
 							<div className="grid gap-2">
-								<Label htmlFor="stock">Stock</Label>
+								<Label htmlFor="stock" className="text-[#FFFBDE]">Stock</Label>
 								<Input
 									id="stock"
 									name="stock"
@@ -88,11 +91,12 @@ export function ProductFormDialog({
 									onChange={onInputChange}
 									placeholder="0"
 									required
+									className="bg-black/20 border-[#C2EAE7] text-[#F5F5F5] placeholder:text-gray-400 focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-[#FFD59A]"
 								/>
 							</div>
 						</div>
 						<div className="grid gap-2">
-							<Label htmlFor="image_url">Image URL</Label>
+							<Label htmlFor="image_url" className="text-[#FFFBDE]">Image URL</Label>
 							<Input
 								id="image_url"
 								name="image_url"
@@ -100,6 +104,7 @@ export function ProductFormDialog({
 								onChange={onInputChange}
 								placeholder="Enter image URL"
 								required
+								className="bg-black/20 border-[#C2EAE7] text-[#F5F5F5] placeholder:text-gray-400 focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-[#FFD59A]"
 							/>
 						</div>
 					</div>
@@ -107,10 +112,11 @@ export function ProductFormDialog({
 						<Button
 							type="button"
 							variant="outline"
+							className="border-[#FFD59A] text-[#FFD59A] hover:bg-[#FFD59A] hover:text-[#3A3A3A]"
 							onClick={() => onOpenChange(false)}>
 							Cancel
 						</Button>
-						<Button type="submit">
+						<Button type="submit" className="bg-[#FFD59A] text-[#3A3A3A] hover:bg-[#FFAD60]">
 							{isEditing ? "Update" : "Add"} Product
 						</Button>
 					</DialogFooter>

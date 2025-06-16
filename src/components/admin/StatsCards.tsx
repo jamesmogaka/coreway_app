@@ -16,56 +16,56 @@ export function StatsCards({
 }: StatsCardsProps) {
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-			<Card>
+			<Card className="bg-[#129990] border-0">
 				<CardHeader className="flex flex-row items-center justify-between pb-2">
-					<CardTitle className="text-sm font-medium">
+					<CardTitle className="text-sm font-medium text-[#FFD59A]">
 						Total Products
 					</CardTitle>
-					<PackageIcon className="h-4 w-4 text-gray-500" />
+					<PackageIcon className="h-4 w-4 text-[#FFFBDE]" />
 				</CardHeader>
 				<CardContent>
-					<div className="text-2xl font-bold">{totalProducts}</div>
-					<p className="text-xs text-gray-500">+5% from last month</p>
+					<div className="text-2xl font-bold text-[#F5F5F5]">{totalProducts}</div>
+					<p className="text-xs text-[#C2EAE7]">+5% from last month</p>
 				</CardContent>
 			</Card>
-			<Card>
+			<Card className="bg-[#129990] border-0">
 				<CardHeader className="flex flex-row items-center justify-between pb-2">
-					<CardTitle className="text-sm font-medium">
+					<CardTitle className="text-sm font-medium text-[#FFD59A]">
 						Total Orders
 					</CardTitle>
-					<ShoppingCartIcon className="h-4 w-4 text-gray-500" />
+					<ShoppingCartIcon className="h-4 w-4 text-[#FFFBDE]" />
 				</CardHeader>
 				<CardContent>
-					<div className="text-2xl font-bold">{totalOrders}</div>
-					<p className="text-xs text-gray-500">
+					<div className="text-2xl font-bold text-[#F5F5F5]">{totalOrders}</div>
+					<p className="text-xs text-[#C2EAE7]">
 						+12% from last month
 					</p>
 				</CardContent>
 			</Card>
-			<Card>
+			<Card className="bg-[#129990] border-0">
 				<CardHeader className="flex flex-row items-center justify-between pb-2">
-					<CardTitle className="text-sm font-medium">
+					<CardTitle className="text-sm font-medium text-[#FFD59A]">
 						Pending Orders
 					</CardTitle>
-					<ClockIcon className="h-4 w-4 text-gray-500" />
+					<ClockIcon className="h-4 w-4 text-[#FFFBDE]" />
 				</CardHeader>
 				<CardContent>
-					<div className="text-2xl font-bold">{pendingOrders}</div>
-					<p className="text-xs text-gray-500">Needs attention</p>
+					<div className="text-2xl font-bold text-[#F5F5F5]">{pendingOrders}</div>
+					<p className="text-xs text-[#C2EAE7]">Needs attention</p>
 				</CardContent>
 			</Card>
-			<Card>
+			<Card className="bg-[#129990] border-0">
 				<CardHeader className="flex flex-row items-center justify-between pb-2">
-					<CardTitle className="text-sm font-medium">
+					<CardTitle className="text-sm font-medium text-[#FFD59A]">
 						Total Revenue
 					</CardTitle>
-					<DollarSignIcon className="h-4 w-4 text-gray-500" />
+					<DollarSignIcon className="h-4 w-4 text-[#FFFBDE]" />
 				</CardHeader>
 				<CardContent>
-					<div className="text-2xl font-bold">
+					<div className="text-2xl font-bold text-[#F5F5F5]">
 						KSh{totalRevenue.toFixed(2)}
 					</div>
-					<p className="text-xs text-gray-500">+8% from last month</p>
+					<p className="text-xs text-[#C2EAE7]">+8% from last month</p>
 				</CardContent>
 			</Card>
 		</div>

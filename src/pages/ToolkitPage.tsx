@@ -301,7 +301,7 @@ export const ToolkitPage: React.FC = () => {
 					</p>
 
 					<div className="grid md:grid-cols-2 gap-8">
-						<div>
+						<div id="blue">
 							<Card
 								color="blue"
 								active={active}
@@ -314,7 +314,7 @@ export const ToolkitPage: React.FC = () => {
 								active={active}
 							/>
 						</div>
-						<div>
+						<div id="orange">
 							<Card
 								color="orange"
 								active={active}
@@ -327,7 +327,7 @@ export const ToolkitPage: React.FC = () => {
 								active={active}
 							/>
 						</div>
-						<div>
+						<div id="gold">
 							<Card
 								color="gold"
 								active={active}
@@ -340,7 +340,7 @@ export const ToolkitPage: React.FC = () => {
 								active={active}
 							/>
 						</div>
-						<div>
+						<div id="green">
 							<Card
 								color="green"
 								active={active}

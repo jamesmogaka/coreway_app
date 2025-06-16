@@ -56,17 +56,17 @@ export function CartSidebar({
 
 			{/* Sidebar */}
 			<div
-				className={`fixed top-0 right-0 h-full w-full sm:max-w-md bg-white shadow-xl transform transition-transform duration-300 ease-in-out z-50 ${
+				className={`fixed top-0 right-0 h-full w-full sm:max-w-md bg-[#129990] shadow-xl transform transition-transform duration-300 ease-in-out z-50 ${
 					isOpen ? "translate-x-0" : "translate-x-full"
 				}`}>
-				<div className="h-full flex flex-col">
-					<div className="flex items-center justify-between px-6 py-4 border-b">
-						<h2 className="text-lg font-medium text-gray-900">
-							Shopping Cart
+				<div className="h-full flex flex-col rounded-l-lg">
+					<div className="flex items-center justify-between px-6 py-4 border-b border-[#90D1CA]">
+						<h2 className="text-lg font-bold text-[#FFD59A]">
+							Your Cart
 						</h2>
 						<button
 							onClick={onClose}
-							className="text-gray-500 hover:text-gray-700">
+							className="text-[#F5F5F5] hover:text-[#C2EAE7]">
 							<span className="sr-only">Close cart</span>
 							<svg
 								className="h-6 w-6"
@@ -83,15 +83,15 @@ export function CartSidebar({
 						</button>
 					</div>
 
-					<div className="flex-1 overflow-y-auto px-6 py-4">
+					<div className="flex-1 overflow-y-auto px-6 py-4 cart-scrollbar">
 						{cartItems.length === 0 ? (
 							<div className="text-center py-12">
-								<p className="text-gray-600">
+								<p className="text-[#FFFBDE]">
 									Your cart is empty
 								</p>
 							</div>
 						) : (
-							<ul className="divide-y divide-gray-200">
+							<ul className="divide-y divide-[#90D1CA]">
 								{cartItems.map(item => (
 									<li key={item.id}>
 										<CartItem
@@ -112,28 +112,27 @@ export function CartSidebar({
 						)}
 					</div>
 
-					<div className="border-t border-gray-200 px-6 py-4">
-						<div className="flex justify-between text-base font-medium text-gray-900 mb-4">
-							<p>Subtotal</p>
+					<div className="border-t border-[#90D1CA] px-6 py-4">
+						<div className="flex justify-between text-base font-medium text-[#FFFBDE] mb-4">
+							<p className="font-bold text-[#FFD59A]">Total</p>
 							<p>KSh.{calculateTotal().toFixed(2)}</p>
 						</div>
 						<button
 							onClick={handleCheckout}
 							disabled={cartItems.length === 0}
-							className={`w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white ${
-								cartItems.length === 0
-									? "bg-gray-400 cursor-not-allowed"
-									: "bg-blue-600 hover:bg-blue-700"
-							}`}>
+							className={`w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium ${cartItems.length === 0
+									? "bg-gray-500 text-gray-300 cursor-not-allowed"
+									: "bg-[#FFD59A] text-[#3A3A3A] hover:bg-[#FFAD60]"
+								}`}>
 							Checkout
 						</button>
-						<div className="mt-4 flex justify-center text-sm text-center text-gray-500">
+						<div className="mt-4 flex justify-center text-sm text-center text-[#FFFBDE]">
 							<p>
 								or{" "}
 								<button
 									type="button"
 									onClick={onClose}
-									className="text-blue-600 font-medium hover:text-blue-500">
+									className="font-medium text-[#FFD59A] hover:text-[#FFAD60]">
 									Continue Shopping
 									<span aria-hidden="true"> &rarr;</span>
 								</button>

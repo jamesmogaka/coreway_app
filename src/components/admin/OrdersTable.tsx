@@ -23,28 +23,28 @@ type OrdersTableProps = {
 
 export function OrdersTable({ orders, onStatusChange }: OrdersTableProps) {
 	return (
-		<Card>
+		<Card className="bg-[#129990] border-0 text-[#F5F5F5]">
 			<CardHeader>
-				<CardTitle>Orders</CardTitle>
+				<CardTitle className="text-[#FFD59A]">Orders</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<div className="rounded-md border">
+				<div className="rounded-md border border-white/20">
 					<Table>
 						<TableHeader>
-							<TableRow>
-								<TableHead>Order ID</TableHead>
-								<TableHead>Customer</TableHead>
-								<TableHead>Date</TableHead>
-								<TableHead>Total</TableHead>
-								<TableHead>Status</TableHead>
-								<TableHead className="text-right">
+							<TableRow className="border-b border-white/20 hover:bg-transparent">
+								<TableHead className="text-[#FFD59A]">Order ID</TableHead>
+								<TableHead className="text-[#FFD59A]">Customer</TableHead>
+								<TableHead className="text-[#FFD59A]">Date</TableHead>
+								<TableHead className="text-[#FFD59A]">Total</TableHead>
+								<TableHead className="text-[#FFD59A]">Status</TableHead>
+								<TableHead className="text-right text-[#FFD59A]">
 									Actions
 								</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
 							{orders.map(order => (
-								<TableRow key={order.id}>
+								<TableRow key={order.id} className="border-b-0 even:bg-white/5 hover:bg-white/10">
 									<TableCell className="font-medium">
 										{order.id}
 									</TableCell>
@@ -64,10 +64,10 @@ export function OrdersTable({ orders, onStatusChange }: OrdersTableProps) {
 											) =>
 												onStatusChange(order.id, value)
 											}>
-											<SelectTrigger className="w-32">
+											<SelectTrigger className="w-32 bg-black/20 border-[#C2EAE7] text-[#F5F5F5] focus:ring-1 focus:ring-[#FFD59A] focus:ring-offset-0">
 												<SelectValue placeholder="Status" />
 											</SelectTrigger>
-											<SelectContent>
+											<SelectContent className="bg-[#129990] border-[#C2EAE7] text-[#F5F5F5]">
 												<SelectItem value="pending">
 													Pending
 												</SelectItem>
@@ -99,10 +99,10 @@ type StatusBadgeProps = {
 
 function StatusBadge({ status }: StatusBadgeProps) {
 	const statusStyles = {
-		pending: "bg-yellow-100 text-yellow-800",
-		processing: "bg-blue-100 text-blue-800",
-		shipped: "bg-purple-100 text-purple-800",
-		delivered: "bg-green-100 text-green-800",
+		pending: "bg-yellow-400/20 text-yellow-300",
+		processing: "bg-blue-400/20 text-blue-300",
+		shipped: "bg-purple-400/20 text-purple-300",
+		delivered: "bg-green-400/20 text-green-300",
 	};
 
 	return (

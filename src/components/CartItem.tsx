@@ -16,34 +16,33 @@ export function CartItem({
 			<div className="flex items-center">
 				<div className="flex-shrink-0">
 					<img
-						onClick={onRemoveItem}
-						src={item.product.image}
+						src={item.product.image_url}
 						alt={item.product.name}
 						className="w-16 h-16 object-cover rounded-md cursor-pointer"
 					/>
 				</div>
 				<div className="ml-4 flex-1">
 					<div className="flex justify-between">
-						<h3 className="text-sm font-medium text-gray-900">
+						<h3 className="text-sm font-medium text-[#C2EAE7]">
 							{item.product.name}
 						</h3>
-						<p className="text-sm text-gray-900">
+						<p className="text-sm text-[#FFD59A]">
 							KSh{(item.product.price * item.quantity).toFixed(2)}
 						</p>
 					</div>
 					<div className="flex items-center mt-1">
 						<button
 							onClick={() => onQuantityChange(item.quantity - 1)}
-							className="text-gray-500 hover:text-gray-700 w-6 h-6 flex items-center justify-center border rounded"
+							className="text-[#FFFBDE] hover:text-[#C2EAE7] w-6 h-6 flex items-center justify-center border border-[#90D1CA] rounded"
 							disabled={item.quantity <= 1}>
 							-
 						</button>
-						<span className="mx-2 text-sm text-gray-700 w-6 text-center">
+						<span className="mx-2 text-sm text-[#FFFBDE] w-6 text-center">
 							{item.quantity}
 						</span>
 						<button
 							onClick={() => onQuantityChange(item.quantity + 1)}
-							className="text-gray-500 hover:text-gray-700 w-6 h-6 flex items-center justify-center border rounded"
+							className="text-[#FFFBDE] hover:text-[#C2EAE7] w-6 h-6 flex items-center justify-center border border-[#90D1CA] rounded"
 							disabled={item.quantity >= item.product.stock}>
 							+
 						</button>
@@ -51,7 +50,7 @@ export function CartItem({
 				</div>
 				<button
 					onClick={onRemoveItem}
-					className="ml-4 text-red-500 hover:text-red-700"
+					className="ml-4 text-[#F5F5F5] hover:text-[#C2EAE7]"
 					aria-label="Remove item">
 					<svg
 						className="h-5 w-5"

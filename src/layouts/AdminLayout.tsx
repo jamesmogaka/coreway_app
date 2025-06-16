@@ -18,22 +18,22 @@ export function AdminLayout() {
   if (error) return <div>Error loading data: {error.message}</div>;
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
+    <div className="flex flex-col min-h-screen bg-[#096B68]">
       {/* Shop Header */}
       <ShopHeader />
       
       {/* Main Content Area with Sidebar */}
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
-        <aside className="w-64 bg-white border-r border-gray-200 overflow-y-auto">
+        <aside className="w-64 bg-[#129990] border-r-0 overflow-y-auto">
           <Sidebar />
         </aside>
         
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto p-6">
           <div className="max-w-7xl mx-auto">
-            <h1 className="text-3xl font-bold mb-2">Admin Dashboard</h1>
-            <p className="text-gray-600 mb-6">Welcome! Here's your shop's summary.</p>
+            <h1 className="text-3xl font-bold mb-2 text-[#FFD59A]">Admin Dashboard</h1>
+            <p className="text-[#F5F5F5] mb-6">Welcome! Here's your shop's summary.</p>
             
             <StatsCards 
               totalProducts={totalProducts}

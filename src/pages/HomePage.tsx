@@ -1,6 +1,6 @@
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
 import { HeroCarousel } from "../components/HeroCarousel";
+import { HashLink } from "react-router-hash-link";
 
 const features = [
 	{
@@ -25,9 +25,29 @@ const features = [
 	},
 ];
 
+const predisposition = [
+	{
+		name: "Gold",
+		color: "yellow-400/90",
+		text: "gray-900",
+	},
+	{
+		name: "Blue",
+		color: "blue-400/90",
+		text: "white",
+	},
+	{
+		name: "Green",
+		color: "green-400/90",
+		text: "white",
+	},
+	{
+		name: "Orange",
+		color: "orange-400/90",
+		text: "white",
+	},
+];
 export const HomePage: React.FC = () => {
-	const navigate = useNavigate();
-
 	return (
 		<div className="fade-in min-h-screen" id="home">
 			{/* Hero Section - Dark Teal */}
@@ -45,16 +65,11 @@ export const HomePage: React.FC = () => {
 							Nurture morally grounded, resilient, and successful
 							children with the VDC Toolkit.
 						</p>
-						<a
-							href="#toolkit"
-							onClick={e => {
-								e.preventDefault();
-								navigate("/toolkit");
-								window.scrollTo(0, 0);
-							}}
+						<HashLink
+							to="#toolkit"
 							className="bg-[#129990] hover:bg-[#0d7a73] text-[#FFFBDE] inline-block font-bold py-3 px-8 text-lg rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg hover:-translate-y-1">
 							Discover the Toolkit
-						</a>
+						</HashLink>
 					</div>
 				</div>
 			</section>
@@ -107,33 +122,13 @@ export const HomePage: React.FC = () => {
 					</div>
 
 					<div className="flex justify-center flex-wrap gap-4">
-						{[
-							{
-								name: "Gold",
-								color: "yellow-400/90",
-								text: "gray-900",
-							},
-							{
-								name: "Blue",
-								color: "blue-400/90",
-								text: "white",
-							},
-							{
-								name: "Green",
-								color: "green-400/90",
-								text: "white",
-							},
-							{
-								name: "Orange",
-								color: "orange-400/90",
-								text: "white",
-							},
-						].map((type, index) => (
-							<span
+						{predisposition.map((type, index) => (
+							<HashLink
 								key={index}
+								to={`/#${type.name.toLowerCase()}`}
 								className={`bg-${type.color} text-${type.text} px-4 py-2 rounded-full font-semibold shadow-md hover:scale-105 transition-transform hover:shadow-lg`}>
 								{type.name}
-							</span>
+							</HashLink>
 						))}
 					</div>
 				</div>
