@@ -23,6 +23,7 @@ import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import UsersPage from "./pages/admin/Users";
 import ContactsPage from "./pages/admin/ContactsPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
+import ProductsPage from "./pages/Products";
 
 function AppContent() {
 	return (
@@ -38,6 +39,7 @@ function AppContent() {
 									<HomePage />
 									<AboutPage />
 									<ToolkitPage />
+									<ProductsPage />
 									<TrainingPage />
 									<ContactPage />
 								</>
