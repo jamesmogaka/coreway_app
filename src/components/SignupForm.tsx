@@ -74,7 +74,7 @@ export function SignupForm() {
 
 	return (
 		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 text-sm">
 				{/* Full Name Field */}
 				<FormField
 					control={form.control}
@@ -143,7 +143,7 @@ export function SignupForm() {
 				/>
 
 				{form.formState.errors.root && (
-					<div className="text-sm font-medium text-red-300">
+										<div className="font-medium text-red-300">
 						{form.formState.errors.root.message}
 					</div>
 				)}

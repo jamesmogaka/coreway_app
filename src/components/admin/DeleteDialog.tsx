@@ -24,9 +24,9 @@ export function DeleteDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-[#129990] border-0 text-[#F5F5F5]">
         <DialogHeader>
-          <DialogTitle className="text-[#FFD59A]">{title}</DialogTitle>
+                    <DialogTitle className="text-2xl font-semibold text-[#FFD59A]">{title}</DialogTitle>
         </DialogHeader>
-        <p className="text-[#F5F5F5]">{description}</p>
+                <p className="text-base text-[#F5F5F5]">{description}</p>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)} className="bg-transparent border-[#FFD59A] text-[#FFD59A] hover:bg-[#FFD59A] hover:text-[#3A3A3A]">
             Cancel

@@ -10,16 +10,16 @@ export const Footer: react.FC = () => {
 			<div className="container mx-auto px-6 py-8">
 				<div className="sm:flex sm:justify-between">
 					<div className="mb-4 sm:mb-0">
-						<h3 className="text-lg font-bold">
+												<h3 className="text-2xl font-semibold">
 							CorePath International
 						</h3>
-						<p className="text-[#096B68]/80 mt-2">
+												<p className="text-base text-[#096B68]/80 mt-2">
 							Building a brighter future, one value at a time.
 						</p>
 					</div>
 					<div>
-						<h3 className="text-lg font-bold mb-2">Quick Links</h3>
-						<ul className="mt-2 space-y-2">
+												<h3 className="text-2xl font-semibold mb-2">Quick Links</h3>
+												<ul className="mt-2 space-y-2 text-base">
 							<li>
 								<Link
 									to="/"

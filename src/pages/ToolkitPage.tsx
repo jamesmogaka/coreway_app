@@ -106,7 +106,8 @@ const Card: React.FC<CardProps> = ({ color, children, active, onClick }) => {
 				active === color ? "active-card" : ""
 			}`}
 			onClick={() => onClick(color)}>
-			<h3 className={`text-3xl font-bold ${styles.text} text-center`}>
+			<h3
+				className={`text-xl md:text-2xl font-bold ${styles.text} text-center`}>
 				{children}
 			</h3>
 		</div>
@@ -116,13 +117,16 @@ const Card: React.FC<CardProps> = ({ color, children, active, onClick }) => {
 const Description: React.FC<DescriptionProps> = ({ color, data, active }) => {
 	const styles = colorStyles[color];
 	return (
-		<div className={`description-panel ${active === color ? "show" : ""}`}>
+		<div
+			className={`description-panel text-base ${
+				active === color ? "show" : ""
+			}`}>
 			<div className="description-content fade-in">
 				<h2
-					className={`text-4xl font-bold ${styles.descriptionText} mb-4`}>
+					className={`text-3xl md:text-4xl font-bold ${styles.descriptionText} mb-4`}>
 					{data.header}
 				</h2>
-				<p className="text-base md:text-2xl text-gray-700 mb-4">
+				<p className="text-base text-gray-700 mb-4">
 					{data.description}
 				</p>
 				<p
@@ -143,27 +147,21 @@ const ValueList: React.FC<{
 		{Object.entries(data).map(([name, valueData]: [string, Value]) => (
 			<HoverCard key={name}>
 				<HoverCardTrigger asChild>
-					<div className="p-4 text-xl md:text-2xl font-semibold rounded-md cursor-pointer hover:bg-teal-700 transition-colors">
+					<div className="p-4 text-lg md:text-xl font-semibold rounded-md cursor-pointer hover:bg-teal-700 transition-colors">
 						{name}
 					</div>
 				</HoverCardTrigger>
 				<HoverCardContent className="w-80 bg-teal-700 text-white border-none">
-					<p className="text-base md:text-lg mb-2">
-						{valueData.description}
-					</p>
+					<p className="text-base mb-2">{valueData.description}</p>
 					<div className="mt-2">
-						<h4 className="text-lg md:text-xl font-semibold">
+						<h4 className="text-base font-semibold">
 							Why it's important:
 						</h4>
-						<p className="text-base md:text-lg mb-2">
-							{valueData.importance}
-						</p>
-						<h4 className="text-lg md:text-xl font-semibold">
+						<p className="text-base mb-2">{valueData.importance}</p>
+						<h4 className="text-base font-semibold">
 							What it looks like when lacking:
 						</h4>
-						<p className="text-base md:text-lg">
-							{valueData.lacking}
-						</p>
+						<p className="text-base">{valueData.lacking}</p>
 					</div>
 				</HoverCardContent>
 			</HoverCard>
@@ -184,10 +182,10 @@ export const ToolkitPage: React.FC = () => {
 			{/* Toolkit Section */}
 			<section className="py-20">
 				<div className="container mx-auto px-6">
-					<h1 className="text-3xl md:text-5xl font-bold text-center mb-12">
+					<h1 className="text-4xl md:text-5xl font-bold text-center mb-12">
 						The VDC Train-up Toolkit
 					</h1>
-					<p className="text-lg md:text-3xl text-center max-w-3xl mx-auto mb-16">
+					<p className="text-lg md:text-xl text-center max-w-7xl mx-auto mb-16">
 						The VDC Train-up Toolkit comprises two distinct
 						age-specific kits, each meticulously tailored to cater
 						to specific developmental stages. This ensures that
@@ -196,10 +194,10 @@ export const ToolkitPage: React.FC = () => {
 					</p>
 					<div className="grid lg:grid-cols-2 gap-12">
 						<div className="bg-teal-700 p-8 rounded-lg shadow-lg">
-							<h2 className="text-4xl font-bold text-white mb-4">
+							<h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
 								Kit 1: Early Development (4-9 Years)
 							</h2>
-							<p className="text-base md:text-2xl mb-6">
+							<p className="text-base md:text-lg mb-6">
 								This kit focuses on 12 core values that form the
 								basis of moral and ethical growth during early
 								childhood. Click on a value to learn more.
@@ -207,10 +205,10 @@ export const ToolkitPage: React.FC = () => {
 							<ValueList data={kit1Data} />
 						</div>
 						<div className="bg-teal-700 p-8 rounded-lg shadow-lg">
-							<h2 className="text-4xl font-bold text-white mb-4">
+							<h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
 								Kit 2: Transitional Core Values (10-18 Years)
 							</h2>
-							<p className="text-base md:text-2xl mb-6">
+							<p className="text-base md:text-lg mb-6">
 								This kit focuses on 12 essential values that
 								support the complex transition from childhood
 								into young adulthood. Click on a value to learn
@@ -225,11 +223,11 @@ export const ToolkitPage: React.FC = () => {
 			{/* PrinciplesPage content */}
 			<section className="bg-teal-700 py-20">
 				<div className="container mx-auto px-6">
-					<h1 className="text-3xl md:text-5xl font-bold text-center mb-12">
+					<h1 className="text-4xl md:text-5xl font-bold text-center mb-12">
 						Toolkit Guiding Principles: The Foundation of VDC
 						Parenting
 					</h1>
-					<p className="text-lg md:text-3xl text-center max-w-3xl mx-auto mb-16">
+					<p className="text-lg md:text-xl text-center max-w-7xl mx-auto mb-16">
 						At the heart of the Value Driven Child (VDC) Toolkit
 						lies a robust framework built upon six interconnected
 						guiding principles. These principles are carefully
@@ -245,10 +243,10 @@ export const ToolkitPage: React.FC = () => {
 					</p>
 					<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 						<div className="p-6 bg-teal-700 rounded-lg shadow-md">
-							<h3 className="text-2xl md:text-4xl font-bold mb-2">
+							<h3 className="text-2xl md:text-3xl font-bold mb-2">
 								1. Foundational Core Values
 							</h3>
-							<p className="text-base md:text-2xl">
+							<p className="text-base md:text-lg">
 								Values are not isolated; they are intrinsically
 								linked and interconnected, like roots, branches,
 								and fruits. A touch on one value naturally
@@ -274,10 +272,10 @@ export const ToolkitPage: React.FC = () => {
 							</p>
 						</div>
 						<div className="p-6 bg-teal-700 rounded-lg shadow-md">
-							<h3 className="text-2xl md:text-4xl font-bold mb-2">
+							<h3 className="text-2xl md:text-3xl font-bold mb-2">
 								2. Natural Exclusive Predispositions
 							</h3>
-							<p className="text-base md:text-2xl">
+							<p className="text-base md:text-lg">
 								Every child is uniquely wired and is born with a
 								divine imprint—a unique purpose and innate
 								design. This includes their natural
@@ -303,10 +301,10 @@ export const ToolkitPage: React.FC = () => {
 							</p>
 						</div>
 						<div className="p-6 bg-teal-700 rounded-lg shadow-md">
-							<h3 className="text-2xl md:text-4xl font-bold mb-2">
+							<h3 className="text-2xl md:text-3xl font-bold mb-2">
 								3. The Principle of Affirmation
 							</h3>
-							<p className="text-base md:text-2xl">
+							<p className="text-base md:text-lg">
 								This principle highlights the profound power of
 								positive statements to shape a child's mindset,
 								reinforce self-belief, and realign their
@@ -328,10 +326,10 @@ export const ToolkitPage: React.FC = () => {
 							</p>
 						</div>
 						<div className="p-6 bg-teal-700 rounded-lg shadow-md">
-							<h3 className="text-2xl md:text-4xl font-bold mb-2">
+							<h3 className="text-2xl md:text-3xl font-bold mb-2">
 								4. The Operant Conditioning Principle
 							</h3>
-							<p className="text-base md:text-2xl">
+							<p className="text-base md:text-lg">
 								Based on the work of B.F. Skinner, this
 								principle states that a behavior is strengthened
 								or weakened based on the consequences that
@@ -355,10 +353,10 @@ export const ToolkitPage: React.FC = () => {
 							</p>
 						</div>
 						<div className="p-6 bg-teal-700 rounded-lg shadow-md">
-							<h3 className="text-2xl md:text-4xl font-bold mb-2">
+							<h3 className="text-2xl md:text-3xl font-bold mb-2">
 								5. The Habit Loop Principle
 							</h3>
-							<p className="text-base md:text-2xl">
+							<p className="text-base md:text-lg">
 								Character isn’t built in a day—it’s built in
 								daily routines. Rooted in Charles Duhigg's
 								model, this principle explains that behaviors
@@ -380,10 +378,10 @@ export const ToolkitPage: React.FC = () => {
 							</p>
 						</div>
 						<div className="p-6 bg-teal-700 rounded-lg shadow-md">
-							<h3 className="text-2xl md:text-4xl font-bold mb-2">
+							<h3 className="text-2xl md:text-3xl font-bold mb-2">
 								6.The Feedback Loop Principle
 							</h3>
-							<p className="text-base md:text-2xl">
+							<p className="text-base md:text-lg">
 								Growth needs tracking and managing. This
 								principle emphasizes that continuously tracking,
 								measuring, and evaluating behavior is essential
@@ -415,10 +413,10 @@ export const ToolkitPage: React.FC = () => {
 			{/* Predispositions Section */}
 			<section className="bg-teal-700 py-20">
 				<div className="container mx-auto px-6">
-					<h1 className="text-4xl font-bold text-yellow-50 text-center mb-12">
+										<h1 className="text-4xl md:text-5xl font-bold text-yellow-50 text-center mb-12">
 						The Four-Color Predispositions
 					</h1>
-					<p className="text-center text-yellow-50 max-w-3xl mx-auto mb-16">
+										<p className="text-lg md:text-xl text-center text-yellow-50 max-w-7xl mx-auto mb-16">
 						Understanding your child's natural disposition is key to
 						effective parenting. Our toolkit helps you identify
 						whether your child is Blue, Orange, Gold, or Green, so

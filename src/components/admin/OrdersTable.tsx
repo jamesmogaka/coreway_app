@@ -23,9 +23,9 @@ type OrdersTableProps = {
 
 export function OrdersTable({ orders, onStatusChange }: OrdersTableProps) {
 	return (
-		<Card className="bg-[#129990] border-0 text-[#F5F5F5]">
+				<Card className="bg-[#129990] border-0 text-[#F5F5F5] text-base">
 			<CardHeader>
-				<CardTitle className="text-[#FFD59A]">Orders</CardTitle>
+								<CardTitle className="text-2xl font-semibold text-[#FFD59A]">Orders</CardTitle>
 			</CardHeader>
 			<CardContent>
 				<div className="rounded-md border border-white/20">

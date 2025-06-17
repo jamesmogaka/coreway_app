@@ -61,7 +61,7 @@ export function CartSidebar({
 				}`}>
 				<div className="h-full flex flex-col rounded-l-lg">
 					<div className="flex items-center justify-between px-6 py-4 border-b border-[#90D1CA]">
-						<h2 className="text-lg font-bold text-[#FFD59A]">
+												<h2 className="text-3xl font-bold text-[#FFD59A]">
 							Your Cart
 						</h2>
 						<button
@@ -86,7 +86,7 @@ export function CartSidebar({
 					<div className="flex-1 overflow-y-auto px-6 py-4 cart-scrollbar">
 						{cartItems.length === 0 ? (
 							<div className="text-center py-12">
-								<p className="text-[#FFFBDE]">
+																<p className="text-base text-[#FFFBDE]">
 									Your cart is empty
 								</p>
 							</div>
@@ -126,7 +126,7 @@ export function CartSidebar({
 								}`}>
 							Checkout
 						</button>
-						<div className="mt-4 flex justify-center text-sm text-center text-[#FFFBDE]">
+												<div className="mt-4 flex justify-center text-base text-center text-[#FFFBDE]">
 							<p>
 								or{" "}
 								<button

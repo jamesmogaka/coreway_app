@@ -23,10 +23,10 @@ export function CartItem({
 				</div>
 				<div className="ml-4 flex-1">
 					<div className="flex justify-between">
-						<h3 className="text-sm font-medium text-[#C2EAE7]">
+												<h3 className="text-2xl font-semibold text-[#C2EAE7]">
 							{item.product.name}
 						</h3>
-						<p className="text-sm text-[#FFD59A]">
+												<p className="text-base text-[#FFD59A]">
 							KSh{(item.product.price * item.quantity).toFixed(2)}
 						</p>
 					</div>
@@ -37,7 +37,7 @@ export function CartItem({
 							disabled={item.quantity <= 1}>
 							-
 						</button>
-						<span className="mx-2 text-sm text-[#FFFBDE] w-6 text-center">
+												<span className="mx-2 text-base text-[#FFFBDE] w-6 text-center">
 							{item.quantity}
 						</span>
 						<button

@@ -68,7 +68,7 @@ export function LoginForm() {
 
 	return (
 		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 text-sm">
 				{/* Email Field */}
 				<FormField
 					control={form.control}
@@ -100,7 +100,7 @@ export function LoginForm() {
 								<FormLabel className="text-[#FFFBDE] font-bold">Password</FormLabel>
 								<button
 									type="button"
-									className="text-sm font-medium text-[#FFFBDE] hover:underline"
+									className="font-medium text-[#FFFBDE] hover:underline"
 									onClick={() =>
 										navigate("/forgot-password")
 									}>
@@ -122,7 +122,7 @@ export function LoginForm() {
 				/>
 
 				{form.formState.errors.root && (
-					<div className="text-sm font-medium text-red-300">
+										<div className="font-medium text-red-300">
 						{form.formState.errors.root.message}
 					</div>
 				)}

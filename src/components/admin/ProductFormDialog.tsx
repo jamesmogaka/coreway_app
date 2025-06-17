@@ -34,11 +34,11 @@ export function ProductFormDialog({
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="bg-[#129990] border-0 text-[#F5F5F5]">
 				<DialogHeader>
-					<DialogTitle className="text-[#FFD59A]">
+										<DialogTitle className="text-2xl font-semibold text-[#FFD59A]">
 						{isEditing ? "Edit Product" : "Add New Product"}
 					</DialogTitle>
 				</DialogHeader>
-				<form onSubmit={onSubmit}>
+								<form onSubmit={onSubmit} className="text-sm">
 					<div className="grid gap-4 py-4">
 						<div className="grid gap-2">
 							<Label htmlFor="name" className="text-[#FFFBDE]">Product Name</Label>
