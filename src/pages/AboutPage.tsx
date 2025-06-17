@@ -4,7 +4,7 @@ export const AboutPage: react.FC = () => (
 	<div className="fade-in" id="about">
 		<section className="py-20 bg-teal-900 text-yellow-50">
 			<div className="container mx-auto px-6">
-								<h1 className="text-4xl md:text-5xl font-bold text-center mb-12">
+				<h1 className="text-4xl md:text-5xl font-bold text-center mb-12">
 					About The VDC Toolkit
 				</h1>
 				<div className="max-w-4xl mx-auto space-y-6">
@@ -25,7 +25,7 @@ export const AboutPage: react.FC = () => (
 						strong character and instill enduring values that will
 						serve children throughout their lives.
 					</p>
-										<h2 className="text-3xl md:text-4xl font-bold pt-6 mb-4">
+					<h2 className="text-3xl md:text-4xl font-bold pt-6 mb-4">
 						Why Choose the VDC Toolkit?
 					</h2>
 					<p className="text-base md:text-xl">

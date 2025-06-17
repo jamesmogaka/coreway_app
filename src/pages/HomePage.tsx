@@ -58,10 +58,10 @@ export const HomePage: React.FC = () => {
 				<div className="absolute inset-0 z-0 bg-teal-700/50"></div>
 				<div className="relative z-20 h-full flex flex-col items-center justify-center text-center">
 					<div className="container px-6 mx-auto">
-												<h1 className="text-4xl md:text-5xl font-bold mb-6">
+						<h1 className="text-4xl md:text-5xl font-bold mb-6">
 							Intentional Parenting for a Value-Driven Child
 						</h1>
-												<p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
+						<p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
 							Nurture morally grounded, resilient, and successful
 							children with the VDC Toolkit.
 						</p>
@@ -78,10 +78,10 @@ export const HomePage: React.FC = () => {
 			<section className="text-yellow-50 py-20">
 				<div className="container mx-auto px-6">
 					<div className="text-center mb-12">
-												<h2 className="text-3xl md:text-4xl font-bold mb-4">
+						<h2 className="text-3xl md:text-4xl font-bold mb-4">
 							Your Companion for Effective Parenting
 						</h2>
-												<p className="mt-6 text-lg max-w-2xl mx-auto">
+						<p className="mt-6 text-lg max-w-2xl mx-auto">
 							The Value Driven Child (VDC) parenting Toolkit is
 							your essential companion for intentional and
 							effective parenting. It is meticulously designed to
@@ -96,10 +96,12 @@ export const HomePage: React.FC = () => {
 							<div
 								key={index}
 								className="p-6 bg-teal-700 hover:bg-teal-400 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-																<h3 className="text-2xl font-bold mb-4">
+								<h3 className="text-2xl font-bold mb-4">
 									{item.title}
 								</h3>
-								<p className="text-base md:text-xl">{item.description}</p>
+								<p className="text-base md:text-xl">
+									{item.description}
+								</p>
 							</div>
 						))}
 					</div>
@@ -110,10 +112,10 @@ export const HomePage: React.FC = () => {
 			<section className="bg-teal-600 text-yellow-50 py-20">
 				<div className="container mx-auto px-6">
 					<div className="text-center mb-12">
-												<h2 className="text-3xl md:text-4xl font-bold mb-4">
+						<h2 className="text-3xl md:text-4xl font-bold mb-4">
 							Understand Your Child's Unique Design
 						</h2>
-												<p className="text-lg max-w-2xl mx-auto">
+						<p className="text-lg max-w-2xl mx-auto">
 							The VDC Toolkit helps you discover your child's
 							natural predispositions—Gold, Blue, Green, or
 							Orange—allowing for personalized parenting that

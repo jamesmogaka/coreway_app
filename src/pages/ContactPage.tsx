@@ -91,10 +91,10 @@ export const ContactPage: react.FC = () => {
 	};
 
 	return (
-		<div className="fade-in bg-[#096B68]" id="contact">
+		<div className="fade-in bg-teal-900 text-yellow-50" id="contact">
 			<section className="py-20">
 				<div className="container mx-auto px-6">
-					<div className="max-w-2xl mx-auto bg-[#129990] p-8 rounded-lg shadow-lg text-[#FFFBDE]">
+					<div className="max-w-2xl mx-auto bg-teal-600 p-8 rounded-lg shadow-lg text-yellow-50">
 						<h1 className="text-4xl font-bold text-center mb-8">
 							Contact Us
 						</h1>
@@ -127,7 +127,7 @@ export const ContactPage: react.FC = () => {
 									name="name"
 									value={formData.name}
 									onChange={handleChange}
-									className={`w-full px-4 py-2 border rounded-lg bg-[#FFFBDE] text-gray-800 border-[#0d7a73] focus:outline-none focus:ring-2 focus:ring-[#FFFBDE] ${
+									className={`w-full px-4 py-2 border rounded-lg bg-white text-black focus:outline-none focus:ring-2 ${
 										formErrors.name ? "border-red-500" : ""
 									}`}
 									disabled={isSubmitting}
@@ -150,7 +150,7 @@ export const ContactPage: react.FC = () => {
 									name="email"
 									value={formData.email}
 									onChange={handleChange}
-									className={`w-full px-4 py-2 border rounded-lg bg-[#FFFBDE] text-gray-800 border-[#0d7a73] focus:outline-none focus:ring-2 focus:ring-[#FFFBDE] ${
+									className={`w-full px-4 py-2 border rounded-lg bg-white text-black focus:outline-none focus:ring-2 ${
 										formErrors.email ? "border-red-500" : ""
 									}`}
 									disabled={isSubmitting}
@@ -173,7 +173,7 @@ export const ContactPage: react.FC = () => {
 									value={formData.message}
 									onChange={handleChange}
 									rows={5}
-									className={`w-full px-4 py-2 border rounded-lg bg-[#FFFBDE] text-gray-800 border-[#0d7a73] focus:outline-none focus:ring-2 focus:ring-[#FFFBDE] ${
+									className={`w-full px-4 py-2 border rounded-lg bg-white text-black border-[#0d7a73] focus:outline-none focus:ring-2 ${
 										formErrors.message
 											? "border-red-500"
 											: ""
@@ -192,7 +192,7 @@ export const ContactPage: react.FC = () => {
 									className={`inline-block font-bold py-3 px-8 text-lg rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg hover:-translate-y-1 ${
 										isSubmitting
 											? "bg-gray-400 text-gray-800 cursor-not-allowed"
-											: "bg-[#FFFBDE] hover:bg-opacity-90 text-[#096B68]"
+											: "bg-yellow-50 hover:bg-opacity-90 text-teal-900"
 									}`}>
 									{isSubmitting
 										? "Sending..."

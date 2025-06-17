@@ -126,9 +126,7 @@ const Description: React.FC<DescriptionProps> = ({ color, data, active }) => {
 					className={`text-3xl md:text-4xl font-bold ${styles.descriptionText} mb-4`}>
 					{data.header}
 				</h2>
-				<p className="text-gray-700 mb-4">
-					{data.description}
-				</p>
+				<p className="text-gray-700 mb-4">{data.description}</p>
 				<p
 					dangerouslySetInnerHTML={{
 						__html: `<strong>Parenting Style:</strong> ${data.parenting}`,

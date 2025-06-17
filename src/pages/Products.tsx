@@ -31,12 +31,12 @@ import React from "react";
 // Main Page Component
 const ProductsPage: React.FC = () => {
 	return (
-		<div className="bg-[#096B68] min-h-screen text-[#FFFBDE] p-4 sm:p-6 md:p-8">
+		<div className="bg-teal-900 min-h-screen text-yellow-50 p-4 sm:p-6 md:p-8">
 			<header className="text-center mb-8 md:mb-12">
 				<h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
 					Products
 				</h1>
-				<p className="text-base md:text-xl text-[#90D1CA]">
+				<p className="text-base md:text-xl text-yellow-50">
 					Tools for Raising Value-Driven Children
 				</p>
 			</header>
@@ -112,10 +112,10 @@ const ProductCategorySection: React.FC<{
 	children: React.ReactNode;
 }> = ({ title, description, children }) => (
 	<section>
-		<h2 className="text-2xl md:text-4xl font-bold text-center text-[#FFFBDE] border-b-2 border-[#90D1CA] pb-2 mb-4">
+		<h2 className="text-2xl md:text-4xl font-bold text-center text-yellow-50 border-b-2 border-teal-200 pb-2 mb-4">
 			{title}
 		</h2>
-		<p className="text-center text-base md:text-xl text-[#90D1CA] mb-8">
+		<p className="text-center text-base md:text-xl text-teal-200 mb-8">
 			{description}
 		</p>
 		{children}
@@ -127,7 +127,7 @@ const DetailSection: React.FC<{ title: string; children: React.ReactNode }> = ({
 	children,
 }) => (
 	<div className="mb-6">
-		<h4 className="text-xl font-bold text-[#129990] mb-3">{title}</h4>
+		<h4 className="text-xl font-bold text-teal-600 mb-3">{title}</h4>
 		{children}
 	</div>
 );
@@ -137,8 +137,8 @@ const FeatureListItem: React.FC<{
 	citation?: number | number[];
 }> = ({ children }) => (
 	<li className="flex items-start gap-3 mb-2">
-		<CheckCircle2 className="h-5 w-5 mt-1 text-[#129990] flex-shrink-0" />
-		<span className="text-[#096B68]/90">{children}</span>
+		<CheckCircle2 className="h-5 w-5 mt-1 text-teal-600 flex-shrink-0" />
+		<span className="text-teal-800/90">{children}</span>
 	</li>
 );
 
@@ -147,15 +147,15 @@ const FeatureListItem: React.FC<{
 const ToolkitCard1: React.FC = () => (
 	<Dialog>
 		<DialogTrigger asChild>
-			<Card className="bg-[#FFFBDE] text-[#096B68] border-[#90D1CA] flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-[#90D1CA] transition-all duration-300">
+			<Card className="bg-yellow-50 text-teal-800 border-teal-200 flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-teal-200 transition-all duration-300">
 				<CardHeader>
-					<Badge className="bg-[#129990] text-white w-fit mb-2">
+					<Badge className="bg-teal-600 text-white w-fit mb-2">
 						Ages 4-9
 					</Badge>
 					<CardTitle className="text-2xl font-bold">
 						Early Value Development Toolkit
 					</CardTitle>
-					<CardDescription className="text-[#096B68]/80">
+					<CardDescription className="text-teal-800/80">
 						Start Early. Shape Character That Lasts.{" "}
 					</CardDescription>
 				</CardHeader>
@@ -180,32 +180,32 @@ const ToolkitCard1: React.FC = () => (
 								<Badge
 									key={value}
 									variant="secondary"
-									className="bg-[#90D1CA] text-[#096B68]">
+									className="bg-teal-200 text-teal-800">
 									{value}
 								</Badge>
 							))}
 						</div>
 					</div>
 				</CardContent>
-				<CardFooter className="flex justify-between items-center bg-[#096B68]/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-[#096B68]">
-						$79.99
+				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
+					<span className="text-2xl font-bold text-teal-800">
+						KSh 79.99
 					</span>
-					<Button variant="link" className="text-[#129990]">
+					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
-		<DialogContent className="bg-[#FFFBDE] text-[#096B68] sm:max-w-3xl max-h-[90vh] flex flex-col">
+		<DialogContent className="bg-yellow-50 text-teal-800 sm:max-w-3xl max-h-[90vh] flex flex-col">
 			<DialogHeader>
-				<Badge className="bg-[#129990] text-white w-fit mb-2">
+				<Badge className="bg-teal-600 text-white w-fit mb-2">
 					Ages 4-9
 				</Badge>
-				<DialogTitle className="text-3xl font-bold text-[#096B68]">
+				<DialogTitle className="text-3xl font-bold text-teal-800">
 					Early Value Development Toolkit
 				</DialogTitle>
-				<DialogDescription className="text-[#096B68]/80 text-md">
+				<DialogDescription className="text-teal-800/80 text-md">
 					Start Early. Shape Character That Lasts.{" "}
 				</DialogDescription>
 			</DialogHeader>
@@ -264,7 +264,7 @@ const ToolkitCard1: React.FC = () => (
 							].map(value => (
 								<Badge
 									key={value}
-									className="bg-[#90D1CA] text-[#096B68]">
+									className="bg-teal-200 text-teal-800">
 									{value}
 								</Badge>
 							))}
@@ -273,7 +273,7 @@ const ToolkitCard1: React.FC = () => (
 				</div>
 				<div>
 					<DetailSection title="What’s Inside the Box? ">
-						<p className="mb-3 text-sm text-[#096B68]/80">
+						<p className="mb-3 text-sm text-teal-800/80">
 							Everything you need for a full year of intentional
 							parenting:{" "}
 						</p>
@@ -310,13 +310,11 @@ const ToolkitCard1: React.FC = () => (
 					</DetailSection>
 				</div>
 			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-[#90D1CA]/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-[#096B68]">
-					$79.99
-				</span>
+			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
+				<span className="text-3xl font-bold text-teal-800">KSh 79.99</span>
 				<Button
 					size="lg"
-					className="bg-[#129990] hover:bg-[#129990]/90 text-white">
+					className="bg-teal-600 hover:bg-teal-600/90 text-white">
 					<ShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
 				</Button>
 			</DialogFooter>
@@ -327,15 +325,15 @@ const ToolkitCard1: React.FC = () => (
 const ToolkitCard2: React.FC = () => (
 	<Dialog>
 		<DialogTrigger asChild>
-			<Card className="bg-[#FFFBDE] text-[#096B68] border-[#90D1CA] flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-[#90D1CA] transition-all duration-300">
+			<Card className="bg-yellow-50 text-teal-800 border-teal-200 flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-teal-200 transition-all duration-300">
 				<CardHeader>
-					<Badge className="bg-[#129990] text-white w-fit mb-2">
+					<Badge className="bg-teal-600 text-white w-fit mb-2">
 						Ages 10-18
 					</Badge>
 					<CardTitle className="text-2xl font-bold">
 						Transitional Values Development Toolkit
 					</CardTitle>
-					<CardDescription className="text-[#096B68]/80">
+					<CardDescription className="text-teal-800/80">
 						Empower teens with values that shape purpose,
 						confidence, and leadership – for life.{" "}
 					</CardDescription>
@@ -360,32 +358,32 @@ const ToolkitCard2: React.FC = () => (
 								<Badge
 									key={value}
 									variant="secondary"
-									className="bg-[#90D1CA] text-[#096B68]">
+									className="bg-teal-200 text-teal-800">
 									{value}
 								</Badge>
 							))}
 						</div>
 					</div>
 				</CardContent>
-				<CardFooter className="flex justify-between items-center bg-[#096B68]/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-[#096B68]">
-						$89.99
+				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
+					<span className="text-2xl font-bold text-teal-800">
+						KSh 89.99
 					</span>
-					<Button variant="link" className="text-[#129990]">
+					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
-		<DialogContent className="bg-[#FFFBDE] text-[#096B68] sm:max-w-3xl max-h-[90vh] flex flex-col">
+		<DialogContent className="bg-yellow-50 text-teal-800 sm:max-w-3xl max-h-[90vh] flex flex-col">
 			<DialogHeader>
-				<Badge className="bg-[#129990] text-white w-fit mb-2">
+				<Badge className="bg-teal-600 text-white w-fit mb-2">
 					Ages 10-18
 				</Badge>
-				<DialogTitle className="text-3xl font-bold text-[#096B68]">
+				<DialogTitle className="text-3xl font-bold text-teal-800">
 					Transitional Values Development Toolkit
 				</DialogTitle>
-				<DialogDescription className="text-[#096B68]/80 text-md">
+				<DialogDescription className="text-teal-800/80 text-md">
 					Empower teens with values that shape purpose, confidence,
 					and leadership – for life.{" "}
 				</DialogDescription>
@@ -444,12 +442,12 @@ const ToolkitCard2: React.FC = () => (
 							].map(value => (
 								<Badge
 									key={value}
-									className="bg-[#90D1CA] text-[#096B68]">
+									className="bg-teal-200 text-teal-800">
 									{value}
 								</Badge>
 							))}
 						</div>
-						<p className="text-sm text-[#096B68]/80 mt-3">
+						<p className="text-sm text-teal-800/80 mt-3">
 							These 12 values are strategic and foundational. When
 							consistently nurtured, they naturally lead to the
 							development of dozens of other virtues like
@@ -460,7 +458,7 @@ const ToolkitCard2: React.FC = () => (
 				</div>
 				<div>
 					<DetailSection title="What’s Inside the Box: ">
-						<p className="mb-3 text-sm text-[#096B68]/80">
+						<p className="mb-3 text-sm text-teal-800/80">
 							Everything you need to coach your teen through a
 							full year of values-based growth:{" "}
 						</p>
@@ -497,7 +495,7 @@ const ToolkitCard2: React.FC = () => (
 					</DetailSection>
 				</div>
 				<div className="md:col-span-2">
-					<blockquote className="border-l-4 border-[#129990] pl-4 italic text-[#096B68]">
+					<blockquote className="border-l-4 border-teal-800 pl-4 italic text-teal-800">
 						“This toolkit gave our family a way to talk about values
 						without turning every mistake into a lecture. It helped
 						us raise a teen who actually wants to lead themselves.”—
@@ -505,13 +503,11 @@ const ToolkitCard2: React.FC = () => (
 					</blockquote>
 				</div>
 			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-[#90D1CA]/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-[#096B68]">
-					$89.99
-				</span>
+			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
+				<span className="text-3xl font-bold text-teal-800">KSh 89.99</span>
 				<Button
 					size="lg"
-					className="bg-[#129990] hover:bg-[#129990]/90 text-white">
+					className="bg-teal-600 hover:bg-teal-600/90 text-white">
 					<ShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
 				</Button>
 			</DialogFooter>
@@ -522,12 +518,12 @@ const ToolkitCard2: React.FC = () => (
 const TrainUpCards: React.FC = () => (
 	<Dialog>
 		<DialogTrigger asChild>
-			<Card className="bg-[#FFFBDE] text-[#096B68] border-[#90D1CA] flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-[#90D1CA] transition-all duration-300">
+			<Card className="bg-yellow-50 text-teal-800 border-teal-200 flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-teal-200 transition-all duration-300">
 				<CardHeader>
 					<CardTitle className="text-2xl font-bold">
 						Train-Up Cards
 					</CardTitle>
-					<CardDescription className="text-[#096B68]/80">
+					<CardDescription className="text-teal-800/80">
 						Transform everyday moments into powerful lessons in
 						character.{" "}
 					</CardDescription>
@@ -539,22 +535,22 @@ const TrainUpCards: React.FC = () => (
 						consistent actions.{" "}
 					</p>
 				</CardContent>
-				<CardFooter className="flex justify-between items-center bg-[#096B68]/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-[#096B68]">
-						$19.99
+				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
+					<span className="text-2xl font-bold text-teal-800">
+						KSh 19.99
 					</span>
-					<Button variant="link" className="text-[#129990]">
+					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
-		<DialogContent className="bg-[#FFFBDE] text-[#096B68] sm:max-w-2xl max-h-[90vh] flex flex-col">
+		<DialogContent className="bg-yellow-50 text-teal-800 sm:max-w-2xl max-h-[90vh] flex flex-col">
 			<DialogHeader>
-				<DialogTitle className="text-3xl font-bold text-[#096B68]">
+				<DialogTitle className="text-3xl font-bold text-teal-800">
 					Train-Up Cards (Set of 12 per Age Group){" "}
 				</DialogTitle>
-				<DialogDescription className="text-[#096B68]/80 text-md">
+				<DialogDescription className="text-teal-800/80 text-md">
 					Transform everyday moments into powerful lessons in
 					character.{" "}
 				</DialogDescription>
@@ -589,7 +585,7 @@ const TrainUpCards: React.FC = () => (
 					</ul>
 				</DetailSection>
 				<DetailSection title="Available Sets:">
-					<ul className="list-disc list-inside text-[#096B68]/90">
+					<ul className="list-disc list-inside text-teal-800/90">
 						<li>
 							Ages 4–9: Foundational values like Respect, Honesty,
 							Patience{" "}
@@ -607,13 +603,11 @@ const TrainUpCards: React.FC = () => (
 					</p>
 				</DetailSection>
 			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-[#90D1CA]/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-[#096B68]">
-					$19.99
-				</span>
+			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
+				<span className="text-3xl font-bold text-teal-800">KSh 19.99</span>
 				<Button
 					size="lg"
-					className="bg-[#129990] hover:bg-[#129990]/90 text-white">
+					className="bg-teal-600 hover:bg-teal-600/90 text-white">
 					<ShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
 				</Button>
 			</DialogFooter>
@@ -624,12 +618,12 @@ const TrainUpCards: React.FC = () => (
 const CorrectiveCards: React.FC = () => (
 	<Dialog>
 		<DialogTrigger asChild>
-			<Card className="bg-[#FFFBDE] text-[#096B68] border-[#90D1CA] flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-[#90D1CA] transition-all duration-300">
+			<Card className="bg-yellow-50 text-teal-800 border-teal-200 flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-teal-200 transition-all duration-300">
 				<CardHeader>
 					<CardTitle className="text-2xl font-bold">
 						Corrective Cards
 					</CardTitle>
-					<CardDescription className="text-[#096B68]/80">
+					<CardDescription className="text-teal-800/80">
 						Turn missteps into milestones with grace-filled
 						correction.{" "}
 					</CardDescription>
@@ -641,22 +635,22 @@ const CorrectiveCards: React.FC = () => (
 						their mistakes.{" "}
 					</p>
 				</CardContent>
-				<CardFooter className="flex justify-between items-center bg-[#096B68]/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-[#096B68]">
-						$19.99
+				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
+					<span className="text-2xl font-bold text-teal-800">
+						KSh 19.99
 					</span>
-					<Button variant="link" className="text-[#129990]">
+					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
-		<DialogContent className="bg-[#FFFBDE] text-[#096B68] sm:max-w-2xl max-h-[90vh] flex flex-col">
+		<DialogContent className="bg-yellow-50 text-teal-800 sm:max-w-2xl max-h-[90vh] flex flex-col">
 			<DialogHeader>
-				<DialogTitle className="text-3xl font-bold text-[#096B68]">
+				<DialogTitle className="text-3xl font-bold text-teal-800">
 					Corrective Cards (Set of 12){" "}
 				</DialogTitle>
-				<DialogDescription className="text-[#096B68]/80 text-md">
+				<DialogDescription className="text-teal-800/80 text-md">
 					Turn missteps into milestones with grace-filled correction.{" "}
 				</DialogDescription>
 			</DialogHeader>
@@ -693,7 +687,7 @@ const CorrectiveCards: React.FC = () => (
 					</ul>
 				</DetailSection>
 				<DetailSection title="Set Covers Values For: ">
-					<ul className="list-disc list-inside text-[#096B68]/90">
+					<ul className="list-disc list-inside text-teal-800/90">
 						<li>
 							Ages 4–9: Foundational values like Respect, Honesty,
 							Patience{" "}
@@ -711,13 +705,11 @@ const CorrectiveCards: React.FC = () => (
 					</p>
 				</DetailSection>
 			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-[#90D1CA]/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-[#096B68]">
-					$19.99
-				</span>
+			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
+				<span className="text-3xl font-bold text-teal-800">KSh 19.99</span>
 				<Button
 					size="lg"
-					className="bg-[#129990] hover:bg-[#129990]/90 text-white">
+					className="bg-teal-600 hover:bg-teal-600/90 text-white">
 					<ShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
 				</Button>
 			</DialogFooter>
@@ -728,12 +720,12 @@ const CorrectiveCards: React.FC = () => (
 const StarRewardCards: React.FC = () => (
 	<Dialog>
 		<DialogTrigger asChild>
-			<Card className="bg-[#FFFBDE] text-[#096B68] border-[#90D1CA] flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-[#90D1CA] transition-all duration-300">
+			<Card className="bg-yellow-50 text-teal-800 border-teal-200 flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-teal-200 transition-all duration-300">
 				<CardHeader>
 					<CardTitle className="text-2xl font-bold">
 						Star Reward Cards
 					</CardTitle>
-					<CardDescription className="text-[#096B68]/80">
+					<CardDescription className="text-teal-800/80">
 						Celebrate character, not just performance.{" "}
 					</CardDescription>
 				</CardHeader>
@@ -743,22 +735,22 @@ const StarRewardCards: React.FC = () => (
 						value-driven behavior in children and teens.{" "}
 					</p>
 				</CardContent>
-				<CardFooter className="flex justify-between items-center bg-[#096B68]/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-[#096B68]">
-						$14.99
+				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
+					<span className="text-2xl font-bold text-teal-800">
+						KSh 14.99
 					</span>
-					<Button variant="link" className="text-[#129990]">
+					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
-		<DialogContent className="bg-[#FFFBDE] text-[#096B68] sm:max-w-2xl max-h-[90vh] flex flex-col">
+		<DialogContent className="bg-yellow-50 text-teal-800 sm:max-w-2xl max-h-[90vh] flex flex-col">
 			<DialogHeader>
-				<DialogTitle className="text-3xl font-bold text-[#096B68]">
+				<DialogTitle className="text-3xl font-bold text-teal-800">
 					Star Reward Cards (Set of 24){" "}
 				</DialogTitle>
-				<DialogDescription className="text-[#096B68]/80 text-md">
+				<DialogDescription className="text-teal-800/80 text-md">
 					Celebrate character, not just performance.{" "}
 				</DialogDescription>
 			</DialogHeader>
@@ -808,7 +800,7 @@ const StarRewardCards: React.FC = () => (
 						].map(value => (
 							<Badge
 								key={value}
-								className="bg-[#90D1CA] text-[#096B68]">
+								className="bg-teal-200 text-teal-800">
 								{value}
 							</Badge>
 						))}
@@ -821,13 +813,11 @@ const StarRewardCards: React.FC = () => (
 					</p>
 				</DetailSection>
 			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-[#90D1CA]/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-[#096B68]">
-					$14.99
-				</span>
+			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
+				<span className="text-3xl font-bold text-teal-800">KSh 14.99</span>
 				<Button
 					size="lg"
-					className="bg-[#129990] hover:bg-[#129990]/90 text-white">
+					className="bg-teal-600 hover:bg-teal-600/90 text-white">
 					<ShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
 				</Button>
 			</DialogFooter>
@@ -838,12 +828,12 @@ const StarRewardCards: React.FC = () => (
 const VdcRewardChart: React.FC = () => (
 	<Dialog>
 		<DialogTrigger asChild>
-			<Card className="bg-[#FFFBDE] text-[#096B68] border-[#90D1CA] flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-[#90D1CA] transition-all duration-300">
+			<Card className="bg-yellow-50 text-teal-800 border-teal-200 flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-teal-200 transition-all duration-300">
 				<CardHeader>
 					<CardTitle className="text-2xl font-bold">
 						My VDC Reward Chart
 					</CardTitle>
-					<CardDescription className="text-[#096B68]/80">
+					<CardDescription className="text-teal-800/80">
 						Track the invisible. Celebrate the progress.{" "}
 					</CardDescription>
 				</CardHeader>
@@ -853,22 +843,22 @@ const VdcRewardChart: React.FC = () => (
 						growth visible. Grounded in the Feedback Loop Principle.{" "}
 					</p>
 				</CardContent>
-				<CardFooter className="flex justify-between items-center bg-[#096B68]/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-[#096B68]">
-						$9.99
+				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
+					<span className="text-2xl font-bold text-teal-800">
+						KSh 9.99
 					</span>
-					<Button variant="link" className="text-[#129990]">
+					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
-		<DialogContent className="bg-[#FFFBDE] text-[#096B68] sm:max-w-2xl max-h-[90vh] flex flex-col">
+		<DialogContent className="bg-yellow-50 text-teal-800 sm:max-w-2xl max-h-[90vh] flex flex-col">
 			<DialogHeader>
-				<DialogTitle className="text-3xl font-bold text-[#096B68]">
+				<DialogTitle className="text-3xl font-bold text-teal-800">
 					My VDC Reward Chart
 				</DialogTitle>
-				<DialogDescription className="text-[#096B68]/80 text-md">
+				<DialogDescription className="text-teal-800/80 text-md">
 					Track the invisible. Celebrate the progress. Build
 					value-driven habits.{" "}
 				</DialogDescription>
@@ -931,11 +921,11 @@ const VdcRewardChart: React.FC = () => (
 					</p>
 				</DetailSection>
 			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-[#90D1CA]/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-[#096B68]">$9.99</span>
+			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
+				<span className="text-3xl font-bold text-teal-800">KSh 9.99</span>
 				<Button
 					size="lg"
-					className="bg-[#129990] hover:bg-[#129990]/90 text-white">
+					className="bg-teal-600 hover:bg-teal-600/90 text-white">
 					<Star className="mr-2 h-5 w-5" /> Add to Cart
 				</Button>
 			</DialogFooter>
@@ -946,12 +936,12 @@ const VdcRewardChart: React.FC = () => (
 const PredispositionTest: React.FC = () => (
 	<Dialog>
 		<DialogTrigger asChild>
-			<Card className="bg-[#FFFBDE] text-[#096B68] border-[#90D1CA] flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-[#90D1CA] transition-all duration-300">
+			<Card className="bg-yellow-50 text-teal-800 border-teal-200 flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-teal-200 transition-all duration-300">
 				<CardHeader>
 					<CardTitle className="text-2xl font-bold">
 						VDC Child Predispositions Test
 					</CardTitle>
-					<CardDescription className="text-[#096B68]/80">
+					<CardDescription className="text-teal-800/80">
 						Understand Your Child’s Wiring. Parent with Purpose.{" "}
 					</CardDescription>
 				</CardHeader>
@@ -962,22 +952,22 @@ const PredispositionTest: React.FC = () => (
 						approach.
 					</p>
 				</CardContent>
-				<CardFooter className="flex justify-between items-center bg-[#096B68]/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-[#096B68]">
-						$24.99
+				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
+					<span className="text-2xl font-bold text-teal-800">
+						KSh 24.99
 					</span>
-					<Button variant="link" className="text-[#129990]">
+					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
-		<DialogContent className="bg-[#FFFBDE] text-[#096B68] sm:max-w-3xl max-h-[90vh] flex flex-col">
+		<DialogContent className="bg-yellow-50 text-teal-800 sm:max-w-3xl max-h-[90vh] flex flex-col">
 			<DialogHeader>
-				<DialogTitle className="text-3xl font-bold text-[#096B68]">
+				<DialogTitle className="text-3xl font-bold text-teal-800">
 					VDC Child Predispositions Test (Colour Predisposition Quiz){" "}
 				</DialogTitle>
-				<DialogDescription className="text-[#096B68]/80 text-md">
+				<DialogDescription className="text-teal-800/80 text-md">
 					Understand Your Child’s Wiring. Parent with Purpose.{" "}
 				</DialogDescription>
 			</DialogHeader>
@@ -1015,7 +1005,7 @@ const PredispositionTest: React.FC = () => (
 						</ul>
 					</DetailSection>
 					<DetailSection title="Exclusive Parenting at a Glance: ">
-						<ul className="space-y-2 text-[#096B68]/90">
+						<ul className="space-y-2 text-teal-800/90">
 							<li>
 								<span className="font-bold text-blue-500">
 									Blue
@@ -1072,7 +1062,7 @@ const PredispositionTest: React.FC = () => (
 							</FeatureListItem>
 						</ul>
 					</DetailSection>
-					<blockquote className="border-l-4 border-[#129990] pl-4 italic text-[#096B68] mt-6">
+					<blockquote className="border-l-4 border-[#129990] pl-4 italic text-teal-800 mt-6">
 						“This quiz changed the way I speak to my son. I finally
 						understood why he needs structure—and how to offer it
 						without power struggles. A total game-changer.”– A VDC
@@ -1080,13 +1070,11 @@ const PredispositionTest: React.FC = () => (
 					</blockquote>
 				</div>
 			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-[#90D1CA]/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-[#096B68]">
-					$24.99
-				</span>
+			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
+				<span className="text-3xl font-bold text-teal-800">KSh 24.99</span>
 				<Button
 					size="lg"
-					className="bg-[#129990] hover:bg-[#129990]/90 text-white">
+					className="bg-teal-600 hover:bg-teal-600/90 text-white">
 					<BookOpen className="mr-2 h-5 w-5" /> Take the Quiz
 				</Button>
 			</DialogFooter>
@@ -1097,12 +1085,12 @@ const PredispositionTest: React.FC = () => (
 const ParentingGuidebook: React.FC = () => (
 	<Dialog>
 		<DialogTrigger asChild>
-			<Card className="bg-[#FFFBDE] text-[#096B68] border-[#90D1CA] flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-[#90D1CA] transition-all duration-300">
+			<Card className="bg-yellow-50 text-teal-800 border-teal-200 flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-teal-200 transition-all duration-300">
 				<CardHeader>
 					<CardTitle className="text-2xl font-bold">
 						The VDC Parenting Guidebook
 					</CardTitle>
-					<CardDescription className="text-[#096B68]/80">
+					<CardDescription className="text-teal-800/80">
 						Raise children of character with a parenting approach
 						tailored to their design.{" "}
 					</CardDescription>
@@ -1114,22 +1102,22 @@ const ParentingGuidebook: React.FC = () => (
 						sound parenting model.{" "}
 					</p>
 				</CardContent>
-				<CardFooter className="flex justify-between items-center bg-[#096B68]/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-[#096B68]">
-						$29.99
+				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
+					<span className="text-2xl font-bold text-teal-800">
+						KSh 29.99
 					</span>
-					<Button variant="link" className="text-[#129990]">
+					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
-		<DialogContent className="bg-[#FFFBDE] text-[#096B68] sm:max-w-3xl max-h-[90vh] flex flex-col">
+		<DialogContent className="bg-yellow-50 text-teal-800 sm:max-w-3xl max-h-[90vh] flex flex-col">
 			<DialogHeader>
-				<DialogTitle className="text-3xl font-bold text-[#096B68]">
+				<DialogTitle className="text-3xl font-bold text-teal-800">
 					The VDC Parenting Guidebook
 				</DialogTitle>
-				<DialogDescription className="text-[#096B68]/80 text-md">
+				<DialogDescription className="text-teal-800/80 text-md">
 					Raise children of character with a parenting approach
 					tailored to their design.{" "}
 				</DialogDescription>
@@ -1153,21 +1141,21 @@ const ParentingGuidebook: React.FC = () => (
 					<DetailSection title="What Sets This Guidebook Apart ">
 						<ul className="space-y-3">
 							<li>
-								<strong className="text-[#129990]">
+								<strong className="text-teal-600">
 									VDC Principles:
 								</strong>{" "}
 								The 6 Pillars of VDC Parenting, rooted in both
 								Scripture and psychology.{" "}
 							</li>
 							<li>
-								<strong className="text-[#129990]">
+								<strong className="text-teal-600">
 									Parenting by Values, Not Control:
 								</strong>{" "}
 								Build self-leadership, responsibility, and
 								conviction from the inside out.{" "}
 							</li>
 							<li>
-								<strong className="text-[#129990]">
+								<strong className="text-teal-600">
 									12 Core Values = 200+ Virtues:
 								</strong>{" "}
 								Using the Pareto Principle, this guide reveals
@@ -1176,7 +1164,7 @@ const ParentingGuidebook: React.FC = () => (
 								and character traits.{" "}
 							</li>
 							<li>
-								<strong className="text-[#129990]">
+								<strong className="text-teal-600">
 									Misbehavior Is a Clue:
 								</strong>{" "}
 								Most missteps point to a missing value—not a
@@ -1185,7 +1173,7 @@ const ParentingGuidebook: React.FC = () => (
 								decode what’s really going on.{" "}
 							</li>
 							<li>
-								<strong className="text-[#129990]">
+								<strong className="text-teal-600">
 									Parenting is a Sacred Assignment:
 								</strong>{" "}
 								This guide calls you back to the heart of
@@ -1222,7 +1210,7 @@ const ParentingGuidebook: React.FC = () => (
 							</FeatureListItem>
 						</ul>
 					</DetailSection>
-					<blockquote className="border-l-4 border-[#129990] pl-4 italic text-[#096B68] mt-6">
+					<blockquote className="border-l-4 border-teal-800 pl-4 italic text-teal-800 mt-6">
 						“This book gave us structure we could trust, and
 						spiritual confidence we didn’t know we needed. We
 						stopped reacting—and started parenting with purpose.”— A
@@ -1230,13 +1218,11 @@ const ParentingGuidebook: React.FC = () => (
 					</blockquote>
 				</div>
 			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-[#90D1CA]/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-[#096B68]">
-					$29.99
-				</span>
+			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
+				<span className="text-3xl font-bold text-teal-800">KSh 29.99</span>
 				<Button
 					size="lg"
-					className="bg-[#129990] hover:bg-[#129990]/90 text-white">
+					className="bg-teal-600 hover:bg-teal-600/90 text-white">
 					<ShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
 				</Button>
 			</DialogFooter>
@@ -1247,12 +1233,12 @@ const ParentingGuidebook: React.FC = () => (
 const AffirmationCards: React.FC = () => (
 	<Dialog>
 		<DialogTrigger asChild>
-			<Card className="bg-[#FFFBDE] text-[#096B68] border-[#90D1CA] flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-[#90D1CA] transition-all duration-300">
+			<Card className="bg-yellow-50 text-teal-800 border-teal-200 flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-teal-200 transition-all duration-300">
 				<CardHeader>
 					<CardTitle className="text-2xl font-bold">
 						Daily Affirmation Cards
 					</CardTitle>
-					<CardDescription className="text-[#096B68]/80">
+					<CardDescription className="text-teal-800/80">
 						Affirm who your child is becoming—with words rooted in
 						God’s truth.{" "}
 					</CardDescription>
@@ -1263,22 +1249,22 @@ const AffirmationCards: React.FC = () => (
 						to shape your child’s identity, values, and destiny.{" "}
 					</p>
 				</CardContent>
-				<CardFooter className="flex justify-between items-center bg-[#096B68]/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-[#096B68]">
-						$19.99
+				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
+					<span className="text-2xl font-bold text-teal-800">
+						KSh 19.99
 					</span>
-					<Button variant="link" className="text-[#129990]">
+					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
-		<DialogContent className="bg-[#FFFBDE] text-[#096B68] sm:max-w-2xl max-h-[90vh] flex flex-col">
+		<DialogContent className="bg-yellow-50 text-teal-800 sm:max-w-2xl max-h-[90vh] flex flex-col">
 			<DialogHeader>
-				<DialogTitle className="text-3xl font-bold text-[#096B68]">
+				<DialogTitle className="text-3xl font-bold text-teal-800">
 					Daily Affirmation Cards
 				</DialogTitle>
-				<DialogDescription className="text-[#096B68]/80 text-md">
+				<DialogDescription className="text-teal-800/80 text-md">
 					Affirm who your child is becoming—with words rooted in God’s
 					truth.{" "}
 				</DialogDescription>
@@ -1339,13 +1325,11 @@ const AffirmationCards: React.FC = () => (
 					</p>
 				</DetailSection>
 			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-[#90D1CA]/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-[#096B68]">
-					$19.99
-				</span>
+			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
+				<span className="text-3xl font-bold text-teal-800">KSh 19.99</span>
 				<Button
 					size="lg"
-					className="bg-[#129990] hover:bg-[#129990]/90 text-white">
+					className="bg-teal-600 hover:bg-teal-600/90 text-white">
 					<Heart className="mr-2 h-5 w-5" /> Add to Cart
 				</Button>
 			</DialogFooter>
@@ -1356,12 +1340,12 @@ const AffirmationCards: React.FC = () => (
 const ParentingDevotional: React.FC = () => (
 	<Dialog>
 		<DialogTrigger asChild>
-			<Card className="bg-[#FFFBDE] text-[#096B68] border-[#90D1CA] flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-[#90D1CA] transition-all duration-300">
+			<Card className="bg-yellow-50 text-teal-800 border-teal-200 flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-teal-200 transition-all duration-300">
 				<CardHeader>
 					<CardTitle className="text-2xl font-bold">
 						Parenting Devotional
 					</CardTitle>
-					<CardDescription className="text-[#096B68]/80">
+					<CardDescription className="text-teal-800/80">
 						For Intentional Moms & Dads.{" "}
 					</CardDescription>
 				</CardHeader>
@@ -1372,22 +1356,22 @@ const ParentingDevotional: React.FC = () => (
 						parenting in God’s truth.{" "}
 					</p>
 				</CardContent>
-				<CardFooter className="flex justify-between items-center bg-[#096B68]/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-[#096B68]">
-						$17.99
+				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
+					<span className="text-2xl font-bold text-teal-800">
+						KSh 17.99
 					</span>
-					<Button variant="link" className="text-[#129990]">
+					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
-		<DialogContent className="bg-[#FFFBDE] text-[#096B68] sm:max-w-2xl max-h-[90vh] flex flex-col">
+		<DialogContent className="bg-yellow-50 text-teal-800 sm:max-w-2xl max-h-[90vh] flex flex-col">
 			<DialogHeader>
-				<DialogTitle className="text-3xl font-bold text-[#096B68]">
+				<DialogTitle className="text-3xl font-bold text-teal-800">
 					Parenting Devotional for Intentional Moms & Dads
 				</DialogTitle>
-				<DialogDescription className="text-[#096B68]/80 text-md">
+				<DialogDescription className="text-teal-800/80 text-md">
 					Grow your parenting from the inside out—with truth, grace,
 					and spiritual focus.{" "}
 				</DialogDescription>
@@ -1437,13 +1421,11 @@ const ParentingDevotional: React.FC = () => (
 					<p>Printable PDF eDevotional or a Softcover Booklet. </p>
 				</DetailSection>
 			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-[#90D1CA]/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-[#096B68]">
-					$17.99
-				</span>
+			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
+				<span className="text-3xl font-bold text-teal-800">KSh 17.99</span>
 				<Button
 					size="lg"
-					className="bg-[#129990] hover:bg-[#129990]/90 text-white">
+					className="bg-teal-600 hover:bg-teal-600/90 text-white">
 					<BookOpen className="mr-2 h-5 w-5" /> Add to Cart
 				</Button>
 			</DialogFooter>
@@ -1454,12 +1436,12 @@ const ParentingDevotional: React.FC = () => (
 const ReflectionJournal: React.FC = () => (
 	<Dialog>
 		<DialogTrigger asChild>
-			<Card className="bg-[#FFFBDE] text-[#096B68] border-[#90D1CA] flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-[#90D1CA] transition-all duration-300">
+			<Card className="bg-yellow-50 text-teal-800 border-teal-200 flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-teal-200 transition-all duration-300">
 				<CardHeader>
 					<CardTitle className="text-2xl font-bold">
 						Parent–Child Reflection Journal
 					</CardTitle>
-					<CardDescription className="text-[#096B68]/80">
+					<CardDescription className="text-teal-800/80">
 						Grow together. Reflect deeply.{" "}
 					</CardDescription>
 				</CardHeader>
@@ -1470,22 +1452,22 @@ const ReflectionJournal: React.FC = () => (
 						shared growth.{" "}
 					</p>
 				</CardContent>
-				<CardFooter className="flex justify-between items-center bg-[#096B68]/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-[#096B68]">
-						$22.99
+				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
+					<span className="text-2xl font-bold text-teal-800">
+						KSh 22.99
 					</span>
-					<Button variant="link" className="text-[#129990]">
+					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
-		<DialogContent className="bg-[#FFFBDE] text-[#096B68] sm:max-w-2xl max-h-[90vh] flex flex-col">
+		<DialogContent className="bg-yellow-50 text-teal-800 sm:max-w-2xl max-h-[90vh] flex flex-col">
 			<DialogHeader>
-				<DialogTitle className="text-3xl font-bold text-[#096B68]">
+				<DialogTitle className="text-3xl font-bold text-teal-800">
 					Parent–Child Reflection Journal
 				</DialogTitle>
-				<DialogDescription className="text-[#096B68]/80 text-md">
+				<DialogDescription className="text-teal-800/80 text-md">
 					Strengthen the bond that shapes a lifetime.{" "}
 				</DialogDescription>
 			</DialogHeader>
@@ -1542,13 +1524,11 @@ const ReflectionJournal: React.FC = () => (
 					</ul>
 				</DetailSection>
 			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-[#90D1CA]/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-[#096B68]">
-					$22.99
-				</span>
+			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
+				<span className="text-3xl font-bold text-teal-800">KSh 22.99</span>
 				<Button
 					size="lg"
-					className="bg-[#129990] hover:bg-[#129990]/90 text-white">
+					className="bg-teal-600 hover:bg-teal-600/90 text-white">
 					<Heart className="mr-2 h-5 w-5" /> Add to Cart
 				</Button>
 			</DialogFooter>
@@ -1559,12 +1539,12 @@ const ReflectionJournal: React.FC = () => (
 const OnlineCourse: React.FC = () => (
 	<Dialog>
 		<DialogTrigger asChild>
-			<Card className="bg-[#FFFBDE] text-[#096B68] border-[#90D1CA] flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-[#90D1CA] transition-all duration-300">
+			<Card className="bg-yellow-50 text-teal-800 border-teal-200 flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-teal-200 transition-all duration-300">
 				<CardHeader>
 					<CardTitle className="text-2xl font-bold">
 						Complete Online Parenting Course
 					</CardTitle>
-					<CardDescription className="text-[#096B68]/80">
+					<CardDescription className="text-teal-800/80">
 						Parent with vision, confidence, and biblical
 						clarity—guided every step of the way.{" "}
 					</CardDescription>
@@ -1576,23 +1556,23 @@ const OnlineCourse: React.FC = () => (
 						core principles and 22 foundational values.{" "}
 					</p>
 				</CardContent>
-				<CardFooter className="flex justify-between items-center bg-[#096B68]/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-[#096B68]">
-						$299.99
+				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
+					<span className="text-2xl font-bold text-teal-800">
+						KSh 299.99
 					</span>
-					<Button variant="link" className="text-[#129990]">
+					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
-		<DialogContent className="bg-[#FFFBDE] text-[#096B68] sm:max-w-3xl max-h-[90vh] flex flex-col">
+		<DialogContent className="bg-yellow-50 text-teal-800 sm:max-w-3xl max-h-[90vh] flex flex-col">
 			<DialogHeader>
-				<DialogTitle className="text-3xl font-bold text-[#096B68]">
+				<DialogTitle className="text-3xl font-bold text-teal-800">
 					Complete Online Parenting Course (Instructor-Led – VDC
 					Toolkit Based){" "}
 				</DialogTitle>
-				<DialogDescription className="text-[#096B68]/80 text-md">
+				<DialogDescription className="text-teal-800/80 text-md">
 					Parent with vision, confidence, and biblical clarity—guided
 					every step of the way.{" "}
 				</DialogDescription>
@@ -1636,7 +1616,7 @@ const OnlineCourse: React.FC = () => (
 						</ul>
 					</DetailSection>
 					<DetailSection title="Course Modules: ">
-						<ul className="list-decimal list-inside text-[#096B68]/90">
+						<ul className="list-decimal list-inside text-teal-800/90">
 							<li>
 								Module 1: Conventional Parenting & The VDC
 								Solution{" "}
@@ -1698,13 +1678,13 @@ const OnlineCourse: React.FC = () => (
 					</DetailSection>
 				</div>
 			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-[#90D1CA]/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-[#096B68]">
-					$299.99
+			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
+				<span className="text-3xl font-bold text-teal-800">
+					KSh 299.99
 				</span>
 				<Button
 					size="lg"
-					className="bg-[#129990] hover:bg-[#129990]/90 text-white">
+					className="bg-teal-600 hover:bg-teal-600/90 text-white">
 					<Users className="mr-2 h-5 w-5" /> Enroll Now
 				</Button>
 			</DialogFooter>
@@ -1715,12 +1695,12 @@ const OnlineCourse: React.FC = () => (
 const CommunityMembership: React.FC = () => (
 	<Dialog>
 		<DialogTrigger asChild>
-			<Card className="bg-[#FFFBDE] text-[#096B68] border-[#90D1CA] flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-[#90D1CA] transition-all duration-300">
+			<Card className="bg-yellow-50 text-teal-800 border-teal-200 flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-teal-200 transition-all duration-300">
 				<CardHeader>
 					<CardTitle className="text-2xl font-bold">
 						VDC Community Membership
 					</CardTitle>
-					<CardDescription className="text-[#096B68]/80">
+					<CardDescription className="text-teal-800/80">
 						Join a values-driven parenting community.{" "}
 					</CardDescription>
 				</CardHeader>
@@ -1730,22 +1710,22 @@ const CommunityMembership: React.FC = () => (
 						coaching calls, and access to new VDC tools.{" "}
 					</p>
 				</CardContent>
-				<CardFooter className="flex justify-between items-center bg-[#096B68]/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-[#096B68]">
-						$14.99/mo
+				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
+					<span className="text-2xl font-bold text-teal-800">
+						KSh 14.99/mo
 					</span>
-					<Button variant="link" className="text-[#129990]">
+					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
-		<DialogContent className="bg-[#FFFBDE] text-[#096B68] sm:max-w-xl max-h-[90vh] flex flex-col">
+		<DialogContent className="bg-yellow-50 text-teal-800 sm:max-w-xl max-h-[90vh] flex flex-col">
 			<DialogHeader>
-				<DialogTitle className="text-3xl font-bold text-[#096B68]">
+				<DialogTitle className="text-3xl font-bold text-teal-800">
 					VDC Community Membership
 				</DialogTitle>
-				<DialogDescription className="text-[#096B68]/80 text-md">
+				<DialogDescription className="text-teal-800/80 text-md">
 					Join a values-driven parenting community.{" "}
 				</DialogDescription>
 			</DialogHeader>
@@ -1772,13 +1752,13 @@ const CommunityMembership: React.FC = () => (
 					</ul>
 				</DetailSection>
 			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-[#90D1CA]/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-[#096B68]">
-					$14.99/mo
+			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
+				<span className="text-3xl font-bold text-teal-800">
+					KSh 14.99/mo
 				</span>
 				<Button
 					size="lg"
-					className="bg-[#129990] hover:bg-[#129990]/90 text-white">
+					className="bg-teal-600 hover:bg-teal-600/90 text-white">
 					<Users className="mr-2 h-5 w-5" /> Join Now
 				</Button>
 			</DialogFooter>
@@ -1789,12 +1769,12 @@ const CommunityMembership: React.FC = () => (
 const ThemedMerch: React.FC = () => (
 	<Dialog>
 		<DialogTrigger asChild>
-			<Card className="bg-[#FFFBDE] text-[#096B68] border-[#90D1CA] flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-[#90D1CA] transition-all duration-300">
+			<Card className="bg-yellow-50 text-teal-800 border-teal-200 flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-teal-200 transition-all duration-300">
 				<CardHeader>
 					<CardTitle className="text-2xl font-bold">
 						Value-Themed Gifts & Accessories
 					</CardTitle>
-					<CardDescription className="text-[#096B68]/80">
+					<CardDescription className="text-teal-800/80">
 						Meaningful and value-themed branded products.{" "}
 					</CardDescription>
 				</CardHeader>
@@ -1804,22 +1784,22 @@ const ThemedMerch: React.FC = () => (
 						quotes, and affirming messages.{" "}
 					</p>
 				</CardContent>
-				<CardFooter className="flex justify-between items-center bg-[#096B68]/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-xl font-bold text-[#096B68]">
-						From $12.99
+				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
+					<span className="text-xl font-bold text-teal-800">
+						From KSh 12.99
 					</span>
-					<Button variant="link" className="text-[#129990]">
+					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
-		<DialogContent className="bg-[#FFFBDE] text-[#096B68] sm:max-w-xl max-h-[90vh] flex flex-col">
+		<DialogContent className="bg-yellow-50 text-teal-800 sm:max-w-xl max-h-[90vh] flex flex-col">
 			<DialogHeader>
-				<DialogTitle className="text-3xl font-bold text-[#096B68]">
+				<DialogTitle className="text-3xl font-bold text-teal-800">
 					Value-Themed T-Shirts, Mugs & Posters
 				</DialogTitle>
-				<DialogDescription className="text-[#096B68]/80 text-md">
+				<DialogDescription className="text-teal-800/80 text-md">
 					Meaningful and value-themed branded products.{" "}
 				</DialogDescription>
 			</DialogHeader>
@@ -1845,13 +1825,13 @@ const ThemedMerch: React.FC = () => (
 					</ul>
 				</DetailSection>
 			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-[#90D1CA]/50 pt-4 mt-auto">
-				<span className="text-2xl font-bold text-[#096B68]">
-					From $12.99
+			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
+				<span className="text-2xl font-bold text-teal-800">
+					From KSh 12.99
 				</span>
 				<Button
 					size="lg"
-					className="bg-[#129990] hover:bg-[#129990]/90 text-white">
+					className="bg-teal-600 hover:bg-teal-600/90 text-white">
 					<Gift className="mr-2 h-5 w-5" /> Shop Gifts
 				</Button>
 			</DialogFooter>
