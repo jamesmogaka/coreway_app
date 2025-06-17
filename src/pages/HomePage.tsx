@@ -49,13 +49,13 @@ const predisposition = [
 ];
 export const HomePage: React.FC = () => {
 	return (
-		<div className="fade-in min-h-screen" id="home">
+		<div className=" bg-teal-900 fade-in min-h-screen" id="home">
 			{/* Hero Section - Dark Teal */}
-			<section className="relative text-[#FFFBDE] h-[40vh] ">
+			<section className="relative text-yellow-50 h-[40vh] ">
 				<div className="absolute inset-0 z-0">
 					<HeroCarousel />
 				</div>
-				<div className="absolute inset-0 z-0 bg-[rgba(12,153,144,0.5)]"></div>
+				<div className="absolute inset-0 z-0 bg-teal-700/50"></div>
 				<div className="relative z-20 h-full flex flex-col items-center justify-center text-center">
 					<div className="container px-6 mx-auto">
 						<h1 className="text-4xl md:text-6xl font-bold mb-4">
@@ -67,7 +67,7 @@ export const HomePage: React.FC = () => {
 						</p>
 						<HashLink
 							to="#toolkit"
-							className="bg-[#129990] hover:bg-[#0d7a73] text-[#FFFBDE] inline-block font-bold py-3 px-8 text-lg rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg hover:-translate-y-1">
+							className="bg-teal-700 hover:bg-teal-400 text-yellow-50 inline-block font-bold py-3 px-8 text-lg rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg hover:-translate-y-1 hover:scale-105">
 							Discover the Toolkit
 						</HashLink>
 					</div>
@@ -75,7 +75,7 @@ export const HomePage: React.FC = () => {
 			</section>
 
 			{/* Features Section - Dark Teal */}
-			<section className="bg-[#096B68] text-[#FFFBDE] py-20">
+			<section className="text-yellow-50 py-20">
 				<div className="container mx-auto px-6">
 					<div className="text-center mb-12">
 						<h2 className="text-3xl font-bold mb-4">
@@ -95,7 +95,7 @@ export const HomePage: React.FC = () => {
 						{features.map((item, index) => (
 							<div
 								key={index}
-								className="p-6 bg-[#0d7a73] hover:bg-[#0e8a82] rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+								className="p-6 bg-teal-700 hover:bg-teal-400 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
 								<h3 className="text-xl font-bold mb-2">
 									{item.title}
 								</h3>
@@ -107,7 +107,7 @@ export const HomePage: React.FC = () => {
 			</section>
 
 			{/* Personality Types Section - Medium Teal */}
-			<section className="bg-[#129990] text-[#FFFBDE] py-20">
+			<section className="bg-teal-600 text-yellow-50 py-20">
 				<div className="container mx-auto px-6">
 					<div className="text-center mb-12">
 						<h2 className="text-3xl font-bold mb-4">
