@@ -34,7 +34,7 @@ const ProductsPage: React.FC = () => {
 		<div className="bg-[#096B68] min-h-screen text-[#FFFBDE] p-4 sm:p-6 md:p-8">
 			<header className="text-center mb-8 md:mb-12">
 				<h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
-					VDC Toolkit Online Store
+					Products
 				</h1>
 				<p className="text-base md:text-xl text-[#90D1CA]">
 					Tools for Raising Value-Driven Children
@@ -115,7 +115,9 @@ const ProductCategorySection: React.FC<{
 		<h2 className="text-2xl md:text-4xl font-bold text-center text-[#FFFBDE] border-b-2 border-[#90D1CA] pb-2 mb-4">
 			{title}
 		</h2>
-		<p className="text-center text-base md:text-xl text-[#90D1CA] mb-8">{description}</p>
+		<p className="text-center text-base md:text-xl text-[#90D1CA] mb-8">
+			{description}
+		</p>
 		{children}
 	</section>
 );

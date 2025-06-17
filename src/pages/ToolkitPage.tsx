@@ -118,7 +118,7 @@ const Description: React.FC<DescriptionProps> = ({ color, data, active }) => {
 	const styles = colorStyles[color];
 	return (
 		<div
-			className={`description-panel text-base ${
+			className={`description-panel text-base md:text-lg ${
 				active === color ? "show" : ""
 			}`}>
 			<div className="description-content fade-in">
@@ -126,7 +126,7 @@ const Description: React.FC<DescriptionProps> = ({ color, data, active }) => {
 					className={`text-3xl md:text-4xl font-bold ${styles.descriptionText} mb-4`}>
 					{data.header}
 				</h2>
-				<p className="text-base text-gray-700 mb-4">
+				<p className="text-gray-700 mb-4">
 					{data.description}
 				</p>
 				<p
@@ -178,9 +178,9 @@ export const ToolkitPage: React.FC = () => {
 	};
 
 	return (
-		<div className="fade-in bg-teal-600 text-yellow-50" id="toolkit">
+		<div className="fade-in" id="toolkit">
 			{/* Toolkit Section */}
-			<section className="py-20">
+			<section className="py-20 bg-teal-600 text-yellow-50">
 				<div className="container mx-auto px-6">
 					<h1 className="text-4xl md:text-5xl font-bold text-center mb-12">
 						The VDC Train-up Toolkit
@@ -221,7 +221,7 @@ export const ToolkitPage: React.FC = () => {
 			</section>
 
 			{/* PrinciplesPage content */}
-			<section className="bg-teal-700 py-20">
+			<section className="py-20 bg-teal-900 text-yellow-50">
 				<div className="container mx-auto px-6">
 					<h1 className="text-4xl md:text-5xl font-bold text-center mb-12">
 						Toolkit Guiding Principles: The Foundation of VDC
@@ -411,12 +411,12 @@ export const ToolkitPage: React.FC = () => {
 			</section>
 
 			{/* Predispositions Section */}
-			<section className="bg-teal-700 py-20">
+			<section className="bg-teal-600 text-yellow-50 py-20">
 				<div className="container mx-auto px-6">
-										<h1 className="text-4xl md:text-5xl font-bold text-yellow-50 text-center mb-12">
+					<h1 className="text-4xl md:text-5xl font-bold text-yellow-50 text-center mb-12">
 						The Four-Color Predispositions
 					</h1>
-										<p className="text-lg md:text-xl text-center text-yellow-50 max-w-7xl mx-auto mb-16">
+					<p className="text-lg md:text-xl text-center text-yellow-50 max-w-7xl mx-auto mb-16">
 						Understanding your child's natural disposition is key to
 						effective parenting. Our toolkit helps you identify
 						whether your child is Blue, Orange, Gold, or Green, so
