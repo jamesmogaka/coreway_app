@@ -88,10 +88,10 @@ const ProductDetail = () => {
   if (!product) {
     return (
       <div className="text-center py-12 bg-[#096B68]">
-        <h2 className="text-2xl font-bold text-[#FFFBDE] mb-2">
+        <h2 className="text-2xl md:text-4xl font-bold text-[#FFFBDE] mb-4">
           Product Not Found
         </h2>
-        <p className="text-[#90D1CA] mb-6">
+        <p className="text-base md:text-xl text-[#90D1CA] mb-6">
           The product you're looking for doesn't exist or has been removed.
         </p>
         <Button
@@ -121,12 +121,12 @@ const ProductDetail = () => {
 
           {/* Product Info */}
           <div className="mt-8 md:mt-0">
-            <h1 className="text-4xl font-bold text-[#FFFBDE]">
+            <h1 className="text-3xl md:text-5xl font-bold text-[#FFFBDE]">
               {product.name}
             </h1>
 
             <div className="mt-4">
-              <p className="text-3xl font-bold text-[#FFD59A]">
+              <p className="text-2xl md:text-4xl font-bold text-[#FFD59A]">
                 KSh{product.price.toFixed(2)}
               </p>
             </div>
@@ -190,13 +190,11 @@ const ProductDetail = () => {
           </div>
           <div className="py-8">
             {activeTab === "description" && (
-              <p className="text-[#FFFBDE] leading-relaxed">
-                {product.description}
-              </p>
+              <p className="text-base md:text-xl">{product.description}</p>
             )}
             {activeTab === "reviews" && (
               <div>
-                <h3 className="text-2xl font-bold text-[#FFFBDE] mb-4">
+                <h3 className="text-2xl md:text-4xl font-bold text-[#FFFBDE] mb-4">
                   Customer Reviews
                 </h3>
                 <p className="text-[#90D1CA]">No reviews yet.</p>

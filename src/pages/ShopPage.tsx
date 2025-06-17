@@ -62,7 +62,7 @@ export const ShopPage: React.FC = () => {
 		<div className="fade-in bg-[#096B68] text-[#FFFBDE] min-h-screen" id="shop">
 			<section className="py-20">
 				<div className="container mx-auto px-6">
-					<h1 className="text-4xl font-bold text-center text-white mb-12">
+					<h1 className="text-3xl md:text-5xl font-bold text-center text-white mb-12">
 						Shop Our Toolkit & Accessories
 					</h1>
 					<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -80,15 +80,15 @@ export const ShopPage: React.FC = () => {
 										/>
 									</CardHeader>
 									<CardContent className="p-6 flex-grow">
-										<CardTitle className="text-xl mb-2 text-[#C2EAE7]">
+										<CardTitle className="text-2xl md:text-3xl font-bold mb-3 text-[#C2EAE7]">
 											{product.name}
 										</CardTitle>
-										<CardDescription className="text-[#FFFBDE] mb-4 line-clamp-3">
+										<CardDescription className="text-base md:text-xl text-[#FFFBDE] mb-4 line-clamp-3">
 											{product.description}
 										</CardDescription>
 									</CardContent>
 									<CardFooter className="flex justify-between items-center p-6 pt-0 mt-auto">
-										<span className="text-2xl font-bold text-[#FFD59A]">
+										<span className="text-xl md:text-2xl font-bold text-[#FFD59A]">
 											KSh.{product.price.toFixed(2)}
 										</span>
 										<Button
