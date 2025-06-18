@@ -1,13 +1,36 @@
 import * as react from "react";
+import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
+
+const sectionVariants: Variants = {
+	hidden: { opacity: 0, y: 40 },
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: { duration: 0.8, ease: "easeOut" },
+	},
+};
 
 export const AboutPage: react.FC = () => (
 	<div className="fade-in" id="about">
 		<section className="py-20 bg-teal-900 text-yellow-50">
 			<div className="container mx-auto px-6">
-				<h1 className="text-4xl md:text-5xl font-bold text-center mb-12">
+				<motion.h1
+					className="text-4xl md:text-5xl font-bold text-center mb-12"
+					initial="hidden"
+					whileInView="visible"
+					viewport={{ once: true }}
+					variants={sectionVariants}
+				>
 					About The VDC Toolkit
-				</h1>
-				<div className="max-w-4xl mx-auto space-y-6">
+				</motion.h1>
+				<motion.div
+					className="max-w-4xl mx-auto space-y-6"
+					initial="hidden"
+					whileInView="visible"
+					viewport={{ once: true }}
+					variants={sectionVariants}
+				>
 					<p className="text-base md:text-xl">
 						Welcome to the Value Driven Child (VDC) Toolkit, a
 						transformative journey of intentional parenting. This
@@ -58,7 +81,7 @@ export const AboutPage: react.FC = () => (
 							emotional, social, moral, and spiritual.
 						</li>
 					</ul>
-				</div>
+				</motion.div>
 			</div>
 		</section>
 	</div>

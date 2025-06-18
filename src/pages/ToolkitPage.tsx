@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
 import {
 	HoverCard,
 	HoverCardContent,
@@ -10,6 +12,30 @@ import {
 	kit1Data,
 	kit2Data,
 } from "../data/toolkitData";
+
+const sectionVariants: Variants = {
+	hidden: { opacity: 0, y: 40 },
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: { duration: 0.8, ease: "easeOut" },
+	},
+};
+
+const staggerContainerVariants: Variants = {
+	hidden: { opacity: 0 },
+	visible: {
+		opacity: 1,
+		transition: {
+			staggerChildren: 0.3,
+		},
+	},
+};
+
+const staggerItemVariants: Variants = {
+	hidden: { opacity: 0, y: 40 },
+	visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
+};
 
 const colorStyles = {
 	blue: {
@@ -180,18 +206,39 @@ export const ToolkitPage: React.FC = () => {
 			{/* Toolkit Section */}
 			<section className="py-20 bg-teal-600 text-yellow-50">
 				<div className="container mx-auto px-6">
-					<h1 className="text-4xl md:text-5xl font-bold text-center mb-12">
+					<motion.h1
+						className="text-4xl md:text-5xl font-bold text-center mb-12"
+						initial="hidden"
+						whileInView="visible"
+						viewport={{ once: true }}
+						variants={sectionVariants}
+					>
 						The VDC Train-up Toolkit
-					</h1>
-					<p className="text-lg md:text-xl text-center max-w-7xl mx-auto mb-16">
+					</motion.h1>
+					<motion.p
+						className="text-lg md:text-xl text-center max-w-7xl mx-auto mb-16"
+						initial="hidden"
+						whileInView="visible"
+						viewport={{ once: true }}
+						variants={sectionVariants}
+					>
 						The VDC Train-up Toolkit comprises two distinct
 						age-specific kits, each meticulously tailored to cater
 						to specific developmental stages. This ensures that
 						character education is relevant, engaging, and impactful
 						throughout a child’s growth.
-					</p>
-					<div className="grid lg:grid-cols-2 gap-12">
-						<div className="bg-teal-700 p-8 rounded-lg shadow-lg">
+					</motion.p>
+					<motion.div
+						className="grid lg:grid-cols-2 gap-12"
+						initial="hidden"
+						whileInView="visible"
+						viewport={{ once: true }}
+						variants={staggerContainerVariants}
+					>
+						<motion.div
+							className="bg-teal-700 p-8 rounded-lg shadow-lg"
+							variants={staggerItemVariants}
+						>
 							<h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
 								Kit 1: Early Development (4-9 Years)
 							</h2>
@@ -201,8 +248,11 @@ export const ToolkitPage: React.FC = () => {
 								childhood. Click on a value to learn more.
 							</p>
 							<ValueList data={kit1Data} />
-						</div>
-						<div className="bg-teal-700 p-8 rounded-lg shadow-lg">
+						</motion.div>
+						<motion.div
+							className="bg-teal-700 p-8 rounded-lg shadow-lg"
+							variants={staggerItemVariants}
+						>
 							<h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
 								Kit 2: Transitional Core Values (10-18 Years)
 							</h2>
@@ -213,19 +263,31 @@ export const ToolkitPage: React.FC = () => {
 								more.
 							</p>
 							<ValueList data={kit2Data} />
-						</div>
-					</div>
+						</motion.div>
+					</motion.div>
 				</div>
 			</section>
 
 			{/* PrinciplesPage content */}
 			<section className="py-20 bg-teal-900 text-yellow-50">
 				<div className="container mx-auto px-6">
-					<h1 className="text-4xl md:text-5xl font-bold text-center mb-12">
+					<motion.h1
+						className="text-4xl md:text-5xl font-bold text-center mb-12"
+						initial="hidden"
+						whileInView="visible"
+						viewport={{ once: true }}
+						variants={sectionVariants}
+					>
 						Toolkit Guiding Principles: The Foundation of VDC
 						Parenting
-					</h1>
-					<p className="text-lg md:text-xl text-center max-w-7xl mx-auto mb-16">
+					</motion.h1>
+					<motion.p
+						className="text-lg md:text-xl text-center max-w-7xl mx-auto mb-16"
+						initial="hidden"
+						whileInView="visible"
+						viewport={{ once: true }}
+						variants={sectionVariants}
+					>
 						At the heart of the Value Driven Child (VDC) Toolkit
 						lies a robust framework built upon six interconnected
 						guiding principles. These principles are carefully
@@ -238,9 +300,18 @@ export const ToolkitPage: React.FC = () => {
 						into a sacred, intentional journey—one that raises
 						children of deep character, strong identity, and
 						unshakable faith.
-					</p>
-					<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-						<div className="p-6 bg-teal-700 rounded-lg shadow-md">
+					</motion.p>
+					<motion.div
+						className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+						initial="hidden"
+						whileInView="visible"
+						viewport={{ once: true }}
+						variants={staggerContainerVariants}
+					>
+						<motion.div
+							className="p-6 bg-teal-700 rounded-lg shadow-md"
+							variants={staggerItemVariants}
+						>
 							<h3 className="text-2xl md:text-3xl font-bold mb-2">
 								1. Foundational Core Values
 							</h3>
@@ -268,8 +339,11 @@ export const ToolkitPage: React.FC = () => {
 								of 12 for early childhood (4-9 years) and 12 for
 								adolescence (10-18 years).
 							</p>
-						</div>
-						<div className="p-6 bg-teal-700 rounded-lg shadow-md">
+						</motion.div>
+						<motion.div
+							className="p-6 bg-teal-700 rounded-lg shadow-md"
+							variants={staggerItemVariants}
+						>
 							<h3 className="text-2xl md:text-3xl font-bold mb-2">
 								2. Natural Exclusive Predispositions
 							</h3>
@@ -297,8 +371,11 @@ export const ToolkitPage: React.FC = () => {
 								fostering their unique strengths and authentic
 								growth- the God-given design.
 							</p>
-						</div>
-						<div className="p-6 bg-teal-700 rounded-lg shadow-md">
+						</motion.div>
+						<motion.div
+							className="p-6 bg-teal-700 rounded-lg shadow-md"
+							variants={staggerItemVariants}
+						>
 							<h3 className="text-2xl md:text-3xl font-bold mb-2">
 								3. The Principle of Affirmation
 							</h3>
@@ -322,89 +399,85 @@ export const ToolkitPage: React.FC = () => {
 								confidence, self-acceptance, and a strong,
 								values-based identity.
 							</p>
-						</div>
-						<div className="p-6 bg-teal-700 rounded-lg shadow-md">
+						</motion.div>
+						<motion.div
+							className="p-6 bg-teal-700 rounded-lg shadow-md"
+							variants={staggerItemVariants}
+						>
 							<h3 className="text-2xl md:text-3xl font-bold mb-2">
-								4. The Operant Conditioning Principle
+								4. The Principle of Storytelling
 							</h3>
 							<p className="text-base md:text-lg">
-								Based on the work of B.F. Skinner, this
-								principle states that a behavior is strengthened
-								or weakened based on the consequences that
-								follows it. Positive behaviors are more likely
-								to be repeated when followed by positive
-								reinforcement, while negative behaviors decrease
-								when followed by consequences. Why it matters to
-								you: The VDC Toolkit applies this principle
-								through its structured Affirm – Train – Track –
-								Reward (ATTR) cycle. It moves beyond merely
-								correcting misbehavior to proactively shaping
-								character. Reward Cards are used for positive
-								reinforcement, celebrating virtues like empathy
-								and diligence, while Corrective Cards offer
-								constructive feedback when improvement is
-								needed. This consistent system promotes
-								accountability, internalizes desired behaviors,
-								and helps children understand that every
-								behavior problem is fundamentally a values
-								problem.
+								Stories are a powerful, age-old tool for
+								instilling values. They bypass intellectual
+								defenses and connect directly with the heart,
+								making abstract concepts like honesty or
+								perseverance tangible and memorable. Supported by
+								psychology (narrative psychology) and neurology
+								(mirror neurons), stories create immersive
+								experiences that allow children to internalize
+								values emotionally and cognitively. Why it
+								matters to you: The VDC Toolkit includes a
+								collection of beautifully illustrated Story Cards.
+								Each story is crafted to bring a specific value
+								to life, featuring relatable characters and
+								engaging plots. This makes learning about values
+								an enjoyable and impactful experience, turning
+								abstract principles into lasting convictions.
 							</p>
-						</div>
-						<div className="p-6 bg-teal-700 rounded-lg shadow-md">
+						</motion.div>
+						<motion.div
+							className="p-6 bg-teal-700 rounded-lg shadow-md"
+							variants={staggerItemVariants}
+						>
 							<h3 className="text-2xl md:text-3xl font-bold mb-2">
-								5. The Habit Loop Principle
+								5. The Principle of Active Engagement
 							</h3>
 							<p className="text-base md:text-lg">
-								Character isn’t built in a day—it’s built in
-								daily routines. Rooted in Charles Duhigg's
-								model, this principle explains that behaviors
-								become automatic habits through a simple loop:
-								Cue (trigger) → Routine (the behavior) → Reward
-								(positive reinforcement). Consistent repetition
-								turns conscious efforts into effortless,
-								ingrained habits. The VDC Train-Up Cards are
-								designed to leverage this principle. They act as
-								the "cue" with specific daily practices forming
-								the "routine". The Reward Cards provide the
-								"reward" (points, praise, privileges) that
-								releases dopamine, making the habit satisfying
-								and strengthening its repetition and retention.
-								This systematic approach helps your child
-								develop lasting positive habits, transforming
-								values from abstract ideas into daily lived
-								behaviors with less conscious effort over time.
+								Children learn best by doing. Active engagement
+								transforms passive listening into active learning,
+								creating stronger neural connections and deeper
+								understanding. This principle is rooted in
+								educational theories like experiential learning and
+								constructivism, which emphasize hands-on
+								activities for meaningful learning. Why it
+								matters to you: The VDC Toolkit is designed for
+								interaction. It includes Discussion Cards with
+								thought-provoking questions to spark meaningful
+								conversations, connecting values to real-life
+								situations. This active dialogue helps your child
+								think critically, articulate their thoughts, and
+								apply values to their own experiences, making
+								character development a collaborative family
+								activity.
 							</p>
-						</div>
-						<div className="p-6 bg-teal-700 rounded-lg shadow-md">
+						</motion.div>
+						<motion.div
+							className="p-6 bg-teal-700 rounded-lg shadow-md"
+							variants={staggerItemVariants}
+						>
 							<h3 className="text-2xl md:text-3xl font-bold mb-2">
-								6.The Feedback Loop Principle
+								6. The Principle of Repetition and Routine
 							</h3>
 							<p className="text-base md:text-lg">
-								Growth needs tracking and managing. This
-								principle emphasizes that continuously tracking,
-								measuring, and evaluating behavior is essential
-								for effective management and improvement. It
-								involves observing a child's actions, tracking
-								their progress, providing feedback, and
-								adjusting guidance accordingly. Why it matters
-								to you: No more parenting in the dark. You’ll
-								see what’s working, where help is needed, and
-								how to guide your child step by step. The VDC
-								Toolkit transforms parenting from guesswork to
-								strategic, data-driven nurturing. The Train-Up
-								Cards, Star Reward Cards, Corrective Cards, and
-								the My VDC Reward Chart work together to create
-								a visible, measurable, and accountable system.
-								This allows you to: • Gain objective insight
-								into behavior patterns. • Provide targeted
-								support and celebrate progress. • Make adaptive
-								adjustments to your parenting strategies based
-								on clear data. • Empower your child to take
-								ownership of their growth and develop a strong
-								sense of responsibility.
+								Consistency is key to forming lasting habits and
+								beliefs. Repetition strengthens neural pathways,
+								making values-based thinking and behavior second
+								nature. This principle is grounded in the brain's
+								ability to learn through repeated exposure and
+								practice. Why it matters to you: The VDC Toolkit
+								is designed for easy integration into your daily
+								life. By incorporating the toolkit's activities
+								into your family routine—whether at bedtime,
+								dinnertime, or during play—you create a
+								consistent environment where values are regularly
+								discussed, affirmed, and lived out. This
+								transforms character development from a one-time
+								lesson into a continuous, lifelong journey.
 							</p>
-						</div>
-					</div>
+						</motion.div>
+					</motion.div>
+
 				</div>
 			</section>
 
