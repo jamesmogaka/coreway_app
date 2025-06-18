@@ -1,76 +1,35 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
-import type { Variants } from "framer-motion";
+import { PrinciplesPage } from "./PrinciplesPage";
+import { motion, type Variants } from "framer-motion";
 import {
 	HoverCard,
 	HoverCardContent,
 	HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import {
-	type Value,
-	type ValueData,
-	kit1Data,
-	kit2Data,
-} from "../data/toolkitData";
+} from "../components/ui/hover-card";
+import { kit1Data, kit2Data } from "../data/toolkitData";
+import { AnimatedSection } from "../components/AnimatedSection";
 
-const sectionVariants: Variants = {
-	hidden: { opacity: 0, y: 40 },
-	visible: {
-		opacity: 1,
-		y: 0,
-		transition: { duration: 0.8, ease: "easeOut" },
-	},
-};
+// Type Definitions
+interface Value {
+	description: string;
+	importance: string;
+	lacking: string;
+}
 
-const staggerContainerVariants: Variants = {
-	hidden: { opacity: 0 },
-	visible: {
-		opacity: 1,
-		transition: {
-			staggerChildren: 0.3,
-		},
-	},
-};
+interface ValueData {
+	[key: string]: Value;
+}
 
-const staggerItemVariants: Variants = {
-	hidden: { opacity: 0, y: 40 },
-	visible: {
-		opacity: 1,
-		y: 0,
-		transition: { duration: 0.8, ease: "easeOut" },
-	},
-};
+type ColorKey = "blue" | "orange" | "gold" | "green";
 
-const colorStyles = {
-	blue: {
-		bg: "bg-blue-400/90",
-		text: "text-white",
-		descriptionText: "text-blue-800",
-	},
-	orange: {
-		bg: "bg-orange-400/90",
-		text: "text-white",
-		descriptionText: "text-orange-800",
-	},
-	gold: {
-		bg: "bg-yellow-400/90",
-		text: "text-gray-900",
-		descriptionText: "text-yellow-800",
-	},
-	green: {
-		bg: "bg-green-400/90",
-		text: "text-white",
-		descriptionText: "text-green-800",
-	},
-};
+interface Predisposition {
+	header: string;
+	description: string;
+	parenting: string;
+}
 
-type ColorKey = keyof typeof colorStyles;
-
-// From PredispositionsPage.tsx
-interface DescriptionProps {
-	color: ColorKey;
-	data: Predisposition;
-	active: ColorKey;
+interface Predispositions {
+	[key: string]: Predisposition;
 }
 
 interface CardProps {
@@ -80,102 +39,99 @@ interface CardProps {
 	onClick: (color: ColorKey) => void;
 }
 
-export interface Predisposition {
-	title: string;
-	header: string;
-	description: string;
-	parenting: string;
+interface DescriptionProps {
+	color: ColorKey;
+	data: Predisposition;
+	active: ColorKey;
 }
 
-type Predispositions = {
-	[key: string]: Predisposition;
+// Animation Variants
+const staggerContainerVariants: Variants = {
+	hidden: { opacity: 0 },
+	visible: {
+		opacity: 1,
+		transition: {
+			staggerChildren: 0.1,
+			when: "beforeChildren",
+		},
+	},
 };
 
+const staggerItemVariants: Variants = {
+	hidden: { opacity: 0, y: 20 },
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: {
+			duration: 0.5,
+			ease: "easeOut",
+		},
+	},
+};
+
+// Data for Predispositions
 const predispositions: Predispositions = {
 	blue: {
-		title: "The Blue Child",
-		header: "Empathetic & Harmonious",
+		header: "The Blue Predisposition: The Relationship-Builder",
 		description:
-			"Driven by relationships and harmony, Blue children are compassionate, nurturing, and deeply relationship-oriented. They are the heart of the home, prioritizing emotional connection and peace.",
+			"Blues are motivated by connection, harmony, and purpose. They are empathetic, communicative, and seek to create meaningful relationships.",
 		parenting:
-			"Be a <strong>Nurturing Guide</strong>. Focus on emotional security, empathy, and relationship-building with a compassionate and supportive style.",
+			"Nurture their need for security and belonging. Use one-on-one time, affirm their feelings, and provide a stable, loving environment.",
 	},
 	orange: {
-		title: "The Orange Child",
-		header: "Action-Oriented & Spontaneous",
+		header: "The Orange Predisposition: The Action-Taker",
 		description:
-			"Driven by action and freedom, Orange children are energetic, creative, and love to explore. They bring enthusiasm and a love for adventure to every situation.",
+			"Oranges are energetic, spontaneous, and results-oriented. They thrive on freedom, variety, and hands-on experiences.",
 		parenting:
-			"Be an <strong>Adventurous Coach</strong>. Focus on freedom, spontaneity, and hands-on learning with an energetic and motivational style.",
+			"Provide opportunities for adventure and independence. Keep things fun and engaging, and allow them to learn by doing.",
 	},
 	gold: {
-		title: "The Gold Child",
-		header: "Structured & Responsible",
+		header: "The Gold Predisposition: The Organizer",
 		description:
-			"Driven by structure and duty, Gold children are organized, dependable, and detail-oriented. They are the steady anchors who thrive on clear expectations and routine.",
+			"Golds are responsible, organized, and detail-oriented. They value tradition, structure, and a sense of duty.",
 		parenting:
-			"Be a <strong>Structured Guide</strong>. Focus on discipline, responsibility, and stability with a consistent, rule-based style.",
+			"Offer clear expectations, consistent routines, and praise for their hard work and reliability. Respect their need for order.",
 	},
 	green: {
-		title: "The Green Child",
-		header: "Analytical & Independent",
+		header: "The Green Predisposition: The Thinker",
 		description:
-			"Driven by understanding and logic, Green children are independent thinkers who are curious and enjoy problem-solving. They seek knowledge and truth.",
+			"Greens are analytical, innovative, and logical. They are driven by a thirst for knowledge, competence, and understanding.",
 		parenting:
-			"Be an <strong>Analytical Mentor</strong>. Focus on intellectual stimulation, independence, and logical reasoning with a knowledge-driven style.",
+			"Encourage their curiosity and respect their need for intellectual space. Engage in deep conversations and value their logical reasoning.",
 	},
 };
 
-const Card: React.FC<CardProps> = ({ color, children, active, onClick }) => {
-	const styles = colorStyles[color];
-	return (
-		<div
-			className={`p-6 ${
-				styles.bg
-			} rounded-t-lg shadow-md predisposition-card ${
-				active === color ? "active-card" : ""
-			}`}
-			onClick={() => onClick(color)}>
-			<h3
-				className={`text-xl md:text-2xl font-bold ${styles.text} text-center`}>
-				{children}
-			</h3>
-		</div>
-	);
+// Color Styles
+const colorStyles = {
+	blue: {
+		bg: "bg-blue-500",
+		text: "text-white",
+		descriptionText: "text-blue-600",
+	},
+	orange: {
+		bg: "bg-orange-500",
+		text: "text-white",
+		descriptionText: "text-orange-600",
+	},
+	gold: {
+		bg: "bg-yellow-500",
+		text: "text-white",
+		descriptionText: "text-yellow-600",
+	},
+	green: {
+		bg: "bg-green-500",
+		text: "text-white",
+		descriptionText: "text-green-600",
+	},
 };
 
-const Description: React.FC<DescriptionProps> = ({ color, data, active }) => {
-	const styles = colorStyles[color];
-	return (
-		<div
-			className={`description-panel text-base md:text-lg ${
-				active === color ? "show" : ""
-			}`}>
-			<div className="description-content fade-in">
-				<h2
-					className={`text-3xl md:text-4xl font-bold ${styles.descriptionText} mb-4`}>
-					{data.header}
-				</h2>
-				<p className="text-gray-700 mb-4">{data.description}</p>
-				<p
-					dangerouslySetInnerHTML={{
-						__html: `<strong>Parenting Style:</strong> ${data.parenting}`,
-					}}
-				/>
-			</div>
-		</div>
-	);
-};
-
-// Original ToolkitPage content
-const ValueList: React.FC<{
-	data: ValueData;
-}> = ({ data }) => (
-	<div className="grid grid-cols-3 gap-2 text-center">
+// Sub-components
+const ValueList: React.FC<{ data: ValueData }> = ({ data }) => (
+	<div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-center">
 		{Object.entries(data).map(([name, valueData]: [string, Value]) => (
 			<HoverCard key={name}>
 				<HoverCardTrigger asChild>
-					<div className="p-4 text-lg md:text-xl font-semibold rounded-md cursor-pointer hover:bg-teal-700 transition-colors">
+					<div className="p-4 text-lg font-semibold rounded-md cursor-pointer bg-teal-800 hover:bg-teal-700 transition-colors">
 						{name}
 					</div>
 				</HoverCardTrigger>
@@ -185,11 +141,11 @@ const ValueList: React.FC<{
 						<h4 className="text-base font-semibold">
 							Why it's important:
 						</h4>
-						<p className="text-base mb-2">{valueData.importance}</p>
+						<p className="text-sm mb-2">{valueData.importance}</p>
 						<h4 className="text-base font-semibold">
 							What it looks like when lacking:
 						</h4>
-						<p className="text-base">{valueData.lacking}</p>
+						<p className="text-sm">{valueData.lacking}</p>
 					</div>
 				</HoverCardContent>
 			</HoverCard>
@@ -197,8 +153,55 @@ const ValueList: React.FC<{
 	</div>
 );
 
+const Card: React.FC<CardProps> = ({ color, children, active, onClick }) => {
+	const styles = colorStyles[color];
+	return (
+		<motion.div
+			className={`p-6 ${
+				styles.bg
+			} rounded-t-lg shadow-md cursor-pointer ${
+				active === color ? "active-card" : ""
+			}`}
+			onClick={() => onClick(color)}
+			whileHover={{ scale: 1.03, y: -5 }}
+			whileTap={{ scale: 0.98 }}
+			transition={{ duration: 0.2 }}>
+			<h3
+				className={`text-xl md:text-2xl font-bold ${styles.text} text-center`}>
+				{children}
+			</h3>
+		</motion.div>
+	);
+};
+
+const Description: React.FC<DescriptionProps> = ({ color, data, active }) => {
+	const styles = colorStyles[color];
+	return (
+		<div
+			className={`description-panel bg-white p-6 rounded-b-lg shadow-lg ${
+				active === color ? "show" : ""
+			}`}>
+			<div className="description-content fade-in">
+				<h2
+					className={`text-2xl md:text-3xl font-bold ${styles.descriptionText} mb-4`}>
+					{data.header}
+				</h2>
+				<p className="text-gray-700 mb-4 text-base md:text-lg">
+					{data.description}
+				</p>
+				<p
+					className="text-gray-700 text-base md:text-lg"
+					dangerouslySetInnerHTML={{
+						__html: `<strong>Parenting Style:</strong> ${data.parenting}`,
+					}}
+				/>
+			</div>
+		</div>
+	);
+};
+
+// Main Component
 export const ToolkitPage: React.FC = () => {
-	// State from PredispositionsPage
 	const [active, setActive] = useState<ColorKey>("blue");
 
 	const handleCardClick = (color: ColorKey) => {
@@ -208,441 +211,96 @@ export const ToolkitPage: React.FC = () => {
 	return (
 		<div className="fade-in" id="toolkit">
 			{/* Toolkit Section */}
-			<section className="py-20 bg-teal-600 text-yellow-50">
+			<AnimatedSection className="py-20 bg-teal-600 text-yellow-50">
 				<div className="container mx-auto px-6">
-					<motion.h1
-						className="text-4xl md:text-5xl font-bold text-center mb-12"
-						initial="hidden"
-						whileInView="visible"
-						viewport={{ once: true }}
-						variants={sectionVariants}>
+					<h1 className="text-4xl md:text-5xl font-bold text-center mb-12">
 						The VDC Train-up Toolkit
-					</motion.h1>
-					<motion.p
-						className="text-lg md:text-xl text-center max-w-7xl mx-auto mb-16"
-						initial="hidden"
-						whileInView="visible"
-						viewport={{ once: true }}
-						variants={sectionVariants}>
+					</h1>
+					<p className="text-lg md:text-xl text-center max-w-4xl mx-auto mb-16">
 						The VDC Train-up Toolkit comprises two distinct
 						age-specific kits, each meticulously tailored to cater
 						to specific developmental stages. This ensures that
 						character education is relevant, engaging, and impactful
 						throughout a child’s growth.
-					</motion.p>
+					</p>
 					<motion.div
 						className="grid lg:grid-cols-2 gap-12"
-						initial="hidden"
-						whileInView="visible"
-						viewport={{ once: true }}
 						variants={staggerContainerVariants}>
 						<motion.div
 							className="bg-teal-700 p-8 rounded-lg shadow-lg"
 							variants={staggerItemVariants}>
-							<h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+							<h2 className="text-3xl font-bold text-white mb-4">
 								Kit 1: Early Development (4-9 Years)
 							</h2>
 							<p className="text-base md:text-lg mb-6">
 								This kit focuses on 12 core values that form the
 								basis of moral and ethical growth during early
-								childhood. Click on a value to learn more.
+								childhood.
 							</p>
 							<ValueList data={kit1Data} />
 						</motion.div>
 						<motion.div
 							className="bg-teal-700 p-8 rounded-lg shadow-lg"
 							variants={staggerItemVariants}>
-							<h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+							<h2 className="text-3xl font-bold text-white mb-4">
 								Kit 2: Transitional Core Values (10-18 Years)
 							</h2>
 							<p className="text-base md:text-lg mb-6">
 								This kit focuses on 12 essential values that
 								support the complex transition from childhood
-								into young adulthood. Click on a value to learn
-								more.
+								into young adulthood.
 							</p>
 							<ValueList data={kit2Data} />
 						</motion.div>
 					</motion.div>
 				</div>
-			</section>
+			</AnimatedSection>
 
-			{/* PrinciplesPage content */}
-			<section className="py-20 bg-teal-900 text-yellow-50">
-				<div className="container mx-auto px-6">
-					<motion.h1
-						className="text-4xl md:text-5xl font-bold text-center mb-12"
-						initial="hidden"
-						whileInView="visible"
-						viewport={{ once: true }}
-						variants={sectionVariants}>
-						Toolkit Guiding Principles: The Foundation of VDC
-						Parenting
-					</motion.h1>
-					<motion.p
-						className="text-lg md:text-xl text-center max-w-7xl mx-auto mb-16"
-						initial="hidden"
-						whileInView="visible"
-						viewport={{ once: true }}
-						variants={sectionVariants}>
-						At the heart of the Value Driven Child (VDC) Toolkit
-						lies a robust framework built upon six interconnected
-						guiding principles. These principles are carefully
-						chosen and meticulously integrated, drawing from sound
-						educational, psychological, and neurological theories,
-						to provide parents with a clear, structured, and
-						adaptable roadmap for raising children of strong
-						character and conviction. Together, these principles
-						transform parenting from reactive behavior management
-						into a sacred, intentional journey—one that raises
-						children of deep character, strong identity, and
-						unshakable faith.
-					</motion.p>
-					<motion.div
-						className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-						initial="hidden"
-						whileInView="visible"
-						viewport={{ once: true }}
-						variants={staggerContainerVariants}>
-						<motion.div
-							className="p-6 bg-teal-700 rounded-lg shadow-md"
-							variants={staggerItemVariants}>
-							<h3 className="text-2xl md:text-3xl font-bold mb-2">
-								1. Foundational Core Values
-							</h3>
-							<p className="text-base md:text-lg">
-								Values are not isolated; they are intrinsically
-								linked and interconnected, like roots, branches,
-								and fruits. A touch on one value naturally
-								touches others. Some values are more
-								"foundational" than others because, when
-								cultivated, they naturally lead to the
-								development of many other positive virtues and
-								behaviors (what we call "resultant values and
-								behaviors") compared to others. Why it matters
-								to you: It's practically impossible to
-								intentionally teach a child over 200 different
-								values one by one. This principle helps us focus
-								on a carefully selected set of just 24
-								foundational core values. By concentrating on
-								these high-impact values, your child will
-								naturally develop over 200 additional values and
-								behaviors without your active involvement,
-								resonating with the efficient Pareto's Rule
-								(80/20 principle). These values are
-								strategically divided into age-appropriate sets
-								of 12 for early childhood (4-9 years) and 12 for
-								adolescence (10-18 years).
-							</p>
-						</motion.div>
-						<motion.div
-							className="p-6 bg-teal-700 rounded-lg shadow-md"
-							variants={staggerItemVariants}>
-							<h3 className="text-2xl md:text-3xl font-bold mb-2">
-								2. Natural Exclusive Predispositions
-							</h3>
-							<p className="text-base md:text-lg">
-								Every child is uniquely wired and is born with a
-								divine imprint—a unique purpose and innate
-								design. This includes their natural
-								predispositions, which are inherent traits
-								shaping their personality, learning style,
-								emotional responses, and overall behavior. These
-								aren't random; they are part of God's purposeful
-								design meant to align each child to their divine
-								purpose and calling. Why it matters to you: This
-								principle moves beyond the "one-size-fits-all"
-								myth of traditional parenting. Trying to mold a
-								child against their natural bent can lead to
-								frustration, disengagement, low self-esteem,
-								anxiety, and even behavioral problems, as their
-								authentic self feels suppressed. The VDC Toolkit
-								includes a Color Predisposition Quiz to help you
-								identify your child's unique type (Blue, Orange,
-								Gold, Green). This allows you to adopt
-								"Exclusive Parenting"—a tailored approach that
-								aligns with your child's inherent traits,
-								fostering their unique strengths and authentic
-								growth- the God-given design.
-							</p>
-						</motion.div>
-						<motion.div
-							className="p-6 bg-teal-700 rounded-lg shadow-md"
-							variants={staggerItemVariants}>
-							<h3 className="text-2xl md:text-3xl font-bold mb-2">
-								3. The Principle of Affirmation
-							</h3>
-							<p className="text-base md:text-lg">
-								This principle highlights the profound power of
-								positive statements to shape a child's mindset,
-								reinforce self-belief, and realign their
-								identity with truth, especially when grounded in
-								biblical principles. It's supported by
-								neuroscience (neuroplasticity) and psychology
-								(self-suggestion, cognitive bias), showing how
-								consistent positive declarations strengthen
-								neural pathways. Why it matters to you: The VDC
-								Toolkit uses specially designed Affirmation
-								Cards rooted in biblical truths. These cards
-								help your child internalize their identity as
-								loved, purposed, and uniquely created by God. By
-								regularly affirming their inherent worth,
-								spiritual attributes, character, and purpose,
-								you counter harmful comparisons and build
-								confidence, self-acceptance, and a strong,
-								values-based identity.
-							</p>
-						</motion.div>
-						<motion.div
-							className="p-6 bg-teal-700 rounded-lg shadow-md"
-							variants={staggerItemVariants}>
-							<h3 className="text-2xl md:text-3xl font-bold mb-2">
-								4. The Principle of Storytelling
-							</h3>
-							<p className="text-base md:text-lg">
-								Stories are a powerful, age-old tool for
-								instilling values. They bypass intellectual
-								defenses and connect directly with the heart,
-								making abstract concepts like honesty or
-								perseverance tangible and memorable. Supported
-								by psychology (narrative psychology) and
-								neurology (mirror neurons), stories create
-								immersive experiences that allow children to
-								internalize values emotionally and cognitively.
-								Why it matters to you: The VDC Toolkit includes
-								a collection of beautifully illustrated Story
-								Cards. Each story is crafted to bring a specific
-								value to life, featuring relatable characters
-								and engaging plots. This makes learning about
-								values an enjoyable and impactful experience,
-								turning abstract principles into lasting
-								convictions.
-							</p>
-						</motion.div>
-						<motion.div
-							className="p-6 bg-teal-700 rounded-lg shadow-md"
-							variants={staggerItemVariants}>
-							<h3 className="text-2xl md:text-3xl font-bold mb-2">
-								5. The Principle of Active Engagement
-							</h3>
-							<p className="text-base md:text-lg">
-								Children learn best by doing. Active engagement
-								transforms passive listening into active
-								learning, creating stronger neural connections
-								and deeper understanding. This principle is
-								rooted in educational theories like experiential
-								learning and constructivism, which emphasize
-								hands-on activities for meaningful learning. Why
-								it matters to you: The VDC Toolkit is designed
-								for interaction. It includes Discussion Cards
-								with thought-provoking questions to spark
-								meaningful conversations, connecting values to
-								real-life situations. This active dialogue helps
-								your child think critically, articulate their
-								thoughts, and apply values to their own
-								experiences, making character development a
-								collaborative family activity.
-							</p>
-						</motion.div>
-						<motion.div
-							className="p-6 bg-teal-700 rounded-lg shadow-md"
-							variants={staggerItemVariants}>
-							<h3 className="text-2xl md:text-3xl font-bold mb-2">
-								6. The Principle of Repetition and Routine
-							</h3>
-							<p className="text-base md:text-lg">
-								Consistency is key to forming lasting habits and
-								beliefs. Repetition strengthens neural pathways,
-								making values-based thinking and behavior second
-								nature. This principle is grounded in the
-								brain's ability to learn through repeated
-								exposure and practice. Why it matters to you:
-								The VDC Toolkit is designed for easy integration
-								into your daily life. By incorporating the
-								toolkit's activities into your family
-								routine—whether at bedtime, dinnertime, or
-								during play—you create a consistent environment
-								where values are regularly discussed, affirmed,
-								and lived out. This transforms character
-								development from a one-time lesson into a
-								continuous, lifelong journey.
-							</p>
-						</motion.div>
-					</motion.div>
-				</div>
-			</section>
+			{/* Principles Section */}
+			<AnimatedSection>
+				<PrinciplesPage />
+			</AnimatedSection>
 
 			{/* Predispositions Section */}
-			<section className="bg-teal-600 text-yellow-50 py-20 overflow-hidden">
+			<AnimatedSection className="py-20 bg-gray-800 text-yellow-50">
 				<div className="container mx-auto px-6">
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.6, ease: "easeOut" }}
-						viewport={{ once: true, margin: "-100px" }}>
-						<h1 className="text-4xl md:text-5xl font-bold text-yellow-50 text-center mb-6">
-							The Four-Color Predispositions
-						</h1>
-						<div className="w-24 h-1 bg-yellow-50 mx-auto mb-8"></div>
-					</motion.div>
-
-					<motion.p
-						className="text-lg md:text-xl text-center text-yellow-50 max-w-7xl mx-auto mb-16"
-						initial={{ opacity: 0, y: 20 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						transition={{
-							duration: 0.6,
-							delay: 0.2,
-							ease: "easeOut",
-						}}
-						viewport={{ once: true, margin: "-100px" }}>
+					<h1 className="text-4xl md:text-5xl font-bold text-center mb-4">
+						The Four-Color Predispositions
+					</h1>
+					<div className="w-24 h-1 bg-yellow-50 mx-auto mb-8"></div>
+					<p className="text-lg md:text-xl text-center max-w-4xl mx-auto mb-16">
 						Understanding your child's natural disposition is key to
 						effective parenting. Our toolkit helps you identify
 						whether your child is Blue, Orange, Gold, or Green, so
 						you can tailor your approach to their unique needs.
-					</motion.p>
-
-					<motion.div
-						className="grid md:grid-cols-2 gap-8"
-						initial="hidden"
-						whileInView="visible"
-						viewport={{ once: true, margin: "-100px" }}
-						variants={{
-							hidden: { opacity: 0 },
-							visible: {
-								opacity: 1,
-								transition: {
-									staggerChildren: 0.1,
-									when: "beforeChildren",
-								},
-							},
-						}}>
-						<motion.div
-							id="blue"
-							variants={{
-								hidden: { opacity: 0, y: 20 },
-								visible: {
-									opacity: 1,
-									y: 0,
-									transition: {
-										duration: 0.5,
-										ease: "easeOut",
-									},
-								},
-							}}>
-							<Card
-								color="blue"
-								active={active}
-								onClick={handleCardClick}>
-								{predispositions.blue.title}
-							</Card>
-							<Description
-								color="blue"
-								data={predispositions.blue}
-								active={active}
-							/>
-						</motion.div>
-						<motion.div
-							id="orange"
-							variants={{
-								hidden: { opacity: 0, y: 20 },
-								visible: {
-									opacity: 1,
-									y: 0,
-									transition: {
-										duration: 0.5,
-										ease: "easeOut",
-									},
-								},
-							}}>
-							<Card
-								color="orange"
-								active={active}
-								onClick={handleCardClick}>
-								{predispositions.orange.title}
-							</Card>
-							<Description
-								color="orange"
-								data={predispositions.orange}
-								active={active}
-							/>
-						</motion.div>
-						<motion.div
-							id="gold"
-							variants={{
-								hidden: { opacity: 0, y: 20 },
-								visible: {
-									opacity: 1,
-									y: 0,
-									transition: {
-										duration: 0.5,
-										ease: "easeOut",
-									},
-								},
-							}}>
-							<Card
-								color="gold"
-								active={active}
-								onClick={handleCardClick}>
-								{predispositions.gold.title}
-							</Card>
-							<Description
-								color="gold"
-								data={predispositions.gold}
-								active={active}
-							/>
-						</motion.div>
-						<motion.div
-							id="green"
-							variants={{
-								hidden: { opacity: 0, y: 20 },
-								visible: {
-									opacity: 1,
-									y: 0,
-									transition: {
-										duration: 0.5,
-										ease: "easeOut",
-									},
-								},
-							}}>
-							<Card
-								color="green"
-								active={active}
-								onClick={handleCardClick}>
-								{predispositions.green.title}
-							</Card>
-							<Description
-								color="green"
-								data={predispositions.green}
-								active={active}
-							/>
-						</motion.div>
-					</motion.div>
-
-					<motion.div
-						className="text-center mt-12"
-						initial={{ opacity: 0, y: 20 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						transition={{
-							duration: 0.6,
-							delay: 0.4,
-							ease: "easeOut",
-						}}
-						viewport={{ once: true, margin: "-50px" }}>
-						<motion.div
-							whileHover={{ scale: 1.05 }}
-							whileTap={{ scale: 0.95 }}>
-							<a
-								href="http://www.vdctoolkit.com/predisposition-quiz"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="inline-block font-bold py-3 px-8 text-lg rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg bg-blue-600 text-white hover:bg-blue-700">
-								Take the Predisposition Quiz
-							</a>
-						</motion.div>
-					</motion.div>
+					</p>
+					<div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+						{(Object.keys(predispositions) as ColorKey[]).map(
+							key => (
+								<motion.div
+									key={key}
+									variants={staggerItemVariants}>
+									<Card
+										color={key}
+										active={active}
+										onClick={handleCardClick}>
+										{
+											predispositions[key].header.split(
+												":"
+											)[0]
+										}
+									</Card>
+									<Description
+										color={key}
+										data={predispositions[key]}
+										active={active}
+									/>
+								</motion.div>
+							)
+						)}
+					</div>
 				</div>
-			</section>
+			</AnimatedSection>
 		</div>
 	);
 };

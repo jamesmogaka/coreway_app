@@ -1,88 +1,47 @@
-import * as react from "react";
+import * as React from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import type { Variants } from "framer-motion";
+import { AnimatedSection } from "../components/AnimatedSection";
+import { Button } from "@/components/ui/button";
 
-const sectionVariants: Variants = {
-	hidden: { opacity: 0, y: 40 },
-	visible: {
-		opacity: 1,
-		y: 0,
-		transition: { duration: 0.8, ease: "easeOut" },
-	},
-};
-
-export const AboutPage: react.FC = () => (
-	<div className="fade-in" id="about">
-		<section className="py-20 bg-teal-900 text-yellow-50">
-			<div className="container mx-auto px-6">
-				<motion.h1
-					className="text-4xl md:text-5xl font-bold text-center mb-12"
-					initial="hidden"
-					whileInView="visible"
-					viewport={{ once: true }}
-					variants={sectionVariants}
-				>
-					About The VDC Toolkit
-				</motion.h1>
-				<motion.div
-					className="max-w-4xl mx-auto space-y-6"
-					initial="hidden"
-					whileInView="visible"
-					viewport={{ once: true }}
-					variants={sectionVariants}
-				>
-					<p className="text-base md:text-xl">
-						Welcome to the Value Driven Child (VDC) Toolkit, a
-						transformative journey of intentional parenting. This
-						toolkit is thoughtfully designed to empower parents,
-						guardians, and educators, providing a comprehensive
-						resource aimed at nurturing character development in
-						children.
-					</p>
-					<p className="text-base md:text-xl">
-						The VDC Toolkit offers a holistic approach to parenting,
-						seamlessly blending education, motivation, and guidance
-						to help children become the best versions of themselves.
-						With an array of carefully designed resources, this
-						toolkit equips you with the tools necessary to nurture
-						strong character and instill enduring values that will
-						serve children throughout their lives.
-					</p>
-					<h2 className="text-3xl md:text-4xl font-bold pt-6 mb-4">
-						Why Choose the VDC Toolkit?
-					</h2>
-					<p className="text-base md:text-xl">
-						Traditional parenting methods often rely on a generic,
-						one-size-fits-all approach. The VDC Toolkit offers a
-						personalized and proactive strategy. We help you move
-						beyond reactive parenting to shape your child’s internal
-						moral compass. We also systematically integrate biblical
-						reinforcement into each character value, anchoring moral
-						growth in spiritual truth.
-					</p>
-					<ul className="list-disc list-inside space-y-3 text-base md:text-xl">
-						<li>
-							<strong>Personalized Parenting:</strong> We help you
-							understand your child's unique predispositions for
-							tailored guidance.
-						</li>
-						<li>
-							<strong>Moral Compass Development:</strong> We focus
-							on cultivating a child's moral core, not just
-							correcting behavior.
-						</li>
-						<li>
-							<strong>Proactive Approach:</strong> We provide
-							tools to teach values before problems arise.
-						</li>
-						<li>
-							<strong>Holistic Development:</strong> We nurture
-							the full spectrum of a child's growth—cognitive,
-							emotional, social, moral, and spiritual.
-						</li>
-					</ul>
-				</motion.div>
-			</div>
-		</section>
-	</div>
+export const AboutPage: React.FC = () => (
+    <div id="about">
+        <AnimatedSection className="py-20 bg-teal-900 text-yellow-50">
+            <div className="container mx-auto px-6 text-center">
+                <motion.h1
+                    className="text-4xl md:text-5xl font-bold mb-6"
+                    initial={{ opacity: 0, y: -20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                >
+                    A Transformative Journey of Intentional Parenting
+                </motion.h1>
+                <motion.p
+                    className="text-base md:text-xl max-w-3xl mx-auto mb-8"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+                >
+                    The VDC Toolkit offers a holistic approach, blending education and guidance to help children thrive. Discover personalized strategies to nurture strong character and instill enduring values.
+                </motion.p>
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.4, ease: "easeOut" }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                >
+                    <Link to="/about-details">
+                        <Button variant="outline" size="lg" className="border-cream text-cream hover:bg-teal-medium hover:text-cream hover:border-teal-medium transition-all duration-200">
+                            Learn More
+                        </Button>
+                    </Link>
+                </motion.div>
+            </div>
+        </AnimatedSection>
+    </div>
 );
+

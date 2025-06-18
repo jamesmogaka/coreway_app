@@ -1,6 +1,7 @@
 import * as React from "react";
 import { motion, type Variants } from "framer-motion";
 import { HeroCarousel } from "../components/HeroCarousel";
+import { AnimatedSection } from "../components/AnimatedSection";
 import { HashLink } from "react-router-hash-link";
 
 const features = [
@@ -49,14 +50,7 @@ const predisposition = [
 	},
 ];
 
-const sectionVariants: Variants = {
-	hidden: { opacity: 0, y: 40 },
-	visible: {
-		opacity: 1,
-		y: 0,
-		transition: { duration: 0.8, ease: "easeOut" },
-	},
-};
+
 
 const containerVariants: Variants = {
 	hidden: { opacity: 0 },
@@ -73,7 +67,7 @@ const itemVariants: Variants = {
 	visible: {
 		opacity: 1,
 		y: 0,
-		transition: { duration: 0.6, ease: "easeOut" },
+		transition: { duration: 0.5, ease: "easeOut" },
 	},
 };
 
@@ -103,10 +97,10 @@ export const HomePage: React.FC = () => {
 							Nurture morally grounded, resilient, and successful
 							children with the VDC Toolkit.
 						</motion.p>
-						<motion.div variants={itemVariants}>
+						<motion.div variants={itemVariants} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
 							<HashLink
 								to="#toolkit"
-								className="bg-teal-700 hover:bg-teal-400 text-yellow-50 inline-block font-bold py-4 px-10 text-xl rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg hover:-translate-y-1 hover:scale-105">
+								className="bg-teal-700 hover:bg-teal-400 text-yellow-50 inline-block font-bold py-4 px-10 text-xl rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg">
 								Discover the Toolkit
 							</HashLink>
 						</motion.div>
@@ -115,12 +109,7 @@ export const HomePage: React.FC = () => {
 			</section>
 
 			{/* Features Section - Dark Teal */}
-			<motion.section
-				className="text-yellow-50 py-20"
-				initial="hidden"
-				whileInView="visible"
-				viewport={{ once: true, amount: 0.2 }}
-				variants={sectionVariants}>
+			<AnimatedSection className="text-yellow-50 py-20">
 				<div className="container mx-auto px-6">
 					<div className="text-center mb-12">
 						<h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -145,8 +134,9 @@ export const HomePage: React.FC = () => {
 						{features.map((item, index) => (
 							<motion.div
 								key={index}
-								className="p-6 bg-teal-700 hover:bg-teal-400 rounded-lg shadow-md hover:shadow-xl transition-all duration-300"
-								variants={itemVariants}>
+								className="p-6 bg-teal-700 rounded-lg shadow-md transition-all duration-300"
+								variants={itemVariants}
+								whileHover={{ y: -5, boxShadow: "0px 10px 20px rgba(0,0,0,0.1)" }}>
 								<h3 className="text-2xl font-bold mb-4">
 									{item.title}
 								</h3>
@@ -157,15 +147,10 @@ export const HomePage: React.FC = () => {
 						))}
 					</motion.div>
 				</div>
-			</motion.section>
+			</AnimatedSection>
 
 			{/* Personality Types Section - Medium Teal */}
-			<motion.section
-				className="bg-teal-600 text-yellow-50 py-20"
-				initial="hidden"
-				whileInView="visible"
-				viewport={{ once: true, amount: 0.2 }}
-				variants={sectionVariants}>
+			<AnimatedSection className="bg-teal-600 text-yellow-50 py-20">
 				<div className="container mx-auto px-6">
 					<div className="text-center mb-12">
 						<h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -186,17 +171,17 @@ export const HomePage: React.FC = () => {
 						whileInView="visible"
 						viewport={{ once: true, amount: 0.2 }}>
 						{predisposition.map((type, index) => (
-							<motion.div key={index} variants={itemVariants}>
+							<motion.div key={index} variants={itemVariants} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
 								<HashLink
 									to={`/#${type.name.toLowerCase()}`}
-									className={`bg-${type.color} text-${type.text} px-4 py-2 rounded-full font-semibold shadow-md hover:scale-105 transition-transform hover:shadow-lg`}>
+									className={`bg-${type.color} text-${type.text} px-4 py-2 rounded-full font-semibold shadow-md transition-transform hover:shadow-lg`}>
 									{type.name}
 								</HashLink>
 							</motion.div>
 						))}
 					</motion.div>
 				</div>
-			</motion.section>
+			</AnimatedSection>
 		</div>
 	);
 };

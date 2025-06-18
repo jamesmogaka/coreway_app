@@ -12,6 +12,7 @@ import { ContactPage } from "./pages/ContactPage";
 import { ShopLayout } from "./components/ShopLayout";
 import { ToolkitPage } from "./pages/ToolkitPage";
 import { AboutPage } from "./pages/AboutPage";
+import { AboutDetailsPage } from "./pages/AboutDetailsPage";
 import { HomePage } from "./pages/HomePage";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
@@ -47,6 +48,10 @@ function AppContent() {
 						/>
 						<Route path="/shop/*" element={<ShopLayout />} />
 						<Route path="/auth" element={<Auth />} />
+						<Route
+							path="/about-details"
+							element={<AboutDetailsPage />}
+						/>
 
 						{/* Admin Routes */}
 						<Route

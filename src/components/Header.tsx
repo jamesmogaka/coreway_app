@@ -5,6 +5,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { HashLink } from "react-router-hash-link";
+import { motion, type Variants } from "framer-motion";
 export interface NavLinkProps {
 	pageId: string;
 	title: string;
@@ -66,6 +67,20 @@ const NavLink: React.FC<NavLinkProps> = ({ pageId, title, activePage }) => {
 	);
 };
 
+
+const navLinkVariants: Variants = {
+	hidden: { y: -20, opacity: 0 },
+	visible: (i: number) => ({
+		y: 0,
+		opacity: 1,
+		transition: {
+			delay: i * 0.1 + 0.4, // Staggered delay for each link
+			duration: 0.4,
+			ease: "easeOut",
+		},
+	}),
+};
+
 export const Header: React.FC = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
@@ -74,7 +89,11 @@ export const Header: React.FC = () => {
 	const activePage = location.pathname.split("/")[1];
 
 	return (
-		<header className="bg-[#096B68] shadow-lg sticky top-0 z-50 backdrop-blur-sm bg-opacity-95">
+		<motion.header
+			initial={{ y: -100, opacity: 0 }}
+			animate={{ y: 0, opacity: 1 }}
+			transition={{ duration: 0.5, ease: "easeOut" }}
+			className="bg-[#096B68] shadow-lg sticky top-0 z-50 backdrop-blur-sm bg-opacity-95">
 			<nav className="container mx-auto px-4">
 				<div className="flex justify-between items-center h-20">
 					<Link to="/" className="flex items-center group">
@@ -83,13 +102,19 @@ export const Header: React.FC = () => {
 						</span>
 					</Link>
 					<div className="hidden md:flex items-center space-x-1 group">
-						{navLinks.map(link => (
-							<NavLink
+						{navLinks.map((link, index) => (
+							<motion.div
 								key={link.id}
-								pageId={link.id}
-								title={link.title}
-								activePage={activePage}
-							/>
+								custom={index}
+								variants={navLinkVariants}
+								initial="hidden"
+								animate="visible">
+								<NavLink
+									pageId={link.id}
+									title={link.title}
+									activePage={activePage}
+								/>
+							</motion.div>
 						))}
 						{user ? (
 							<div className="ml-4 flex items-center space-x-2">
@@ -187,6 +212,6 @@ export const Header: React.FC = () => {
 					)}
 				</nav>
 			)}
-		</header>
+		</motion.header>
 	);
 };
