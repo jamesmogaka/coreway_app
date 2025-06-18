@@ -12,7 +12,7 @@ export function ShopLayout() {
 		useCart();
 
 	return (
-		<div className="min-h-screen w-full">
+		<div className="min-h-screen w-full" id="shop">
 			<ShopHeader />
 			<main>
 				<Routes>

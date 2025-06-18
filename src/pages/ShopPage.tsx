@@ -30,20 +30,28 @@ export const ShopPage: React.FC = () => {
 	const fetchProducts = async () => {
 		try {
 			setLoading(true);
-			const { data, error } = await supabase.from("products").select("*");
+			const { data, error } = await supabase.from("products").select(`
+				id,
+				name,
+				description,
+				product_variants (
+					price,
+					stock,
+					image_url
+				)
+			`);
 
 			if (error) throw error;
 			// Map the data to match the Product type
-			const formattedProducts = (data || []).map(
-				dbProduct =>
-					({
-						product: dbProduct.product,
-						image_url: dbProduct.image_url,
-						name: dbProduct.name,
-						description: dbProduct.description,
-						price: dbProduct.price,
-						stock: dbProduct.stock || 0,
-					} as Product)
+			const formattedProducts = (data || []).flatMap(product =>
+				(product.product_variants || []).map(variant => ({
+					product: product.id,
+					image_url: variant.image_url,
+					name: product.name,
+					description: product.description,
+					price: variant.price,
+					stock: variant.stock || 0,
+				}))
 			);
 			setProducts(formattedProducts);
 		} catch (err) {
@@ -59,7 +67,7 @@ export const ShopPage: React.FC = () => {
 		return <div className="text-center text-red-500 py-12">{error}</div>;
 
 	return (
-		<div className="fade-in bg-[#096B68] text-[#FFFBDE] min-h-screen" id="shop">
+		<div className="fade-in bg-[#096B68] text-[#FFFBDE] min-h-screen">
 			<section className="py-20">
 				<div className="container mx-auto px-6">
 					<h1 className="text-3xl md:text-5xl font-bold text-center text-white mb-12">
@@ -89,7 +97,11 @@ export const ShopPage: React.FC = () => {
 									</CardContent>
 									<CardFooter className="flex justify-between items-center p-6 pt-0 mt-auto">
 										<span className="text-xl md:text-2xl font-bold text-[#FFD59A]">
-											KSh.{product.price.toFixed(2)}
+											{product.price === null
+												? ""
+												: `KSh.${product.price.toFixed(
+														2
+												  )}`}
 										</span>
 										<Button
 											className="bg-[#FFD59A] text-[#3A3A3A] rounded-full hover:bg-[#FFAD60] transition-colors font-semibold"
