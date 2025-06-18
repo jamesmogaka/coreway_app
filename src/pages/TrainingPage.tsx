@@ -1,24 +1,98 @@
 import * as react from "react";
+import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
+
+// Animation variants with proper TypeScript types
+const fadeInUp: Variants = {
+	hidden: { opacity: 0, y: 20 },
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: {
+			duration: 0.6,
+			ease: "easeOut",
+		},
+	},
+};
+
+const staggerContainer: Variants = {
+	hidden: { opacity: 0 },
+	visible: (i = 1) => ({
+		opacity: 1,
+		transition: {
+			staggerChildren: 0.1,
+			when: "beforeChildren",
+			staggerDirection: 1,
+			delayChildren: i ? i * 0.1 : 0,
+		},
+	}),
+};
+
+const cardItem: Variants = {
+	hidden: {
+		opacity: 0,
+		y: 20,
+	},
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: {
+			duration: 0.5,
+			ease: "easeOut",
+		},
+	},
+};
 
 export const TrainingPage: react.FC = () => (
-	<div className="fade-in" id="training">
-		<section className="py-20 bg-teal-600 text-yellow-50">
+	<div id="training" className="overflow-x-hidden">
+		<motion.section
+			className="py-20 bg-teal-600 text-yellow-50"
+			initial={{ opacity: 0 }}
+			animate={{ opacity: 1 }}
+			transition={{ duration: 0.5 }}>
 			<div className="container mx-auto px-6">
-				<h1 className="text-4xl font-bold text-center mb-12">
-					Parenting Training Classes
-				</h1>
-				<p className="text-lg md:text-xl text-center max-w-3xl mx-auto mb-16">
-					Enroll in our training classes to master the VDC Toolkit.
-					Our expert-led sessions provide in-depth guidance on
-					applying the principles of value-driven parenting to nurture
-					your child's growth and character.
-				</p>
-				<div className="bg-teal-900 p-8 rounded-lg shadow-lg">
-					<h2 className="text-2xl font-bold mb-6">
+				<motion.div
+					initial="hidden"
+					whileInView="visible"
+					viewport={{ once: true, margin: "-50px" }}
+					variants={staggerContainer}
+					className="text-center">
+					<motion.h1
+						className="text-4xl font-bold mb-12"
+						variants={fadeInUp}>
+						Parenting Training Classes
+					</motion.h1>
+					<motion.p
+						className="text-lg md:text-xl max-w-3xl mx-auto mb-16"
+						variants={fadeInUp}
+						transition={{ delay: 0.1 }}>
+						Enroll in our training classes to master the VDC
+						Toolkit. Our expert-led sessions provide in-depth
+						guidance on applying the principles of value-driven
+						parenting to nurture your child's growth and character.
+					</motion.p>
+				</motion.div>
+				<motion.div
+					className="bg-teal-900 p-8 rounded-lg shadow-lg"
+					initial="hidden"
+					whileInView="visible"
+					viewport={{ once: true, margin: "-50px" }}
+					variants={staggerContainer}>
+					<motion.h2
+						className="text-2xl font-bold mb-6"
+						variants={fadeInUp}>
 						Upcoming Classes
-					</h2>
-					<div className="space-y-6">
-						<div className="md:flex items-center justify-between p-4 bg-teal-700 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+					</motion.h2>
+					<motion.div
+						className="space-y-6"
+						variants={staggerContainer}>
+						<motion.div
+							className="md:flex items-center justify-between p-4 bg-teal-700 rounded-lg shadow-md hover:shadow-xl transition-all duration-300"
+							variants={cardItem}
+							whileHover={{
+								y: -5,
+								transition: { duration: 0.2 },
+							}}>
 							<div>
 								<h3 className="text-xl font-bold">
 									Introduction to the VDC Toolkit
@@ -32,11 +106,29 @@ export const TrainingPage: react.FC = () => (
 									to get started.
 								</p>
 							</div>
-							<button className="mt-4 md:mt-0 bg-teal-600 text-yellow-50 hover:bg-teal-500 inline-block font-bold py-2 px-6 rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg hover:-translate-y-1">
+							<motion.button
+								className="mt-4 md:mt-0 bg-teal-600 text-yellow-50 hover:bg-teal-500 inline-block font-bold py-2 px-6 rounded-full shadow-md"
+								whileHover={{
+									scale: 1.05,
+									backgroundColor: "#0d9488",
+									boxShadow:
+										"0 10px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+								}}
+								whileTap={{
+									scale: 0.98,
+									boxShadow:
+										"0 2px 4px -2px rgb(0 0 0 / 0.1)",
+								}}>
 								Enroll Now
-							</button>
-						</div>
-						<div className="md:flex items-center justify-between p-4 bg-teal-700 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+							</motion.button>
+						</motion.div>
+						<motion.div
+							className="md:flex items-center justify-between p-4 bg-teal-700 rounded-lg shadow-md hover:shadow-xl transition-all duration-300"
+							variants={cardItem}
+							whileHover={{
+								y: -5,
+								transition: { duration: 0.2 },
+							}}>
 							<div>
 								<h3 className="text-xl font-bold">
 									Understanding Your Child's Predisposition
@@ -50,11 +142,29 @@ export const TrainingPage: react.FC = () => (
 									personalized parenting strategies.
 								</p>
 							</div>
-							<button className="mt-4 md:mt-0 bg-teal-600 text-yellow-50 hover:bg-teal-500 inline-block font-bold py-2 px-6 rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg hover:-translate-y-1">
+							<motion.button
+								className="mt-4 md:mt-0 bg-teal-600 text-yellow-50 hover:bg-teal-500 inline-block font-bold py-2 px-6 rounded-full shadow-md"
+								whileHover={{
+									scale: 1.05,
+									backgroundColor: "#0d9488",
+									boxShadow:
+										"0 10px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+								}}
+								whileTap={{
+									scale: 0.98,
+									boxShadow:
+										"0 2px 4px -2px rgb(0 0 0 / 0.1)",
+								}}>
 								Enroll Now
-							</button>
-						</div>
-						<div className="md:flex items-center justify-between p-4 bg-teal-700 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+							</motion.button>
+						</motion.div>
+						<motion.div
+							className="md:flex items-center justify-between p-4 bg-teal-700 rounded-lg shadow-md hover:shadow-xl transition-all duration-300"
+							variants={cardItem}
+							whileHover={{
+								y: -5,
+								transition: { duration: 0.2 },
+							}}>
 							<div>
 								<h3 className="text-xl font-bold">
 									Advanced Habit Formation
@@ -68,13 +178,25 @@ export const TrainingPage: react.FC = () => (
 									Loop principles effectively.
 								</p>
 							</div>
-							<button className="mt-4 md:mt-0 bg-teal-600 text-yellow-50 hover:bg-teal-500 inline-block font-bold py-2 px-6 rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg hover:-translate-y-1">
+							<motion.button
+								className="mt-4 md:mt-0 bg-teal-600 text-yellow-50 hover:bg-teal-500 inline-block font-bold py-2 px-6 rounded-full shadow-md"
+								whileHover={{
+									scale: 1.05,
+									backgroundColor: "#0d9488",
+									boxShadow:
+										"0 10px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+								}}
+								whileTap={{
+									scale: 0.98,
+									boxShadow:
+										"0 2px 4px -2px rgb(0 0 0 / 0.1)",
+								}}>
 								Enroll Now
-							</button>
-						</div>
-					</div>
-				</div>
+							</motion.button>
+						</motion.div>
+					</motion.div>
+				</motion.div>
 			</div>
-		</section>
+		</motion.section>
 	</div>
 );
