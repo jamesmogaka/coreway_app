@@ -1,4 +1,5 @@
 import * as React from "react";
+import { motion, type Variants } from "framer-motion";
 import { HeroCarousel } from "../components/HeroCarousel";
 import { HashLink } from "react-router-hash-link";
 
@@ -47,35 +48,79 @@ const predisposition = [
 		text: "white",
 	},
 ];
+
+const sectionVariants: Variants = {
+	hidden: { opacity: 0, y: 40 },
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: { duration: 0.8, ease: "easeOut" },
+	},
+};
+
+const containerVariants: Variants = {
+	hidden: { opacity: 0 },
+	visible: {
+		opacity: 1,
+		transition: {
+			staggerChildren: 0.15,
+		},
+	},
+};
+
+const itemVariants: Variants = {
+	hidden: { opacity: 0, y: 20 },
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: { duration: 0.6, ease: "easeOut" },
+	},
+};
+
 export const HomePage: React.FC = () => {
 	return (
-		<div className=" bg-teal-900 fade-in min-h-screen" id="home">
+		<div className="bg-teal-900 min-h-screen" id="home">
 			{/* Hero Section - Dark Teal */}
-			<section className="relative text-yellow-50 h-[40vh] ">
+			<section className="relative text-yellow-50 h-[40vh]">
 				<div className="absolute inset-0 z-0">
 					<HeroCarousel />
 				</div>
 				<div className="absolute inset-0 z-0 bg-teal-700/50"></div>
-				<div className="relative z-20 h-full flex flex-col items-center justify-center text-center">
+				<motion.div
+					className="relative z-20 h-full flex flex-col items-center justify-center text-center"
+					initial="hidden"
+					animate="visible"
+					variants={containerVariants}>
 					<div className="container px-6 mx-auto">
-						<h1 className="text-4xl md:text-5xl font-bold mb-6">
+						<motion.h1
+							className="text-4xl md:text-5xl font-bold mb-6"
+							variants={itemVariants}>
 							Intentional Parenting for a Value-Driven Child
-						</h1>
-						<p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
+						</motion.h1>
+						<motion.p
+							className="text-lg md:text-xl mb-8 max-w-3xl mx-auto"
+							variants={itemVariants}>
 							Nurture morally grounded, resilient, and successful
 							children with the VDC Toolkit.
-						</p>
-						<HashLink
-							to="#toolkit"
-							className="bg-teal-700 hover:bg-teal-400 text-yellow-50 inline-block font-bold py-4 px-10 text-xl rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg hover:-translate-y-1 hover:scale-105">
-							Discover the Toolkit
-						</HashLink>
+						</motion.p>
+						<motion.div variants={itemVariants}>
+							<HashLink
+								to="#toolkit"
+								className="bg-teal-700 hover:bg-teal-400 text-yellow-50 inline-block font-bold py-4 px-10 text-xl rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg hover:-translate-y-1 hover:scale-105">
+								Discover the Toolkit
+							</HashLink>
+						</motion.div>
 					</div>
-				</div>
+				</motion.div>
 			</section>
 
 			{/* Features Section - Dark Teal */}
-			<section className="text-yellow-50 py-20">
+			<motion.section
+				className="text-yellow-50 py-20"
+				initial="hidden"
+				whileInView="visible"
+				viewport={{ once: true, amount: 0.2 }}
+				variants={sectionVariants}>
 				<div className="container mx-auto px-6">
 					<div className="text-center mb-12">
 						<h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -91,25 +136,36 @@ export const HomePage: React.FC = () => {
 						</p>
 					</div>
 
-					<div className="grid md:grid-cols-4 gap-8 text-center">
+					<motion.div
+						className="grid md:grid-cols-4 gap-8 text-center"
+						variants={containerVariants}
+						initial="hidden"
+						whileInView="visible"
+						viewport={{ once: true, amount: 0.2 }}>
 						{features.map((item, index) => (
-							<div
+							<motion.div
 								key={index}
-								className="p-6 bg-teal-700 hover:bg-teal-400 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+								className="p-6 bg-teal-700 hover:bg-teal-400 rounded-lg shadow-md hover:shadow-xl transition-all duration-300"
+								variants={itemVariants}>
 								<h3 className="text-2xl font-bold mb-4">
 									{item.title}
 								</h3>
 								<p className="text-base md:text-xl">
 									{item.description}
 								</p>
-							</div>
+							</motion.div>
 						))}
-					</div>
+					</motion.div>
 				</div>
-			</section>
+			</motion.section>
 
 			{/* Personality Types Section - Medium Teal */}
-			<section className="bg-teal-600 text-yellow-50 py-20">
+			<motion.section
+				className="bg-teal-600 text-yellow-50 py-20"
+				initial="hidden"
+				whileInView="visible"
+				viewport={{ once: true, amount: 0.2 }}
+				variants={sectionVariants}>
 				<div className="container mx-auto px-6">
 					<div className="text-center mb-12">
 						<h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -123,18 +179,24 @@ export const HomePage: React.FC = () => {
 						</p>
 					</div>
 
-					<div className="flex justify-center flex-wrap gap-4">
+					<motion.div
+						className="flex justify-center flex-wrap gap-4"
+						variants={containerVariants}
+						initial="hidden"
+						whileInView="visible"
+						viewport={{ once: true, amount: 0.2 }}>
 						{predisposition.map((type, index) => (
-							<HashLink
-								key={index}
-								to={`/#${type.name.toLowerCase()}`}
-								className={`bg-${type.color} text-${type.text} px-4 py-2 rounded-full font-semibold shadow-md hover:scale-105 transition-transform hover:shadow-lg`}>
-								{type.name}
-							</HashLink>
+							<motion.div key={index} variants={itemVariants}>
+								<HashLink
+									to={`/#${type.name.toLowerCase()}`}
+									className={`bg-${type.color} text-${type.text} px-4 py-2 rounded-full font-semibold shadow-md hover:scale-105 transition-transform hover:shadow-lg`}>
+									{type.name}
+								</HashLink>
+							</motion.div>
 						))}
-					</div>
+					</motion.div>
 				</div>
-			</section>
+			</motion.section>
 		</div>
 	);
 };
