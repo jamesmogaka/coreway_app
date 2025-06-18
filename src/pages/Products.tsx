@@ -27,79 +27,180 @@ import {
 	CheckCircle2,
 } from "lucide-react";
 import React from "react";
+import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
+
+// Animation variants
+const fadeInUp: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { 
+      duration: 0.6, 
+      ease: [0.16, 1, 0.3, 1] 
+    },
+  },
+};
+
+const staggerContainer: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      when: "beforeChildren",
+    },
+  },
+};
+
+const cardItem: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { 
+      duration: 0.5, 
+      ease: [0.16, 1, 0.3, 1] 
+    },
+  },
+};
 
 // Main Page Component
 const ProductsPage: React.FC = () => {
-	return (
-		<div className="bg-teal-900 min-h-screen text-yellow-50 p-4 sm:p-6 md:p-8">
-			<header className="text-center mb-8 md:mb-12">
-				<h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
-					Products
-				</h1>
-				<p className="text-base md:text-xl text-yellow-50">
-					Tools for Raising Value-Driven Children
-				</p>
-			</header>
+  return (
+    <div className="bg-teal-900 min-h-screen text-yellow-50 p-4 sm:p-6 md:p-8">
+      <motion.header 
+        className="text-center mb-8 md:mb-12"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <motion.h1 
+          className="text-3xl md:text-5xl font-bold tracking-tight mb-4"
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          Products
+        </motion.h1>
+        <motion.p 
+          className="text-base md:text-xl text-yellow-50"
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-20px" }}
+          transition={{ delay: 0.1 }}
+        >
+          Tools for Raising Value-Driven Children
+        </motion.p>
+      </motion.header>
 
-			<main className="space-y-16">
-				<ProductCategorySection
-					title="Parenting Toolkits"
-					description="Main character formation kits by age group.">
-					<div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-						<ToolkitCard1 />
-						<ToolkitCard2 />
-					</div>
-				</ProductCategorySection>
+<motion.main 
+        className="space-y-16"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        variants={staggerContainer}
+      >
+        <motion.div variants={staggerContainer}>
+          <ProductCategorySection
+            title="Parenting Toolkits"
+            description="Main character formation kits by age group."
+          >
+            <motion.div 
+              className="grid grid-cols-1 xl:grid-cols-2 gap-8"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+            >
+              <motion.div variants={cardItem}><ToolkitCard1 /></motion.div>
+              <motion.div variants={cardItem}><ToolkitCard2 /></motion.div>
+            </motion.div>
+          </ProductCategorySection>
 
-				<ProductCategorySection
-					title="Cards & Charts"
-					description="Daily-use tools for training, correcting, and rewarding children.">
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-						<TrainUpCards />
-						<CorrectiveCards />
-						<StarRewardCards />
-						<VdcRewardChart />
-					</div>
-				</ProductCategorySection>
+          <ProductCategorySection
+            title="Cards & Charts"
+            description="Daily-use tools for training, correcting, and rewarding children.">
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+            >
+              <motion.div variants={cardItem}><TrainUpCards /></motion.div>
+              <motion.div variants={cardItem}><CorrectiveCards /></motion.div>
+              <motion.div variants={cardItem}><StarRewardCards /></motion.div>
+              <motion.div variants={cardItem}><VdcRewardChart /></motion.div>
+            </motion.div>
+          </ProductCategorySection>
 
-				<ProductCategorySection
-					title="Tests & Guides"
-					description="Assessments and personalized resources for value-based parenting.">
-					<div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-						<PredispositionTest />
-						<ParentingGuidebook />
-					</div>
-				</ProductCategorySection>
+          <ProductCategorySection
+            title="Tests & Guides"
+            description="Assessments and personalized resources for value-based parenting.">
+            <motion.div 
+              className="grid grid-cols-1 xl:grid-cols-2 gap-8"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+            >
+              <motion.div variants={cardItem}><PredispositionTest /></motion.div>
+              <motion.div variants={cardItem}><ParentingGuidebook /></motion.div>
+            </motion.div>
+          </ProductCategorySection>
 
-				<ProductCategorySection
-					title="Devotionals & Affirmations"
-					description="Daily faith-based reinforcement tools.">
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-						<AffirmationCards />
-						<ParentingDevotional />
-						<ReflectionJournal />
-					</div>
-				</ProductCategorySection>
+          <ProductCategorySection
+            title="Devotionals & Affirmations"
+            description="Daily faith-based reinforcement tools.">
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+            >
+              <motion.div variants={cardItem}><AffirmationCards /></motion.div>
+              <motion.div variants={cardItem}><ParentingDevotional /></motion.div>
+              <motion.div variants={cardItem}><ReflectionJournal /></motion.div>
+            </motion.div>
+          </ProductCategorySection>
 
-				<ProductCategorySection
-					title="Training & Memberships"
-					description="Extended support, learning, and community engagement.">
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-						<OnlineCourse />
-						<CommunityMembership />
-					</div>
-				</ProductCategorySection>
+          <ProductCategorySection
+            title="Training & Memberships"
+            description="Extended support, learning, and community engagement.">
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-2 gap-8"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+            >
+              <motion.div variants={cardItem}><OnlineCourse /></motion.div>
+              <motion.div variants={cardItem}><CommunityMembership /></motion.div>
+            </motion.div>
+          </ProductCategorySection>
 
-				<ProductCategorySection
-					title="Gifts & Accessories"
-					description="Meaningful and value-themed branded products.">
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-						<ThemedMerch />
-					</div>
-				</ProductCategorySection>
-			</main>
-		</div>
-	);
+          <ProductCategorySection
+            title="Gifts & Accessories"
+            description="Meaningful and value-themed branded products.">
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+            >
+              <motion.div variants={cardItem}><ThemedMerch /></motion.div>
+            </motion.div>
+          </ProductCategorySection>
+        </motion.div>
+      </motion.main>
+    </div>
+  );
 };
 
 export default ProductsPage;
@@ -107,20 +208,34 @@ export default ProductsPage;
 // --- Helper Components for Layout and Detail Views ---
 
 const ProductCategorySection: React.FC<{
-	title: string;
-	description: string;
-	children: React.ReactNode;
-}> = ({ title, description, children }) => (
-	<section>
-		<h2 className="text-2xl md:text-4xl font-bold text-center text-yellow-50 border-b-2 border-teal-200 pb-2 mb-4">
-			{title}
-		</h2>
-		<p className="text-center text-base md:text-xl text-teal-200 mb-8">
-			{description}
-		</p>
-		{children}
-	</section>
-);
+  title: string;
+  description: string;
+  children: React.ReactNode;
+}> = ({ title, description, children }) => {
+  return (
+    <motion.section 
+      className="space-y-4"
+      variants={staggerContainer}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-50px" }}
+    >
+      <motion.h2 
+        className="text-2xl md:text-3xl font-bold text-yellow-50"
+        variants={fadeInUp}
+      >
+        {title}
+      </motion.h2>
+      <motion.p 
+        className="text-yellow-100 mb-6"
+        variants={fadeInUp}
+      >
+        {description}
+      </motion.p>
+      {children}
+    </motion.section>
+  );
+};
 
 const DetailSection: React.FC<{ title: string; children: React.ReactNode }> = ({
 	title,
