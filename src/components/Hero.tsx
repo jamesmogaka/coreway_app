@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, Users, Heart, CheckCircle } from "lucide-react";
 import { motion, type Variants } from "framer-motion";
+import { AnimatedArrow } from "./AnimatedArrow";
 
 const containerVariants: Variants = {
 	hidden: { opacity: 0 },
@@ -27,27 +28,27 @@ export function HeroSection() {
 	return (
 		<section
 			id="home"
-			className="py-20 bg-gradient-to-b from-teal-950 to-teal-600 min-h-screen flex items-center">
+			className="relative bg-gradient-to-b from-teal-950 to-teal-600 pt-2 sm:pt-4 lg:pt-8 pb-20 sm:pb-24 lg:pb-32 overflow-hidden">
 			<div className="container mx-auto px-4">
 				<motion.div
-					className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center"
+					className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center"
 					variants={containerVariants}
 					initial="hidden"
 					animate="visible">
-					<motion.div className="space-y-8" variants={itemVariants}>
+					<motion.div className="space-y-6" variants={itemVariants}>
 						<div className="space-y-4 text-yellow-50">
 							<motion.div variants={itemVariants}>
-								<Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
+								<Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100 text-sm">
 									Transform Children&apos;s Lives
 								</Badge>
 							</motion.div>
 							<motion.h1
-								className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 break-words"
+								className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight break-words"
 								variants={itemVariants}>
 								Intentional Parenting for a Value-Driven Child
 							</motion.h1>
 							<motion.p
-								className="text-lg sm:text-xl mb-8 max-w-3xl mx-auto"
+								className="text-lg sm:text-xl max-w-2xl"
 								variants={itemVariants}>
 								Nurture morally grounded, resilient, and
 								successful children with the VDC Toolkit.
@@ -57,14 +58,14 @@ export function HeroSection() {
 						<motion.div
 							className="bg-yellow-50 p-6 rounded-lg shadow-lg border-l-4 border-orange-500"
 							variants={itemVariants}>
-							<h3 className="text-lg font-semibold text-gray-900 mb-2">
+							<h3 className="text-lg font-semibold text-gray-900">
 								Transform Behavior. Build Character. Shape
 								Destiny.
 							</h3>
 						</motion.div>
 
 						<motion.div
-							className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4"
+							className="flex flex-col sm:flex-row flex-wrap gap-4"
 							variants={itemVariants}>
 							<Button
 								size="lg"
@@ -113,9 +114,7 @@ export function HeroSection() {
 						<img
 							src="/images/8.png"
 							alt="A happy family"
-							width={500}
-							height={600}
-							className="rounded-2xl shadow-2xl w-full h-auto"
+							className="rounded-2xl shadow-2xl w-full h-auto  object-cover"
 						/>
 						<motion.div
 							className="absolute -bottom-4 -left-4 sm:-bottom-6 sm:-left-6 bg-yellow-50 p-3 sm:p-4 rounded-lg shadow-lg z-10"
@@ -137,6 +136,7 @@ export function HeroSection() {
 					</motion.div>
 				</motion.div>
 			</div>
+			<AnimatedArrow />
 		</section>
 	);
 }
