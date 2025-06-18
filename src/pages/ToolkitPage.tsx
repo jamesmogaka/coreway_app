@@ -34,7 +34,11 @@ const staggerContainerVariants: Variants = {
 
 const staggerItemVariants: Variants = {
 	hidden: { opacity: 0, y: 40 },
-	visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: { duration: 0.8, ease: "easeOut" },
+	},
 };
 
 const colorStyles = {
@@ -211,8 +215,7 @@ export const ToolkitPage: React.FC = () => {
 						initial="hidden"
 						whileInView="visible"
 						viewport={{ once: true }}
-						variants={sectionVariants}
-					>
+						variants={sectionVariants}>
 						The VDC Train-up Toolkit
 					</motion.h1>
 					<motion.p
@@ -220,8 +223,7 @@ export const ToolkitPage: React.FC = () => {
 						initial="hidden"
 						whileInView="visible"
 						viewport={{ once: true }}
-						variants={sectionVariants}
-					>
+						variants={sectionVariants}>
 						The VDC Train-up Toolkit comprises two distinct
 						age-specific kits, each meticulously tailored to cater
 						to specific developmental stages. This ensures that
@@ -233,12 +235,10 @@ export const ToolkitPage: React.FC = () => {
 						initial="hidden"
 						whileInView="visible"
 						viewport={{ once: true }}
-						variants={staggerContainerVariants}
-					>
+						variants={staggerContainerVariants}>
 						<motion.div
 							className="bg-teal-700 p-8 rounded-lg shadow-lg"
-							variants={staggerItemVariants}
-						>
+							variants={staggerItemVariants}>
 							<h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
 								Kit 1: Early Development (4-9 Years)
 							</h2>
@@ -251,8 +251,7 @@ export const ToolkitPage: React.FC = () => {
 						</motion.div>
 						<motion.div
 							className="bg-teal-700 p-8 rounded-lg shadow-lg"
-							variants={staggerItemVariants}
-						>
+							variants={staggerItemVariants}>
 							<h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
 								Kit 2: Transitional Core Values (10-18 Years)
 							</h2>
@@ -276,8 +275,7 @@ export const ToolkitPage: React.FC = () => {
 						initial="hidden"
 						whileInView="visible"
 						viewport={{ once: true }}
-						variants={sectionVariants}
-					>
+						variants={sectionVariants}>
 						Toolkit Guiding Principles: The Foundation of VDC
 						Parenting
 					</motion.h1>
@@ -286,8 +284,7 @@ export const ToolkitPage: React.FC = () => {
 						initial="hidden"
 						whileInView="visible"
 						viewport={{ once: true }}
-						variants={sectionVariants}
-					>
+						variants={sectionVariants}>
 						At the heart of the Value Driven Child (VDC) Toolkit
 						lies a robust framework built upon six interconnected
 						guiding principles. These principles are carefully
@@ -306,12 +303,10 @@ export const ToolkitPage: React.FC = () => {
 						initial="hidden"
 						whileInView="visible"
 						viewport={{ once: true }}
-						variants={staggerContainerVariants}
-					>
+						variants={staggerContainerVariants}>
 						<motion.div
 							className="p-6 bg-teal-700 rounded-lg shadow-md"
-							variants={staggerItemVariants}
-						>
+							variants={staggerItemVariants}>
 							<h3 className="text-2xl md:text-3xl font-bold mb-2">
 								1. Foundational Core Values
 							</h3>
@@ -342,8 +337,7 @@ export const ToolkitPage: React.FC = () => {
 						</motion.div>
 						<motion.div
 							className="p-6 bg-teal-700 rounded-lg shadow-md"
-							variants={staggerItemVariants}
-						>
+							variants={staggerItemVariants}>
 							<h3 className="text-2xl md:text-3xl font-bold mb-2">
 								2. Natural Exclusive Predispositions
 							</h3>
@@ -374,8 +368,7 @@ export const ToolkitPage: React.FC = () => {
 						</motion.div>
 						<motion.div
 							className="p-6 bg-teal-700 rounded-lg shadow-md"
-							variants={staggerItemVariants}
-						>
+							variants={staggerItemVariants}>
 							<h3 className="text-2xl md:text-3xl font-bold mb-2">
 								3. The Principle of Affirmation
 							</h3>
@@ -402,8 +395,7 @@ export const ToolkitPage: React.FC = () => {
 						</motion.div>
 						<motion.div
 							className="p-6 bg-teal-700 rounded-lg shadow-md"
-							variants={staggerItemVariants}
-						>
+							variants={staggerItemVariants}>
 							<h3 className="text-2xl md:text-3xl font-bold mb-2">
 								4. The Principle of Storytelling
 							</h3>
@@ -412,50 +404,49 @@ export const ToolkitPage: React.FC = () => {
 								instilling values. They bypass intellectual
 								defenses and connect directly with the heart,
 								making abstract concepts like honesty or
-								perseverance tangible and memorable. Supported by
-								psychology (narrative psychology) and neurology
-								(mirror neurons), stories create immersive
-								experiences that allow children to internalize
-								values emotionally and cognitively. Why it
-								matters to you: The VDC Toolkit includes a
-								collection of beautifully illustrated Story Cards.
-								Each story is crafted to bring a specific value
-								to life, featuring relatable characters and
-								engaging plots. This makes learning about values
-								an enjoyable and impactful experience, turning
-								abstract principles into lasting convictions.
+								perseverance tangible and memorable. Supported
+								by psychology (narrative psychology) and
+								neurology (mirror neurons), stories create
+								immersive experiences that allow children to
+								internalize values emotionally and cognitively.
+								Why it matters to you: The VDC Toolkit includes
+								a collection of beautifully illustrated Story
+								Cards. Each story is crafted to bring a specific
+								value to life, featuring relatable characters
+								and engaging plots. This makes learning about
+								values an enjoyable and impactful experience,
+								turning abstract principles into lasting
+								convictions.
 							</p>
 						</motion.div>
 						<motion.div
 							className="p-6 bg-teal-700 rounded-lg shadow-md"
-							variants={staggerItemVariants}
-						>
+							variants={staggerItemVariants}>
 							<h3 className="text-2xl md:text-3xl font-bold mb-2">
 								5. The Principle of Active Engagement
 							</h3>
 							<p className="text-base md:text-lg">
 								Children learn best by doing. Active engagement
-								transforms passive listening into active learning,
-								creating stronger neural connections and deeper
-								understanding. This principle is rooted in
-								educational theories like experiential learning and
-								constructivism, which emphasize hands-on
-								activities for meaningful learning. Why it
-								matters to you: The VDC Toolkit is designed for
-								interaction. It includes Discussion Cards with
-								thought-provoking questions to spark meaningful
-								conversations, connecting values to real-life
-								situations. This active dialogue helps your child
-								think critically, articulate their thoughts, and
-								apply values to their own experiences, making
-								character development a collaborative family
-								activity.
+								transforms passive listening into active
+								learning, creating stronger neural connections
+								and deeper understanding. This principle is
+								rooted in educational theories like experiential
+								learning and constructivism, which emphasize
+								hands-on activities for meaningful learning. Why
+								it matters to you: The VDC Toolkit is designed
+								for interaction. It includes Discussion Cards
+								with thought-provoking questions to spark
+								meaningful conversations, connecting values to
+								real-life situations. This active dialogue helps
+								your child think critically, articulate their
+								thoughts, and apply values to their own
+								experiences, making character development a
+								collaborative family activity.
 							</p>
 						</motion.div>
 						<motion.div
 							className="p-6 bg-teal-700 rounded-lg shadow-md"
-							variants={staggerItemVariants}
-						>
+							variants={staggerItemVariants}>
 							<h3 className="text-2xl md:text-3xl font-bold mb-2">
 								6. The Principle of Repetition and Routine
 							</h3>
@@ -463,39 +454,82 @@ export const ToolkitPage: React.FC = () => {
 								Consistency is key to forming lasting habits and
 								beliefs. Repetition strengthens neural pathways,
 								making values-based thinking and behavior second
-								nature. This principle is grounded in the brain's
-								ability to learn through repeated exposure and
-								practice. Why it matters to you: The VDC Toolkit
-								is designed for easy integration into your daily
-								life. By incorporating the toolkit's activities
-								into your family routine—whether at bedtime,
-								dinnertime, or during play—you create a
-								consistent environment where values are regularly
-								discussed, affirmed, and lived out. This
-								transforms character development from a one-time
-								lesson into a continuous, lifelong journey.
+								nature. This principle is grounded in the
+								brain's ability to learn through repeated
+								exposure and practice. Why it matters to you:
+								The VDC Toolkit is designed for easy integration
+								into your daily life. By incorporating the
+								toolkit's activities into your family
+								routine—whether at bedtime, dinnertime, or
+								during play—you create a consistent environment
+								where values are regularly discussed, affirmed,
+								and lived out. This transforms character
+								development from a one-time lesson into a
+								continuous, lifelong journey.
 							</p>
 						</motion.div>
 					</motion.div>
-
 				</div>
 			</section>
 
 			{/* Predispositions Section */}
-			<section className="bg-teal-600 text-yellow-50 py-20">
+			<section className="bg-teal-600 text-yellow-50 py-20 overflow-hidden">
 				<div className="container mx-auto px-6">
-					<h1 className="text-4xl md:text-5xl font-bold text-yellow-50 text-center mb-12">
-						The Four-Color Predispositions
-					</h1>
-					<p className="text-lg md:text-xl text-center text-yellow-50 max-w-7xl mx-auto mb-16">
+					<motion.div
+						initial={{ opacity: 0, y: 20 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.6, ease: "easeOut" }}
+						viewport={{ once: true, margin: "-100px" }}>
+						<h1 className="text-4xl md:text-5xl font-bold text-yellow-50 text-center mb-6">
+							The Four-Color Predispositions
+						</h1>
+						<div className="w-24 h-1 bg-yellow-50 mx-auto mb-8"></div>
+					</motion.div>
+
+					<motion.p
+						className="text-lg md:text-xl text-center text-yellow-50 max-w-7xl mx-auto mb-16"
+						initial={{ opacity: 0, y: 20 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						transition={{
+							duration: 0.6,
+							delay: 0.2,
+							ease: "easeOut",
+						}}
+						viewport={{ once: true, margin: "-100px" }}>
 						Understanding your child's natural disposition is key to
 						effective parenting. Our toolkit helps you identify
 						whether your child is Blue, Orange, Gold, or Green, so
 						you can tailor your approach to their unique needs.
-					</p>
+					</motion.p>
 
-					<div className="grid md:grid-cols-2 gap-8">
-						<div id="blue">
+					<motion.div
+						className="grid md:grid-cols-2 gap-8"
+						initial="hidden"
+						whileInView="visible"
+						viewport={{ once: true, margin: "-100px" }}
+						variants={{
+							hidden: { opacity: 0 },
+							visible: {
+								opacity: 1,
+								transition: {
+									staggerChildren: 0.1,
+									when: "beforeChildren",
+								},
+							},
+						}}>
+						<motion.div
+							id="blue"
+							variants={{
+								hidden: { opacity: 0, y: 20 },
+								visible: {
+									opacity: 1,
+									y: 0,
+									transition: {
+										duration: 0.5,
+										ease: "easeOut",
+									},
+								},
+							}}>
 							<Card
 								color="blue"
 								active={active}
@@ -507,8 +541,20 @@ export const ToolkitPage: React.FC = () => {
 								data={predispositions.blue}
 								active={active}
 							/>
-						</div>
-						<div id="orange">
+						</motion.div>
+						<motion.div
+							id="orange"
+							variants={{
+								hidden: { opacity: 0, y: 20 },
+								visible: {
+									opacity: 1,
+									y: 0,
+									transition: {
+										duration: 0.5,
+										ease: "easeOut",
+									},
+								},
+							}}>
 							<Card
 								color="orange"
 								active={active}
@@ -520,8 +566,20 @@ export const ToolkitPage: React.FC = () => {
 								data={predispositions.orange}
 								active={active}
 							/>
-						</div>
-						<div id="gold">
+						</motion.div>
+						<motion.div
+							id="gold"
+							variants={{
+								hidden: { opacity: 0, y: 20 },
+								visible: {
+									opacity: 1,
+									y: 0,
+									transition: {
+										duration: 0.5,
+										ease: "easeOut",
+									},
+								},
+							}}>
 							<Card
 								color="gold"
 								active={active}
@@ -533,8 +591,20 @@ export const ToolkitPage: React.FC = () => {
 								data={predispositions.gold}
 								active={active}
 							/>
-						</div>
-						<div id="green">
+						</motion.div>
+						<motion.div
+							id="green"
+							variants={{
+								hidden: { opacity: 0, y: 20 },
+								visible: {
+									opacity: 1,
+									y: 0,
+									transition: {
+										duration: 0.5,
+										ease: "easeOut",
+									},
+								},
+							}}>
 							<Card
 								color="green"
 								active={active}
@@ -546,18 +616,31 @@ export const ToolkitPage: React.FC = () => {
 								data={predispositions.green}
 								active={active}
 							/>
-						</div>
-					</div>
+						</motion.div>
+					</motion.div>
 
-					<div className="text-center mt-12">
-						<a
-							href="http://www.vdctoolkit.com/predisposition-quiz"
-							target="_blank"
-							rel="noopener noreferrer"
-							className="inline-block font-bold py-3 px-8 text-lg rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg hover:-translate-y-1 bg-blue-600 text-white hover:bg-blue-700">
-							Take the Predisposition Quiz
-						</a>
-					</div>
+					<motion.div
+						className="text-center mt-12"
+						initial={{ opacity: 0, y: 20 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						transition={{
+							duration: 0.6,
+							delay: 0.4,
+							ease: "easeOut",
+						}}
+						viewport={{ once: true, margin: "-50px" }}>
+						<motion.div
+							whileHover={{ scale: 1.05 }}
+							whileTap={{ scale: 0.95 }}>
+							<a
+								href="http://www.vdctoolkit.com/predisposition-quiz"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="inline-block font-bold py-3 px-8 text-lg rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg bg-blue-600 text-white hover:bg-blue-700">
+								Take the Predisposition Quiz
+							</a>
+						</motion.div>
+					</motion.div>
 				</div>
 			</section>
 		</div>
