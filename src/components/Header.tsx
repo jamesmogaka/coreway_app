@@ -14,6 +14,7 @@ const navLinks = [
 	{ id: "home", title: "Home" },
 	{ id: "about", title: "About" },
 	{ id: "toolkit", title: "VDC Toolkit" },
+	{ id: "products", title: "Products" },
 	{ id: "training", title: "Training" },
 	{ id: "shop", title: "Shop" },
 	{ id: "contact", title: "Contact" },

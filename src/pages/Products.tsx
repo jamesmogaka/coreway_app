@@ -32,175 +32,194 @@ import type { Variants } from "framer-motion";
 
 // Animation variants
 const fadeInUp: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { 
-      duration: 0.6, 
-      ease: [0.16, 1, 0.3, 1] 
-    },
-  },
+	hidden: { opacity: 0, y: 20 },
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: {
+			duration: 0.6,
+			ease: [0.16, 1, 0.3, 1],
+		},
+	},
 };
 
 const staggerContainer: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      when: "beforeChildren",
-    },
-  },
+	hidden: { opacity: 0 },
+	visible: {
+		opacity: 1,
+		transition: {
+			staggerChildren: 0.1,
+			when: "beforeChildren",
+		},
+	},
 };
 
 const cardItem: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { 
-      duration: 0.5, 
-      ease: [0.16, 1, 0.3, 1] 
-    },
-  },
+	hidden: { opacity: 0, y: 20 },
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: {
+			duration: 0.5,
+			ease: [0.16, 1, 0.3, 1],
+		},
+	},
 };
 
 // Main Page Component
 const ProductsPage: React.FC = () => {
-  return (
-    <div className="bg-teal-900 min-h-screen text-yellow-50 p-4 sm:p-6 md:p-8">
-      <motion.header 
-        className="text-center mb-8 md:mb-12"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <motion.h1 
-          className="text-3xl md:text-5xl font-bold tracking-tight mb-4"
-          variants={fadeInUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          Products
-        </motion.h1>
-        <motion.p 
-          className="text-base md:text-xl text-yellow-50"
-          variants={fadeInUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-20px" }}
-          transition={{ delay: 0.1 }}
-        >
-          Tools for Raising Value-Driven Children
-        </motion.p>
-      </motion.header>
+	return (
+		<div
+			className="bg-teal-900 min-h-screen text-yellow-50 p-4 sm:p-6 md:p-8"
+			id="products">
+			<motion.header
+				className="text-center mb-8 md:mb-12"
+				initial={{ opacity: 0, y: -20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.6 }}>
+				<motion.h1
+					className="text-3xl md:text-5xl font-bold tracking-tight mb-4"
+					variants={fadeInUp}
+					initial="hidden"
+					whileInView="visible"
+					viewport={{ once: true }}>
+					Products
+				</motion.h1>
+				<motion.p
+					className="text-base md:text-xl text-yellow-50"
+					variants={fadeInUp}
+					initial="hidden"
+					whileInView="visible"
+					viewport={{ once: true, margin: "-20px" }}
+					transition={{ delay: 0.1 }}>
+					Tools for Raising Value-Driven Children
+				</motion.p>
+			</motion.header>
 
-<motion.main 
-        className="space-y-16"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-50px" }}
-        variants={staggerContainer}
-      >
-        <motion.div variants={staggerContainer}>
-          <ProductCategorySection
-            title="Parenting Toolkits"
-            description="Main character formation kits by age group."
-          >
-            <motion.div 
-              className="grid grid-cols-1 xl:grid-cols-2 gap-8"
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
-            >
-              <motion.div variants={cardItem}><ToolkitCard1 /></motion.div>
-              <motion.div variants={cardItem}><ToolkitCard2 /></motion.div>
-            </motion.div>
-          </ProductCategorySection>
+			<motion.main
+				className="space-y-16"
+				initial="hidden"
+				whileInView="visible"
+				viewport={{ once: true, margin: "-50px" }}
+				variants={staggerContainer}>
+				<motion.div variants={staggerContainer}>
+					<ProductCategorySection
+						title="Parenting Toolkits"
+						description="Main character formation kits by age group.">
+						<motion.div
+							className="grid grid-cols-1 xl:grid-cols-2 gap-8"
+							variants={staggerContainer}
+							initial="hidden"
+							whileInView="visible"
+							viewport={{ once: true, margin: "-50px" }}>
+							<motion.div variants={cardItem}>
+								<ToolkitCard1 />
+							</motion.div>
+							<motion.div variants={cardItem}>
+								<ToolkitCard2 />
+							</motion.div>
+						</motion.div>
+					</ProductCategorySection>
 
-          <ProductCategorySection
-            title="Cards & Charts"
-            description="Daily-use tools for training, correcting, and rewarding children.">
-            <motion.div 
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
-            >
-              <motion.div variants={cardItem}><TrainUpCards /></motion.div>
-              <motion.div variants={cardItem}><CorrectiveCards /></motion.div>
-              <motion.div variants={cardItem}><StarRewardCards /></motion.div>
-              <motion.div variants={cardItem}><VdcRewardChart /></motion.div>
-            </motion.div>
-          </ProductCategorySection>
+					<ProductCategorySection
+						title="Cards & Charts"
+						description="Daily-use tools for training, correcting, and rewarding children.">
+						<motion.div
+							className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+							variants={staggerContainer}
+							initial="hidden"
+							whileInView="visible"
+							viewport={{ once: true, margin: "-50px" }}>
+							<motion.div variants={cardItem}>
+								<TrainUpCards />
+							</motion.div>
+							<motion.div variants={cardItem}>
+								<CorrectiveCards />
+							</motion.div>
+							<motion.div variants={cardItem}>
+								<StarRewardCards />
+							</motion.div>
+							<motion.div variants={cardItem}>
+								<VdcRewardChart />
+							</motion.div>
+						</motion.div>
+					</ProductCategorySection>
 
-          <ProductCategorySection
-            title="Tests & Guides"
-            description="Assessments and personalized resources for value-based parenting.">
-            <motion.div 
-              className="grid grid-cols-1 xl:grid-cols-2 gap-8"
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
-            >
-              <motion.div variants={cardItem}><PredispositionTest /></motion.div>
-              <motion.div variants={cardItem}><ParentingGuidebook /></motion.div>
-            </motion.div>
-          </ProductCategorySection>
+					<ProductCategorySection
+						title="Tests & Guides"
+						description="Assessments and personalized resources for value-based parenting.">
+						<motion.div
+							className="grid grid-cols-1 xl:grid-cols-2 gap-8"
+							variants={staggerContainer}
+							initial="hidden"
+							whileInView="visible"
+							viewport={{ once: true, margin: "-50px" }}>
+							<motion.div variants={cardItem}>
+								<PredispositionTest />
+							</motion.div>
+							<motion.div variants={cardItem}>
+								<ParentingGuidebook />
+							</motion.div>
+						</motion.div>
+					</ProductCategorySection>
 
-          <ProductCategorySection
-            title="Devotionals & Affirmations"
-            description="Daily faith-based reinforcement tools.">
-            <motion.div 
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
-            >
-              <motion.div variants={cardItem}><AffirmationCards /></motion.div>
-              <motion.div variants={cardItem}><ParentingDevotional /></motion.div>
-              <motion.div variants={cardItem}><ReflectionJournal /></motion.div>
-            </motion.div>
-          </ProductCategorySection>
+					<ProductCategorySection
+						title="Devotionals & Affirmations"
+						description="Daily faith-based reinforcement tools.">
+						<motion.div
+							className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+							variants={staggerContainer}
+							initial="hidden"
+							whileInView="visible"
+							viewport={{ once: true, margin: "-50px" }}>
+							<motion.div variants={cardItem}>
+								<AffirmationCards />
+							</motion.div>
+							<motion.div variants={cardItem}>
+								<ParentingDevotional />
+							</motion.div>
+							<motion.div variants={cardItem}>
+								<ReflectionJournal />
+							</motion.div>
+						</motion.div>
+					</ProductCategorySection>
 
-          <ProductCategorySection
-            title="Training & Memberships"
-            description="Extended support, learning, and community engagement.">
-            <motion.div 
-              className="grid grid-cols-1 md:grid-cols-2 gap-8"
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
-            >
-              <motion.div variants={cardItem}><OnlineCourse /></motion.div>
-              <motion.div variants={cardItem}><CommunityMembership /></motion.div>
-            </motion.div>
-          </ProductCategorySection>
+					<ProductCategorySection
+						title="Training & Memberships"
+						description="Extended support, learning, and community engagement.">
+						<motion.div
+							className="grid grid-cols-1 md:grid-cols-2 gap-8"
+							variants={staggerContainer}
+							initial="hidden"
+							whileInView="visible"
+							viewport={{ once: true, margin: "-50px" }}>
+							<motion.div variants={cardItem}>
+								<OnlineCourse />
+							</motion.div>
+							<motion.div variants={cardItem}>
+								<CommunityMembership />
+							</motion.div>
+						</motion.div>
+					</ProductCategorySection>
 
-          <ProductCategorySection
-            title="Gifts & Accessories"
-            description="Meaningful and value-themed branded products.">
-            <motion.div 
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
-            >
-              <motion.div variants={cardItem}><ThemedMerch /></motion.div>
-            </motion.div>
-          </ProductCategorySection>
-        </motion.div>
-      </motion.main>
-    </div>
-  );
+					<ProductCategorySection
+						title="Gifts & Accessories"
+						description="Meaningful and value-themed branded products.">
+						<motion.div
+							className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+							variants={staggerContainer}
+							initial="hidden"
+							whileInView="visible"
+							viewport={{ once: true, margin: "-50px" }}>
+							<motion.div variants={cardItem}>
+								<ThemedMerch />
+							</motion.div>
+						</motion.div>
+					</ProductCategorySection>
+				</motion.div>
+			</motion.main>
+		</div>
+	);
 };
 
 export default ProductsPage;
@@ -208,33 +227,28 @@ export default ProductsPage;
 // --- Helper Components for Layout and Detail Views ---
 
 const ProductCategorySection: React.FC<{
-  title: string;
-  description: string;
-  children: React.ReactNode;
+	title: string;
+	description: string;
+	children: React.ReactNode;
 }> = ({ title, description, children }) => {
-  return (
-    <motion.section 
-      className="space-y-4"
-      variants={staggerContainer}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-50px" }}
-    >
-      <motion.h2 
-        className="text-2xl md:text-3xl font-bold text-yellow-50"
-        variants={fadeInUp}
-      >
-        {title}
-      </motion.h2>
-      <motion.p 
-        className="text-yellow-100 mb-6"
-        variants={fadeInUp}
-      >
-        {description}
-      </motion.p>
-      {children}
-    </motion.section>
-  );
+	return (
+		<motion.section
+			className="space-y-4"
+			variants={staggerContainer}
+			initial="hidden"
+			whileInView="visible"
+			viewport={{ once: true, margin: "-50px" }}>
+			<motion.h2
+				className="text-2xl md:text-3xl font-bold text-yellow-50"
+				variants={fadeInUp}>
+				{title}
+			</motion.h2>
+			<motion.p className="text-yellow-100 mb-6" variants={fadeInUp}>
+				{description}
+			</motion.p>
+			{children}
+		</motion.section>
+	);
 };
 
 const DetailSection: React.FC<{ title: string; children: React.ReactNode }> = ({
@@ -426,7 +440,9 @@ const ToolkitCard1: React.FC = () => (
 				</div>
 			</div>
 			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">KSh 79.99</span>
+				<span className="text-3xl font-bold text-teal-800">
+					KSh 79.99
+				</span>
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
@@ -619,7 +635,9 @@ const ToolkitCard2: React.FC = () => (
 				</div>
 			</div>
 			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">KSh 89.99</span>
+				<span className="text-3xl font-bold text-teal-800">
+					KSh 89.99
+				</span>
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
@@ -719,7 +737,9 @@ const TrainUpCards: React.FC = () => (
 				</DetailSection>
 			</div>
 			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">KSh 19.99</span>
+				<span className="text-3xl font-bold text-teal-800">
+					KSh 19.99
+				</span>
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
@@ -821,7 +841,9 @@ const CorrectiveCards: React.FC = () => (
 				</DetailSection>
 			</div>
 			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">KSh 19.99</span>
+				<span className="text-3xl font-bold text-teal-800">
+					KSh 19.99
+				</span>
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
@@ -929,7 +951,9 @@ const StarRewardCards: React.FC = () => (
 				</DetailSection>
 			</div>
 			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">KSh 14.99</span>
+				<span className="text-3xl font-bold text-teal-800">
+					KSh 14.99
+				</span>
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
@@ -1037,7 +1061,9 @@ const VdcRewardChart: React.FC = () => (
 				</DetailSection>
 			</div>
 			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">KSh 9.99</span>
+				<span className="text-3xl font-bold text-teal-800">
+					KSh 9.99
+				</span>
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
@@ -1186,7 +1212,9 @@ const PredispositionTest: React.FC = () => (
 				</div>
 			</div>
 			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">KSh 24.99</span>
+				<span className="text-3xl font-bold text-teal-800">
+					KSh 24.99
+				</span>
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
@@ -1334,7 +1362,9 @@ const ParentingGuidebook: React.FC = () => (
 				</div>
 			</div>
 			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">KSh 29.99</span>
+				<span className="text-3xl font-bold text-teal-800">
+					KSh 29.99
+				</span>
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
@@ -1441,7 +1471,9 @@ const AffirmationCards: React.FC = () => (
 				</DetailSection>
 			</div>
 			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">KSh 19.99</span>
+				<span className="text-3xl font-bold text-teal-800">
+					KSh 19.99
+				</span>
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
@@ -1537,7 +1569,9 @@ const ParentingDevotional: React.FC = () => (
 				</DetailSection>
 			</div>
 			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">KSh 17.99</span>
+				<span className="text-3xl font-bold text-teal-800">
+					KSh 17.99
+				</span>
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
@@ -1640,7 +1674,9 @@ const ReflectionJournal: React.FC = () => (
 				</DetailSection>
 			</div>
 			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">KSh 22.99</span>
+				<span className="text-3xl font-bold text-teal-800">
+					KSh 22.99
+				</span>
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
