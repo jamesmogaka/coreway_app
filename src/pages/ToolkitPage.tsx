@@ -262,7 +262,7 @@ export const ToolkitPage: React.FC = () => {
 			</AnimatedSection>
 
 			{/* Predispositions Section */}
-			<AnimatedSection className="py-20 bg-gray-800 text-yellow-50">
+			<AnimatedSection className="py-20 bg-teal-600 text-yellow-50">
 				<div className="container mx-auto px-6">
 					<h1 className="text-4xl md:text-5xl font-bold text-center mb-4">
 						The Four-Color Predispositions
