@@ -20,12 +20,15 @@ export const HeroCarousel: React.FC = () => {
 				delay: 5000,
 				disableOnInteraction: false,
 			}}
-			className="w-full h-full">
+			className="w-full h-[60vh]">
 			{images.map((src, index) => (
-				<SwiperSlide key={index}>
-					<div
-						className="w-full h-full bg-cover bg-center"
-						style={{ backgroundImage: `url(${src})` }}
+				<SwiperSlide key={index} className="w-full h-full">
+					<img
+						src={src}
+						alt={`Carousel slide ${index + 1}`}
+						width={500}
+						height={600}
+						className="rounded-2xl shadow-2xl w-full h-full object-cover"
 					/>
 				</SwiperSlide>
 			))}

@@ -25,7 +25,7 @@ import UsersPage from "./pages/admin/Users";
 import ContactsPage from "./pages/admin/ContactsPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import ProductsPage from "./pages/Products";
-import Testimonials from "./pages/Testimonials";
+// import Testimonials from "./pages/Testimonials";
 
 function AppContent() {
 	return (
@@ -43,7 +43,7 @@ function AppContent() {
 									<ToolkitPage />
 									<ProductsPage />
 									<TrainingPage />
-									<Testimonials />
+									{/* <Testimonials /> */}
 									<ContactPage />
 								</>
 							}

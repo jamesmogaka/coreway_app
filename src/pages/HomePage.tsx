@@ -1,8 +1,8 @@
 import * as React from "react";
 import { motion, type Variants } from "framer-motion";
-import { HeroCarousel } from "../components/HeroCarousel";
 import { AnimatedSection } from "../components/AnimatedSection";
 import { HashLink } from "react-router-hash-link";
+import { HeroSection } from "@/components/Hero";
 
 const features = [
 	{
@@ -50,8 +50,6 @@ const predisposition = [
 	},
 ];
 
-
-
 const containerVariants: Variants = {
 	hidden: { opacity: 0 },
 	visible: {
@@ -73,40 +71,8 @@ const itemVariants: Variants = {
 
 export const HomePage: React.FC = () => {
 	return (
-		<div className="bg-teal-900 min-h-screen" id="home">
-			{/* Hero Section - Dark Teal */}
-			<section className="relative text-yellow-50 h-[40vh]">
-				<div className="absolute inset-0 z-0">
-					<HeroCarousel />
-				</div>
-				<div className="absolute inset-0 z-0 bg-teal-700/50"></div>
-				<motion.div
-					className="relative z-20 h-full flex flex-col items-center justify-center text-center"
-					initial="hidden"
-					animate="visible"
-					variants={containerVariants}>
-					<div className="container px-6 mx-auto">
-						<motion.h1
-							className="text-4xl md:text-5xl font-bold mb-6"
-							variants={itemVariants}>
-							Intentional Parenting for a Value-Driven Child
-						</motion.h1>
-						<motion.p
-							className="text-lg md:text-xl mb-8 max-w-3xl mx-auto"
-							variants={itemVariants}>
-							Nurture morally grounded, resilient, and successful
-							children with the VDC Toolkit.
-						</motion.p>
-						<motion.div variants={itemVariants} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-							<HashLink
-								to="#toolkit"
-								className="bg-teal-700 hover:bg-teal-400 text-yellow-50 inline-block font-bold py-4 px-10 text-xl rounded-full transition-all duration-300 ease-in-out transform shadow-md hover:shadow-lg">
-								Discover the Toolkit
-							</HashLink>
-						</motion.div>
-					</div>
-				</motion.div>
-			</section>
+		<div className="bg-teal-900 min-h-screen overflow-x-hidden" id="home">
+			<HeroSection />
 
 			{/* Features Section - Dark Teal */}
 			<AnimatedSection className="text-yellow-50 py-20">
@@ -136,7 +102,10 @@ export const HomePage: React.FC = () => {
 								key={index}
 								className="p-6 bg-teal-700 rounded-lg shadow-md transition-all duration-300"
 								variants={itemVariants}
-								whileHover={{ y: -5, boxShadow: "0px 10px 20px rgba(0,0,0,0.1)" }}>
+								whileHover={{
+									y: -5,
+									boxShadow: "0px 10px 20px rgba(0,0,0,0.1)",
+								}}>
 								<h3 className="text-2xl font-bold mb-4">
 									{item.title}
 								</h3>
@@ -171,7 +140,11 @@ export const HomePage: React.FC = () => {
 						whileInView="visible"
 						viewport={{ once: true, amount: 0.2 }}>
 						{predisposition.map((type, index) => (
-							<motion.div key={index} variants={itemVariants} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+							<motion.div
+								key={index}
+								variants={itemVariants}
+								whileHover={{ scale: 1.1 }}
+								whileTap={{ scale: 0.9 }}>
 								<HashLink
 									to={`/#${type.name.toLowerCase()}`}
 									className={`bg-${type.color} text-${type.text} px-4 py-2 rounded-full font-semibold shadow-md transition-transform hover:shadow-lg`}>
