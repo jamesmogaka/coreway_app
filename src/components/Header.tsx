@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "./ui/button";
@@ -24,8 +24,7 @@ const navLinks = [
 const MobileNavLink: React.FC<
 	NavLinkProps & { setMobileMenuOpen: (open: boolean) => void }
 > = ({ pageId, title, activePage, setMobileMenuOpen }) => {
-	const isLinkActive =
-		activePage === pageId || (pageId === "home" && activePage === "");
+	const isLinkActive = activePage === pageId || (pageId === "home" && activePage === "");
 	const className = `block py-3 px-6 text-lg font-medium rounded-lg transition-all duration-300 ease-in-out ${
 		isLinkActive
 			? "bg-[#FFFBDE] text-[#096B68] font-semibold shadow-md"
@@ -86,7 +85,37 @@ export const Header: React.FC = () => {
 	const navigate = useNavigate();
 	const { user, logout } = useAuth();
 	const [isMobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-	const activePage = location.pathname.split("/")[1];
+	const [activePage, setActivePage] = useState(() => location.hash.replace("#", "") || "home");
+	const observer = useRef<IntersectionObserver | null>(null);
+
+	useEffect(() => {
+		const sections = navLinks
+			.map(link => document.getElementById(link.id))
+			.filter((el): el is HTMLElement => el !== null);
+
+		if (sections.length === 0) {
+			return;
+		}
+
+		const observerCallback = (entries: IntersectionObserverEntry[]) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+					setActivePage(entry.target.id);
+				}
+			});
+		};
+
+		observer.current = new IntersectionObserver(observerCallback, {
+			rootMargin: "-50% 0px -50% 0px",
+			threshold: 0,
+		});
+
+		sections.forEach(section => observer.current?.observe(section));
+
+		return () => {
+			observer.current?.disconnect();
+		};
+	}, []);
 
 	return (
 		<motion.header
