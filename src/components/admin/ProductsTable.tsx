@@ -49,7 +49,7 @@ export function ProductsTable({
 						<TableBody>
 							{products.map(product => (
 								<TableRow
-									key={product.product}
+									key={product.product_id}
 									className="border-b-0 even:bg-white/5 hover:bg-white/10">
 									<TableCell className="font-medium">
 										{product.name}
@@ -72,7 +72,7 @@ export function ProductsTable({
 											className="text-red-400 hover:text-red-300"
 											onClick={() =>
 												onDelete(
-													product.product,
+													product.product_id,
 													product.name
 												)
 											}>
