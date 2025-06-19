@@ -14,7 +14,13 @@ import {
 	TableRow,
 } from "../ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+} from "../ui/dialog";
 import { getOrders } from "@/lib/orders";
 import { useEffect, useState } from "react";
 import type { Order, OrderStatus } from "../../types/admin";
@@ -208,52 +214,112 @@ export function OrdersTable({ onStatusChange }: OrdersTableProps) {
 			</Card>
 			<Dialog
 				open={!!selectedOrder}
-				onOpenChange={isOpen => !isOpen && setSelectedOrder(null)}>
-				<DialogContent className="bg-[#129990] border-0 text-[#F5F5F5]">
+				onOpenChange={isOpen => !isOpen && setSelectedOrder(null)}
+			>
+				<DialogContent className="bg-[#129990] border-0 text-[#F5F5F5] sm:max-w-2xl">
 					{selectedOrder && (
 						<>
 							<DialogHeader>
 								<DialogTitle className="text-2xl font-semibold text-[#FFD59A]">
 									Order Details
 								</DialogTitle>
+								<DialogDescription className="text-sm text-gray-300">
+									Detailed information for order #
+									{selectedOrder.id}.
+								</DialogDescription>
 							</DialogHeader>
-							<div>
-								<h3 className="text-lg font-semibold text-[#FFD59A]">
-									Shipping Address
-								</h3>
-								<p>
-									{selectedOrder.shippingAddress.firstName +
-										" " +
-										selectedOrder.shippingAddress.lastName}
-								</p>
-								<p>
-									{
-										selectedOrder.shippingAddress
-											.streetAddress
-									}
-								</p>
-								<p>
-									{selectedOrder.shippingAddress.county},{" "}
-									{selectedOrder.shippingAddress.subcounty}{" "}
-									{selectedOrder.shippingAddress.ward}
-								</p>
-								<p>{selectedOrder.shippingAddress.areaCode}</p>
-								<p>
-									{selectedOrder.shippingAddress.phoneNumber}
-								</p>
-							</div>
-							<div>
-								<h3 className="text-lg font-semibold text-[#FFD59A]">
-									Items
-								</h3>
-								<ul>
-									{selectedOrder.items.map((item, index) => (
-										<li key={index}>
-											{item.quantity} x {item.name} @ KSh.{" "}
-											{item.price.toFixed(2)}
-										</li>
-									))}
-								</ul>
+							<div className="grid gap-6 py-4">
+								<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+									<div className="space-y-4">
+										<h3 className="text-lg font-semibold text-[#FFD59A] border-b border-white/20 pb-2">
+											Shipping Address
+										</h3>
+										<div className="space-y-2 text-sm">
+											<p className="font-medium">
+												{
+													selectedOrder.shippingAddress
+														.firstName
+												}{' '}
+												{
+													selectedOrder.shippingAddress
+														.lastName
+												}
+											</p>
+											<p>
+												{
+													selectedOrder.shippingAddress
+														.streetAddress
+												}
+											</p>
+											<p>
+												{
+													selectedOrder.shippingAddress
+														.subcounty
+												}
+												,{' '}
+												{
+													selectedOrder.shippingAddress
+														.ward
+												}
+											</p>
+											<p>
+												{
+													selectedOrder.shippingAddress
+														.county
+												}
+											</p>
+											<p className="pt-2 text-gray-300">
+												<span className="font-medium text-gray-200">
+													Email:
+												</span>{' '}
+												{
+													selectedOrder.shippingAddress
+														.email
+												}
+											</p>
+											<p className="text-gray-300">
+												<span className="font-medium text-gray-200">
+													Phone:
+												</span>{' '}
+												{
+													selectedOrder.shippingAddress
+														.phoneNumber
+												}
+											</p>
+										</div>
+									</div>
+									<div className="space-y-4">
+										<h3 className="text-lg font-semibold text-[#FFD59A] border-b border-white/20 pb-2">
+											Order Summary
+										</h3>
+										<div className="space-y-2">
+											{selectedOrder.items.map(
+												(item, index) => (
+													<div
+														key={index}
+														className="flex justify-between items-center text-sm"
+													>
+														<p>
+															{item.quantity} x{' '}
+															{item.name}
+														</p>
+														<p className="font-mono">
+															KSh.{' '}
+															{item.price.toFixed(2)}
+														</p>
+													</div>
+												)
+											)}
+										</div>
+										<div className="border-t border-white/20 pt-4 flex justify-between items-center font-bold text-lg">
+											<p className="text-[#FFD59A]">Total</p>
+											<p className="text-[#FFD59A] font-mono">
+												KSh.{' '}
+												{selectedOrder.total.toFixed(2)}
+											</p>
+										</div>
+									</div>
+								</div>
 							</div>
 						</>
 					)}
