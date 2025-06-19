@@ -19,11 +19,22 @@ export interface ShippingInfo {
   saveInfo: boolean;
 }
 
-export interface PaymentInfo {
+// Base payment info with common fields
+export type BasePaymentInfo = {
   paymentMethod: 'visa' | 'mpesa';
-  cardName?: string;
-  cardNumber?: string;
-  expiryDate?: string;
-  cvv?: string;
-  mpesaPhoneNumber?: string;
-}
+};
+
+export type VisaPaymentInfo = BasePaymentInfo & {
+  paymentMethod: 'visa';
+  cardName: string;
+  cardNumber: string;
+  expiryDate: string;
+  cvv: string;
+};
+
+export type MpesaPaymentInfo = BasePaymentInfo & {
+  paymentMethod: 'mpesa';
+  mpesaPhoneNumber: string;
+};
+
+export type PaymentInfo = VisaPaymentInfo | MpesaPaymentInfo;

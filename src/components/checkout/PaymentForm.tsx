@@ -9,8 +9,22 @@ interface PaymentFormProps {
   onInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onPaymentMethodChange: (method: 'visa' | 'mpesa') => void;
   onBlur: (e: FocusEvent<HTMLInputElement>) => void;
-  errors: Partial<Record<keyof PaymentInfo, string>>;
-  touched: Partial<Record<keyof PaymentInfo, boolean>>;
+  errors: {
+    paymentMethod?: string;
+    cardName?: string;
+    cardNumber?: string;
+    expiryDate?: string;
+    cvv?: string;
+    mpesaPhoneNumber?: string;
+  };
+  touched: {
+    paymentMethod?: boolean;
+    cardName?: boolean;
+    cardNumber?: boolean;
+    expiryDate?: boolean;
+    cvv?: boolean;
+    mpesaPhoneNumber?: boolean;
+  };
 }
 
 export const PaymentForm: FC<PaymentFormProps> = ({ paymentInfo, onInputChange, onPaymentMethodChange, onBlur, errors, touched }) => (
@@ -33,26 +47,30 @@ export const PaymentForm: FC<PaymentFormProps> = ({ paymentInfo, onInputChange, 
               <Input
                 id="cardName"
                 name="cardName"
-                value={paymentInfo.cardName}
+                value={paymentInfo.paymentMethod === 'visa' ? paymentInfo.cardName : ''}
                 onChange={onInputChange}
                 onBlur={onBlur}
                 required
                 className="bg-[#90D1CA] text-[#3A3A3A] border-transparent focus:ring-2 focus:ring-[#FFD59A] placeholder:text-gray-500"
               />
-              {errors.cardName && touched.cardName && <p className="text-sm text-red-400">{errors.cardName}</p>}
+              {'cardName' in paymentInfo && errors.cardName && touched.cardName && (
+                <p className="text-sm text-red-400">{errors.cardName}</p>
+              )}
             </div>
             <div className="md:col-span-2 space-y-2">
               <Label htmlFor="cardNumber" className="text-[#F5F5F5]">Card Number</Label>
               <Input
                 id="cardNumber"
                 name="cardNumber"
-                value={paymentInfo.cardNumber}
+                value={paymentInfo.paymentMethod === 'visa' ? paymentInfo.cardNumber : ''}
                 onChange={onInputChange}
                 onBlur={onBlur}
                 required
                 className="bg-[#90D1CA] text-[#3A3A3A] border-transparent focus:ring-2 focus:ring-[#FFD59A] placeholder:text-gray-500"
               />
-              {errors.cardNumber && touched.cardNumber && <p className="text-sm text-red-400">{errors.cardNumber}</p>}
+              {'cardNumber' in paymentInfo && errors.cardNumber && touched.cardNumber && (
+                <p className="text-sm text-red-400">{errors.cardNumber}</p>
+              )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="expiryDate" className="text-[#F5F5F5]">Expiry Date</Label>
@@ -60,26 +78,30 @@ export const PaymentForm: FC<PaymentFormProps> = ({ paymentInfo, onInputChange, 
                 id="expiryDate"
                 name="expiryDate"
                 placeholder="MM/YY"
-                value={paymentInfo.expiryDate}
+                value={paymentInfo.paymentMethod === 'visa' ? paymentInfo.expiryDate : ''}
                 onChange={onInputChange}
                 onBlur={onBlur}
                 required
                 className="bg-[#90D1CA] text-[#3A3A3A] border-transparent focus:ring-2 focus:ring-[#FFD59A] placeholder:text-gray-500"
               />
-              {errors.expiryDate && touched.expiryDate && <p className="text-sm text-red-400">{errors.expiryDate}</p>}
+              {'expiryDate' in paymentInfo && errors.expiryDate && touched.expiryDate && (
+                <p className="text-sm text-red-400">{errors.expiryDate}</p>
+              )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="cvv" className="text-[#F5F5F5]">CVV</Label>
               <Input
                 id="cvv"
                 name="cvv"
-                value={paymentInfo.cvv}
+                value={paymentInfo.paymentMethod === 'visa' ? paymentInfo.cvv : ''}
                 onChange={onInputChange}
                 onBlur={onBlur}
                 required
                 className="bg-[#90D1CA] text-[#3A3A3A] border-transparent focus:ring-2 focus:ring-[#FFD59A] placeholder:text-gray-500"
               />
-              {errors.cvv && touched.cvv && <p className="text-sm text-red-400">{errors.cvv}</p>}
+              {'cvv' in paymentInfo && errors.cvv && touched.cvv && (
+                <p className="text-sm text-red-400">{errors.cvv}</p>
+              )}
             </div>
           </div>
         )}
@@ -96,13 +118,15 @@ export const PaymentForm: FC<PaymentFormProps> = ({ paymentInfo, onInputChange, 
             <Input
               id="mpesaPhoneNumber"
               name="mpesaPhoneNumber"
-              value={paymentInfo.mpesaPhoneNumber}
+              value={paymentInfo.paymentMethod === 'mpesa' ? paymentInfo.mpesaPhoneNumber : ''}
               onChange={onInputChange}
               onBlur={onBlur}
               required
               className="bg-[#90D1CA] text-[#3A3A3A] border-transparent focus:ring-2 focus:ring-[#FFD59A] placeholder:text-gray-500"
             />
-            {errors.mpesaPhoneNumber && touched.mpesaPhoneNumber && <p className="text-sm text-red-400">{errors.mpesaPhoneNumber}</p>}
+            {'mpesaPhoneNumber' in paymentInfo && errors.mpesaPhoneNumber && touched.mpesaPhoneNumber && (
+              <p className="text-sm text-red-400">{errors.mpesaPhoneNumber}</p>
+            )}
           </div>
         )}
       </fieldset>

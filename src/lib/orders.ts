@@ -6,36 +6,30 @@ import type {
 } from "@/components/checkout/types";
 
 interface OrderInsert {
-	status: string;
-	total: number;
-	shipping_address: ShippingInfo;
-	payment_method: "visa" | "mpesa";
-	payment_status: string;
 	user_id?: string;
+	delivery_address: string;
+	is_paid: boolean;
+	status: "pending" | "shipped" | "delivered";
 }
 
 export async function createOrder(
 	shippingInfo: ShippingInfo,
 	paymentInfo: PaymentInfo,
-	cartItems: CartItemProps[]
+	cartItems: CartItemProps[],
+	cartTotal: number,
+	shippingFee: number
 ) {
 	try {
 		const {
 			data: { user },
 		} = await supabase.auth.getUser();
 
-		const total =
-			cartItems.reduce(
-				(acc, item) => acc + item.price * item.quantity,
-				0
-			) + 500;
+		const total = cartTotal + shippingFee;
 
 		const orderPayload: OrderInsert = {
 			status: "pending",
-			total,
-			shipping_address: shippingInfo,
-			payment_method: paymentInfo.paymentMethod,
-			payment_status: "paid",
+			delivery_address: JSON.stringify(shippingInfo),
+			is_paid: false,
 		};
 
 		if (user) {
@@ -56,7 +50,7 @@ export async function createOrder(
 			order_id: orderId,
 			product_id: item.id,
 			quantity: item.quantity,
-			price: item.price,
+			unit_price: item.price,
 		}));
 
 		const { error: orderItemsError } = await supabase
@@ -64,10 +58,15 @@ export async function createOrder(
 			.insert(orderItems);
 
 		if (orderItemsError) throw orderItemsError;
-
+		//
+		//Proceed to initiate the payment
+		initiate_payment(paymentInfo, total);
 		return { success: true, orderId };
 	} catch (error) {
 		console.error("Error creating order:", error);
 		return { success: false, error };
 	}
+}
+function initiate_payment(paymentInfo: PaymentInfo, amount: number) {
+	console.log(`Initiating payment for ${amount} on ${paymentInfo}`);
 }
