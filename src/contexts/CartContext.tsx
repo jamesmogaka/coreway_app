@@ -28,19 +28,20 @@ export function CartProvider({ children }: CartProviderProps) {
 	const addToCart = (product: Product, quantity: number = 1) => {
 		setCartItems(prevItems => {
 			const existingItem = prevItems.find(
-				item => item.product.name === product.name
+				item => item.product.product === product.product
 			);
 
 			if (existingItem) {
 				return prevItems.map(item =>
-					item.product.name === product.name
+					item.product.product === product.product
 						? { ...item, quantity: item.quantity + quantity }
 						: item
 				);
 			}
 
 			const newCartItem: CartItem = {
-				id: product.name,
+				id: product.product,
+				name: product.name,
 				product,
 				quantity,
 				addedAt: new Date().toISOString(),

@@ -12,6 +12,7 @@ import { ShippingForm } from "@/components/checkout/ShippingForm";
 import { PaymentForm } from "@/components/checkout/PaymentForm";
 import { ReviewOrder } from "@/components/checkout/ReviewOrder";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
+import { createOrder } from "@/lib/orders";
 
 const STEPS = ["Shipping Information", "Payment Details", "Review Order"] as const;
 
@@ -87,12 +88,13 @@ const CheckoutPage: FC = () => {
   }, [shippingInfo, paymentInfo]);
 
   // Mock cart items - replace with your actual cart data
-  const { cartItems: contextCartItems, cartTotal } = useCart();
+  const { cartItems: contextCartItems, cartTotal, clearCart } = useCart();
+  const [isLoading, setIsLoading] = useState(false);
 
   const cartItems: CartItemProps[] = useMemo(() => 
     contextCartItems.map(item => ({
       id: item.id,
-      name: item.product.name,
+      name: item.name,
       price: item.product.price,
       quantity: item.quantity,
       image: item.product.image_url,
@@ -104,15 +106,29 @@ const CheckoutPage: FC = () => {
 
   const SHIPPING_FEE = 500; // Example shipping fee
 
-  const handleNext = useCallback(() => {
+  const handleNext = useCallback(async () => {
     if (activeStep === STEPS.length - 1) {
-      // Handle form submission
-      console.log("Order submitted:", { shippingInfo, paymentInfo });
-      navigate("/order-confirmation");
+      setIsLoading(true);
+      try {
+        const result = await createOrder(shippingInfo, paymentInfo, cartItems);
+
+        if (result.success) {
+          clearCart();
+          navigate("/order-confirmation");
+        } else {
+          console.error('Error placing order:', result.error);
+          alert('Failed to place order. Please try again.');
+        }
+      } catch (error) {
+        console.error('An unexpected error occurred while placing your order:', error);
+        alert('An unexpected error occurred while placing your order. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
     } else {
       setActiveStep((prev) => prev + 1);
     }
-  }, [activeStep, shippingInfo, paymentInfo, navigate]);
+  }, [activeStep, shippingInfo, paymentInfo, cartItems, navigate, clearCart]);
 
   const handleBack = useCallback(() => {
     setActiveStep((prev) => prev - 1);
@@ -182,10 +198,10 @@ const CheckoutPage: FC = () => {
                 )}
                 <Button
                   onClick={handleNext}
-                  disabled={(activeStep === 0 && !isShippingFormValid) || (activeStep === 1 && !isPaymentFormValid)}
+                  disabled={(activeStep === 0 && !isShippingFormValid) || (activeStep === 1 && !isPaymentFormValid) || isLoading}
                   className="bg-[#FFD59A] text-[#3A3A3A] hover:bg-[#FFAD60] disabled:bg-gray-500 disabled:cursor-not-allowed"
                 >
-                  {activeStep === STEPS.length - 1 ? "Place Order" : "Next"}
+                  {isLoading ? 'Placing Order...' : (activeStep === STEPS.length - 1 ? "Place Order" : "Next")}
                 </Button>
               </CardFooter>
             </Card>

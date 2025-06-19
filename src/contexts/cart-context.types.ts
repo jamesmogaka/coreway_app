@@ -2,6 +2,7 @@ import type { Product } from "../types/product";
 
 export interface CartItem {
 	id: string;
+	name: string;
 	product: Product;
 	quantity: number;
 	addedAt: string;

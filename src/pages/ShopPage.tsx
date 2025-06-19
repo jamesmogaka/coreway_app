@@ -31,28 +31,26 @@ export const ShopPage: React.FC = () => {
 		try {
 			setLoading(true);
 			const { data, error } = await supabase.from("products").select(`
-				id,
-				name,
+				product_id,
 				description,
-				product_variants (
-					price,
-					stock,
-					image_url
-				)
+				name,
+				age_range,
+				price,
+				stock,
+				image_url
 			`);
 
 			if (error) throw error;
-			// Map the data to match the Product type
-			const formattedProducts = (data || []).flatMap(product =>
-				(product.product_variants || []).map(variant => ({
-					product: product.id,
-					image_url: variant.image_url,
-					name: product.name,
-					description: product.description,
-					price: variant.price,
-					stock: variant.stock || 0,
-				}))
-			);
+			//Map the data to match the Product type
+			const formattedProducts = (data || []).map(product => ({
+				product: product.product_id,
+				image_url: product.image_url,
+				name: product.name,
+				description: product.description,
+				price: product.price,
+				stock: product.stock || 0,
+				age_range: product.age_range,
+			}));
 			setProducts(formattedProducts);
 		} catch (err) {
 			setError("Failed to fetch products");
