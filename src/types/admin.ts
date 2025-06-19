@@ -5,7 +5,7 @@ export type { Product };
 
 export type Order = {
 	id: string;
-	customerName: string;
+	shippingInfo: string;
 	total: number;
 	status: "pending" | "processing" | "shipped" | "delivered";
 	date: string;
@@ -13,14 +13,3 @@ export type Order = {
 };
 
 export type OrderStatus = Order["status"];
-
-export const initialOrders: Order[] = [
-	{
-		id: "ORD-001",
-		customerName: "John Doe",
-		total: 59.98,
-		status: "pending",
-		date: "2025-06-10",
-		items: [{ name: "Organic Cotton T-Shirt", quantity: 2, price: 29.99 }],
-	},
-];

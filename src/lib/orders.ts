@@ -70,3 +70,24 @@ export async function createOrder(
 function initiate_payment(paymentInfo: PaymentInfo, amount: number) {
 	console.log(`Initiating payment for ${amount} on ${paymentInfo}`);
 }
+
+export async function getOrders() {
+	try {
+		const { data, error } = await supabase.from("orders").select(`
+				*,
+				order_items (
+					quantity,
+					unit_price,
+					products (
+						name
+					)
+				)
+			`);
+		if (error) throw error;
+
+		return { success: true, data };
+	} catch (error) {
+		console.error("Error fetching orders:", error);
+		return { success: false, error };
+	}
+}
