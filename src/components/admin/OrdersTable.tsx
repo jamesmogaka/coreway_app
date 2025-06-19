@@ -5,6 +5,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "../ui/select";
+import { Button } from "../ui/button";
 import {
 	Table,
 	TableBody,
@@ -32,6 +33,7 @@ type FetchedOrder = {
 	delivery_address: string; // This is a JSON string
 	total: number;
 	status: OrderStatus;
+	is_paid: boolean;
 	order_items: {
 		quantity: number;
 		unit_price: number;
@@ -55,6 +57,7 @@ type ShippingAddress = {
 // Extended Order type to include the shipping address
 interface OrderWithShipping extends Order {
 	shippingAddress: ShippingAddress;
+	isPaid: boolean;
 }
 
 type OrdersTableProps = {
@@ -65,6 +68,9 @@ export function OrdersTable({ onStatusChange }: OrdersTableProps) {
 	const [orders, setOrders] = useState<OrderWithShipping[]>([]);
 	const [selectedOrder, setSelectedOrder] =
 		useState<OrderWithShipping | null>(null);
+	const [paymentFilter, setPaymentFilter] = useState<
+		"all" | "paid" | "unpaid"
+	>("all");
 
 	useEffect(() => {
 		const fetchOrders = async () => {
@@ -86,6 +92,7 @@ export function OrdersTable({ onStatusChange }: OrdersTableProps) {
 						date: new Date(order.created_at).toLocaleDateString(),
 						total,
 						status: order.status,
+						isPaid: order.is_paid,
 						items: order.order_items.map(item => ({
 							name: item.products?.name || "Unknown Product",
 							quantity: item.quantity,
@@ -105,13 +112,53 @@ export function OrdersTable({ onStatusChange }: OrdersTableProps) {
 		setSelectedOrder(order);
 	};
 
+	const filteredOrders = orders.filter(order => {
+		if (paymentFilter === "all") return true;
+		if (paymentFilter === "paid") return order.isPaid;
+		if (paymentFilter === "unpaid") return !order.isPaid;
+	});
+
 	return (
 		<>
 			<Card className="bg-[#129990] border-0 text-[#F5F5F5] text-base">
 				<CardHeader>
-					<CardTitle className="text-2xl font-semibold text-[#FFD59A]">
-						Orders
-					</CardTitle>
+					<div className="flex justify-between items-center">
+						<CardTitle className="text-2xl font-semibold text-[#FFD59A]">
+							Orders
+						</CardTitle>
+						<div className="flex items-center gap-2">
+							<Button
+								onClick={() => setPaymentFilter("all")}
+								className={`px-3 py-1 h-auto rounded-md text-sm font-medium transition-colors ${
+									paymentFilter === "all"
+										? "bg-yellow-50 text-teal-900 hover:bg-yellow-50/90"
+										: "text-yellow-50 hover:bg-yellow-50/10"
+								}`}
+							>
+								All
+							</Button>
+							<Button
+								onClick={() => setPaymentFilter("paid")}
+								className={`px-3 py-1 h-auto rounded-md text-sm font-medium transition-colors ${
+									paymentFilter === "paid"
+										? "bg-yellow-50 text-teal-900 hover:bg-yellow-50/90"
+										: "text-yellow-50 hover:bg-yellow-50/10"
+								}`}
+							>
+								Paid
+							</Button>
+							<Button
+								onClick={() => setPaymentFilter("unpaid")}
+								className={`px-3 py-1 h-auto rounded-md text-sm font-medium transition-colors ${
+									paymentFilter === "unpaid"
+										? "bg-yellow-50 text-teal-900 hover:bg-yellow-50/90"
+										: "text-yellow-50 hover:bg-yellow-50/10"
+								}`}
+							>
+								Unpaid
+							</Button>
+						</div>
+					</div>
 				</CardHeader>
 				<CardContent>
 					<div className="rounded-md border border-white/20">
@@ -133,14 +180,17 @@ export function OrdersTable({ onStatusChange }: OrdersTableProps) {
 									<TableHead className="text-[#FFD59A]">
 										Status
 									</TableHead>
+									<TableHead className="text-[#FFD59A]">
+										Payment
+									</TableHead>
 									<TableHead className="text-right text-[#FFD59A]">
 										Actions
 									</TableHead>
 								</TableRow>
 							</TableHeader>
 							<TableBody>
-								{orders.length > 0 ? (
-									orders.map(order => (
+								{filteredOrders.length > 0 ? (
+									filteredOrders.map(order => (
 										<TableRow
 											key={order.id}
 											className="border-b-0 even:bg-white/5 hover:bg-white/10 cursor-pointer"
@@ -165,6 +215,9 @@ export function OrdersTable({ onStatusChange }: OrdersTableProps) {
 												<StatusBadge
 													status={order.status}
 												/>
+											</TableCell>
+											<TableCell>
+												<PaymentStatusBadge isPaid={order.isPaid} />
 											</TableCell>
 											<TableCell className="text-right">
 												<Select
@@ -292,6 +345,10 @@ export function OrdersTable({ onStatusChange }: OrdersTableProps) {
 										<h3 className="text-lg font-semibold text-[#FFD59A] border-b border-white/20 pb-2">
 											Order Summary
 										</h3>
+										<div className="flex items-center justify-between text-sm">
+											<StatusBadge status={selectedOrder.status} />
+											<PaymentStatusBadge isPaid={selectedOrder.isPaid} />
+										</div>
 										<div className="space-y-2">
 											{selectedOrder.items.map(
 												(item, index) => (
@@ -343,8 +400,26 @@ function StatusBadge({ status }: StatusBadgeProps) {
 
 	return (
 		<span
-			className={`px-2 py-1 text-xs rounded-full ${statusStyles[status]}`}>
+			className={`px-2 py-1 text-xs rounded-full ${statusStyles[status]}`}
+		>
 			{status.charAt(0).toUpperCase() + status.slice(1)}
+		</span>
+	);
+}
+
+type PaymentStatusBadgeProps = {
+	isPaid: boolean;
+};
+
+function PaymentStatusBadge({ isPaid }: PaymentStatusBadgeProps) {
+	const text = isPaid ? "Paid" : "Unpaid";
+	const style = isPaid
+		? "bg-green-400/20 text-green-300"
+		: "bg-red-400/20 text-red-300";
+
+	return (
+		<span className={`px-2 py-1 text-xs rounded-full ${style}`}>
+			{text}
 		</span>
 	);
 }
