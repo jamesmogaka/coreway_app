@@ -1,0 +1,79 @@
+import { Button } from "../ui/button";
+import {
+    Dialog,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "../ui/dialog";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import { Textarea } from "../ui/textarea";
+import { Switch } from "../ui/switch";
+import type { BlogPost } from "../../types/blog";
+
+type BlogFormDialogProps = {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    post: Partial<BlogPost> | null;
+    onSubmit: (e: React.FormEvent) => void;
+    onInputChange: (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => void;
+    onPublishChange: (is_published: boolean) => void;
+    isEditing: boolean;
+};
+
+export function BlogFormDialog({
+    open,
+    onOpenChange,
+    post,
+    onSubmit,
+    onInputChange,
+    onPublishChange,
+    isEditing,
+}: BlogFormDialogProps) {
+    return (
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent className="bg-[#129990] border-0 text-[#F5F5F5] max-w-3xl">
+                <DialogHeader>
+                    <DialogTitle className="text-2xl font-semibold text-[#FFD59A]">
+                        {isEditing ? "Edit Post" : "Add New Post"}
+                    </DialogTitle>
+                </DialogHeader>
+                <form onSubmit={onSubmit} className="text-sm">
+                    <div className="grid gap-4 py-4">
+                        <div className="grid gap-2">
+                            <Label htmlFor="title" className="text-[#FFFBDE]">Title</Label>
+                            <Input id="title" name="title" value={post?.title || ''} onChange={onInputChange} className="bg-black/20 border-[#C2EAE7] text-[#F5F5F5] placeholder:text-gray-400" />
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="summary" className="text-[#FFFBDE]">Summary</Label>
+                            <Textarea id="summary" name="summary" value={post?.summary || ''} onChange={onInputChange} className="bg-black/20 border-[#C2EAE7] text-[#F5F5F5] placeholder:text-gray-400" />
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="content" className="text-[#FFFBDE]">Content</Label>
+                            <Textarea id="content" name="content" value={post?.content || ''} onChange={onInputChange} className="bg-black/20 border-[#C2EAE7] text-[#F5F5F5] placeholder:text-gray-400 h-48" />
+                        </div>
+                        <div className="flex items-center gap-4">
+                            <Label htmlFor="is_published" className="text-[#FFFBDE]">Publish</Label>
+                            <Switch id="is_published" checked={post?.is_published || false} onCheckedChange={onPublishChange} />
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            className="border-[#FFD59A] text-[#FFD59A] hover:bg-[#FFD59A] hover:text-[#3A3A3A]"
+                            onClick={() => onOpenChange(false)}>
+                            Cancel
+                        </Button>
+                        <Button type="submit" className="bg-[#FFD59A] text-[#3A3A3A] hover:bg-[#FFAD60]">
+                            {isEditing ? "Update Post" : "Create Post"}
+                        </Button>
+                    </DialogFooter>
+                </form>
+            </DialogContent>
+        </Dialog>
+    );
+}

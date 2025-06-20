@@ -23,9 +23,12 @@ import { AdminLayout } from "./layouts/AdminLayout";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import UsersPage from "./pages/admin/Users";
 import ContactsPage from "./pages/admin/ContactsPage";
+import BlogManagementPage from './pages/admin/BlogManagementPage';
 import { NotFoundPage } from "./pages/NotFoundPage";
 import ProductsPage from "./pages/Products";
 import Testimonials from "./pages/Testimonials";
+import BlogListPage from "./pages/blog/BlogListPage";
+import BlogDetailPage from "./pages/blog/BlogDetailPage";
 
 function AppContent() {
 	return (
@@ -50,6 +53,8 @@ function AppContent() {
 						/>
 						<Route path="/shop/*" element={<ShopLayout />} />
 						<Route path="/auth" element={<Auth />} />
+						<Route path="/blog" element={<BlogListPage />} />
+						<Route path="/blog/:id" element={<BlogDetailPage />} />
 						<Route
 							path="/about-details"
 							element={<AboutDetailsPage />}
@@ -73,6 +78,7 @@ function AppContent() {
 							/>
 							<Route path="users" element={<UsersPage />} />
 							<Route path="contacts" element={<ContactsPage />} />
+							<Route path="blog" element={<BlogManagementPage />} />
 						</Route>
 
 						{/* 404 - Catch all unmatched routes */}

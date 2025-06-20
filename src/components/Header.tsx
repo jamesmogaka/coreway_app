@@ -9,21 +9,23 @@ import { motion, type Variants } from "framer-motion";
 export interface NavLinkProps {
 	pageId: string;
 	title: string;
+	path: string;
 	activePage: string;
 }
 const navLinks = [
-	{ id: "home", title: "Home" },
-	{ id: "about", title: "About" },
-	{ id: "toolkit", title: "VDC Toolkit" },
-	{ id: "products", title: "Products" },
-	{ id: "training", title: "Training" },
-	{ id: "shop", title: "Shop" },
-	{ id: "contact", title: "Contact" },
+	{ id: "home", title: "Home", path: "/#home" },
+	{ id: "about", title: "About", path: "/#about" },
+	{ id: "toolkit", title: "VDC Toolkit", path: "/#toolkit" },
+	{ id: "products", title: "Products", path: "/#products" },
+	{ id: "training", title: "Training", path: "/#training" },
+	{ id: "shop", title: "Shop", path: "/shop" },
+	{ id: "blog", title: "Blog", path: "/blog" },
+	{ id: "contact", title: "Contact", path: "/#contact" },
 ];
 
 const MobileNavLink: React.FC<
 	NavLinkProps & { setMobileMenuOpen: (open: boolean) => void }
-> = ({ pageId, title, activePage, setMobileMenuOpen }) => {
+> = ({ pageId, title, path, activePage, setMobileMenuOpen }) => {
 	const isLinkActive = activePage === pageId || (pageId === "home" && activePage === "");
 	const className = `block py-3 px-6 text-lg font-medium rounded-lg transition-all duration-300 ease-in-out ${
 		isLinkActive
@@ -35,17 +37,16 @@ const MobileNavLink: React.FC<
 		setMobileMenuOpen(false);
 	};
 
+	const LinkComponent = path.startsWith("/") && !path.includes("#") ? Link : HashLink;
+
 	return (
-		<HashLink
-			to={pageId === "shop" ? "/shop#shop" : `/#${pageId}`}
-			onClick={handleClick}
-			className={className}>
+		<LinkComponent to={path} onClick={handleClick} className={className}>
 			{title}
-		</HashLink>
+		</LinkComponent>
 	);
 };
 
-const NavLink: React.FC<NavLinkProps> = ({ pageId, title, activePage }) => {
+const NavLink: React.FC<NavLinkProps> = ({ pageId, title, path, activePage }) => {
 	const className = cn(
 		"relative px-4 py-2 mx-1 rounded-lg text-base font-medium transition-all duration-200 ease-in-out text-[#FFFBDE]",
 		"after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-[#FFFBDE] after:transition-transform after:duration-300 after:ease-in-out after:origin-center",
@@ -57,12 +58,12 @@ const NavLink: React.FC<NavLinkProps> = ({ pageId, title, activePage }) => {
 		}
 	);
 
+	const LinkComponent = path.startsWith("/") && !path.includes("#") ? Link : HashLink;
+
 	return (
-		<HashLink
-			to={pageId === "shop" ? "/shop#shop" : `/#${pageId}`}
-			className={className}>
+		<LinkComponent to={path} className={className}>
 			{title}
-		</HashLink>
+		</LinkComponent>
 	);
 };
 
@@ -141,6 +142,7 @@ export const Header: React.FC = () => {
 								<NavLink
 									pageId={link.id}
 									title={link.title}
+									path={link.path}
 									activePage={activePage}
 								/>
 							</motion.div>
@@ -210,6 +212,7 @@ export const Header: React.FC = () => {
 							key={link.id}
 							pageId={link.id}
 							title={link.title}
+							path={link.path}
 							activePage={activePage}
 							setMobileMenuOpen={setMobileMenuOpen}
 						/>

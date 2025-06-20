@@ -73,6 +73,25 @@ export function Sidebar({ className = "" }: SidebarProps) {
 					</svg>
 					Contact Submissions
 				</NavLink>
+
+				<NavLink
+					to="/admin/blog"
+					className={({ isActive }) =>
+						`flex items-center px-3 py-2 text-sm rounded-md transition-colors duration-200 ${
+							isActive
+								? "bg-[#FFD59A] text-[#3A3A3A] font-bold"
+								: "text-[#FFFBDE] hover:bg-[#C2EAE7] hover:text-[#3A3A3A]"
+						}`
+					}>
+					<svg 
+						className="mr-3 h-5 w-5"
+						xmlns="http://www.w3.org/2000/svg" 
+						viewBox="0 0 20 20" 
+						fill="currentColor">
+						<path d="M3 3.5A1.5 1.5 0 0 1 4.5 2h11A1.5 1.5 0 0 1 17 3.5v13a.5.5 0 0 1-.854.354L13 14.207l-3.146 3.147a.5.5 0 0 1-.708 0L6 14.207l-3.146 2.647A.5.5 0 0 1 2 16.5v-13A1.5 1.5 0 0 1 3 3.5z"/>
+					</svg>
+					Blog
+				</NavLink>
 			</nav>
 		</div>
 	);

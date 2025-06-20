@@ -6,6 +6,7 @@ import {
 } from "../../components/ui/tabs";
 import { ProductsTable } from "../../components/admin/ProductsTable";
 import { OrdersTable } from "../../components/admin/OrdersTable";
+import { BlogTable } from "../../components/admin/BlogTable";
 import { useState, useEffect } from "react";
 import { useProducts } from "../../hooks/useProducts";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +20,9 @@ import type {
 	ProductContent,
 	ProductFeature,
 } from "../../types/product";
+import type { BlogPost } from "../../types/blog";
 import { ProductFormDialog } from "../../components/admin/ProductFormDialog";
+import { BlogFormDialog } from "../../components/admin/BlogFormDialog";
 import { DeleteDialog } from "../../components/admin/DeleteDialog";
 
 const initialProductState: Partial<Product> = {
@@ -34,6 +37,13 @@ const initialProductState: Partial<Product> = {
 	values: [],
 };
 
+const initialBlogPostState: Partial<BlogPost> = {
+    title: "",
+    content: "",
+    summary: "",
+    is_published: false,
+};
+
 export function AdminDashboard() {
 	const { products, loading, error, refetch } = useProducts();
 	const navigate = useNavigate();
@@ -45,6 +55,15 @@ export function AdminDashboard() {
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [productToDelete, setProductToDelete] = useState<string | null>(null);
 	const [productToDeleteName, setProductToDeleteName] = useState<string>("");
+
+	// Blog state
+	const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+	const [isBlogFormDialogOpen, setIsBlogFormDialogOpen] = useState(false);
+	const [currentPost, setCurrentPost] = useState<Partial<BlogPost>>(initialBlogPostState);
+	const [isEditingPost, setIsEditingPost] = useState(false);
+	const [postToDelete, setPostToDelete] = useState<string | null>(null);
+	const [postToDeleteName, setPostToDeleteName] = useState<string>("");
+	const [isBlogDeleteDialogOpen, setIsBlogDeleteDialogOpen] = useState(false);
 
 	const [categories, setCategories] = useState<Category[]>([]);
 	const [values, setValues] = useState<Value[]>([]);
@@ -66,6 +85,15 @@ export function AdminDashboard() {
 				toast.error("Failed to fetch values");
 			} else {
 				setValues(valuesData);
+			}
+
+			const { data: blogData, error: blogError } = await supabase
+				.from("blog_posts")
+				.select("*");
+			if (blogError) {
+				toast.error("Failed to fetch blog posts");
+			} else {
+				setBlogPosts(blogData);
 			}
 		};
 		fetchInitialData();
@@ -260,6 +288,116 @@ export function AdminDashboard() {
 		toast.success(`Order ${orderId} status updated to ${status}`);
 	};
 
+	const refetchBlogPosts = async () => {
+		const { data, error } = await supabase.from("blog_posts").select("*");
+		if (error) {
+			toast.error("Failed to refetch blog posts");
+		} else {
+			setBlogPosts(data);
+		}
+	};
+
+	// Blog Handlers
+	const handleAddNewPost = () => {
+		setCurrentPost(initialBlogPostState);
+		setIsEditingPost(false);
+		setIsBlogFormDialogOpen(true);
+	};
+
+	const handleEditPost = (post: BlogPost) => {
+		setCurrentPost(post);
+		setIsEditingPost(true);
+		setIsBlogFormDialogOpen(true);
+	};
+
+	const handleDeletePostClick = (postId: string, postTitle: string) => {
+		setPostToDelete(postId);
+		setPostToDeleteName(postTitle);
+		setIsBlogDeleteDialogOpen(true);
+	};
+
+	const handleDeletePost = async () => {
+		if (!postToDelete) return;
+
+		try {
+			const { error } = await supabase
+				.from("blog_posts")
+				.delete()
+				.eq("id", postToDelete);
+
+			if (error) throw error;
+
+			toast.success("Blog post deleted successfully");
+			setIsBlogDeleteDialogOpen(false);
+			refetchBlogPosts();
+		} catch (err) {
+			toast.error(`Error deleting post: ${(err as Error).message}`);
+		} finally {
+			setPostToDelete(null);
+			setPostToDeleteName("");
+		}
+	};
+
+	const handleTogglePublish = async (post: BlogPost) => {
+		try {
+			const { error } = await supabase
+				.from("blog_posts")
+				.update({ is_published: !post.is_published })
+				.eq("id", post.id);
+
+			if (error) throw error;
+
+			toast.success(`Post ${post.is_published ? "unpublished" : "published"} successfully`);
+			refetchBlogPosts();
+		} catch (err) {
+			toast.error(`Error updating post status: ${(err as Error).message}`);
+		}
+	};
+
+	const handleBlogInputChange = (
+		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+	) => {
+		const { name, value } = e.target;
+		setCurrentPost(prev => ({ ...prev, [name]: value }));
+	};
+
+	const handlePublishChange = (is_published: boolean) => {
+		setCurrentPost(prev => ({ ...prev, is_published }));
+	};
+
+	const handleBlogSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+		if (!currentPost) return;
+
+		try {
+			const postData = { ...currentPost, author_id: 'd3b2e81e-8b48-4f08-9b8d-31135b1e6a24' }; // TODO: Replace with actual user ID
+
+			if (isEditingPost) {
+				const { error } = await supabase
+					.from("blog_posts")
+					.update(postData)
+					.eq("id", postData.id);
+				if (error) throw error;
+				toast.success("Post updated successfully");
+			} else {
+				const { error } = await supabase
+					.from("blog_posts")
+					.insert([postData]);
+				if (error) throw error;
+				toast.success("Post created successfully");
+			}
+
+			setIsBlogFormDialogOpen(false);
+			refetchBlogPosts();
+		} catch (err) {
+			toast.error(
+				`Error ${isEditingPost ? "updating" : "creating"} post: ${
+					(err as Error).message
+				}`
+			);
+		}
+	};
+
 	if (loading)
 		return <div className="text-[#F5F5F5] text-center p-8">Loading...</div>;
 	if (error)
@@ -293,6 +431,23 @@ export function AdminDashboard() {
 				itemName={productToDeleteName}
 			/>
 
+			<BlogFormDialog
+				open={isBlogFormDialogOpen}
+				onOpenChange={setIsBlogFormDialogOpen}
+				post={currentPost}
+				onSubmit={handleBlogSubmit}
+				onInputChange={handleBlogInputChange}
+				onPublishChange={handlePublishChange}
+				isEditing={isEditingPost}
+			/>
+
+			<DeleteDialog
+				open={isBlogDeleteDialogOpen}
+				onOpenChange={setIsBlogDeleteDialogOpen}
+				onConfirm={handleDeletePost}
+				itemName={postToDeleteName}
+			/>
+
 			<div className="flex justify-between items-center mb-6">
 				<h2 className="text-2xl font-bold text-[#FFD59A]">
 					Recent Activity
@@ -315,6 +470,7 @@ export function AdminDashboard() {
 				<TabsList className="bg-transparent p-0 mb-4 border-b border-white/20 rounded-none">
 					<TabsTrigger value="products">Products</TabsTrigger>
 					<TabsTrigger value="orders">Orders</TabsTrigger>
+					<TabsTrigger value="blog">Blog</TabsTrigger>
 				</TabsList>
 
 				<TabsContent value="products">
@@ -327,6 +483,15 @@ export function AdminDashboard() {
 				</TabsContent>
 				<TabsContent value="orders">
 					<OrdersTable onStatusChange={handleStatusChange} />
+				</TabsContent>
+				<TabsContent value="blog">
+					<BlogTable
+						posts={blogPosts}
+						onEdit={handleEditPost}
+						onDelete={handleDeletePostClick}
+						onTogglePublish={handleTogglePublish}
+						onAddNew={handleAddNewPost}
+					/>
 				</TabsContent>
 			</Tabs>
 		</div>
