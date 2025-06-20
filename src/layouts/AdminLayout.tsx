@@ -3,19 +3,22 @@ import { Sidebar } from "../components/admin/Sidebar";
 import { StatsCards } from "../components/admin/StatsCards";
 import { ShopHeader } from "../components/ShopHeader";
 import { useProducts } from "../hooks/useProducts";
+import { useOrders } from "../hooks/useOrders";
 
 export function AdminLayout() {
-  // Fetch products and calculate stats
-  const { products, loading, error } = useProducts();
-  
+  // Fetch products and orders
+  const { products, loading: productsLoading, error: productsError } = useProducts();
+  const { orders, loading: ordersLoading, error: ordersError } = useOrders();
+
   // Calculate stats
   const totalProducts = products?.length || 0;
-  const totalOrders = 0; // You'll need to fetch orders data
-  const pendingOrders = 0; // You'll need to fetch orders data
-  const totalRevenue = 0; // You'll need to fetch orders data
+  const totalOrders = orders?.length || 0;
+  const pendingOrders = orders?.filter(order => order.paid && order.status === 'pending').length || 0;
+  const totalRevenue = orders?.filter(order => order.paid).reduce((sum, order) => sum + order.total, 0) || 0;
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error loading data: {error.message}</div>;
+  if (productsLoading || ordersLoading) return <div>Loading...</div>;
+  if (productsError) return <div>Error loading data: {productsError.message}</div>;
+  if (ordersError) return <div>Error loading data: {ordersError.message}</div>;
 
   return (
     <div className="flex flex-col min-h-screen bg-[#096B68]">
