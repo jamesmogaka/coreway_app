@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 import { Facebook, Youtube } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
@@ -35,7 +35,7 @@ export const Footer: React.FC = () => {
 	const activePage = location.pathname.split("/")[1];
 
 	return (
-		<footer className="bg-teal-200 text-teal-900">
+		<footer className="bg-slate-900 text-yellow-50">
 			<div className="container mx-auto px-6 py-12">
 				<div className="grid grid-cols-1 md:grid-cols-4 gap-8">
 					{/* Company Info */}
@@ -43,54 +43,62 @@ export const Footer: React.FC = () => {
 						<h3 className="text-2xl font-semibold">
 							CorePath International
 						</h3>
-						<p className="text-base text-teal-900/80 mt-2">
+						<p className="text-base text-yellow-50/80 mt-2">
 							Building a brighter future, one value at a time.
 						</p>
 					</div>
 
 					{/* Quick Links */}
 					<div className="col-span-1">
-						<h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+						<h4 className="text-lg font-semibold mb-4">
+							Quick Links
+						</h4>
 						<ul className="space-y-2">
 							<li>
-								<Link
-									to="/"
-									className={`text-teal-900/90 hover:text-teal-900 transition-colors ${
+								<HashLink
+									smooth
+									to="/#home"
+									className={`text-yellow-50/90 hover:text-white transition-colors ${
 										activePage === "" ? "font-bold" : ""
-									}`}
-								>
+									}`}>
 									Home
-								</Link>
+								</HashLink>
 							</li>
 							<li>
-								<Link
-									to="/about"
-									className={`text-teal-900/90 hover:text-teal-900 transition-colors ${
-										activePage === "about" ? "font-bold" : ""
-									}`}
-								>
+								<HashLink
+									smooth
+									to="/#about"
+									className={`text-yellow-50/90 hover:text-white transition-colors ${
+										activePage === "about"
+											? "font-bold"
+											: ""
+									}`}>
 									About
-								</Link>
+								</HashLink>
 							</li>
 							<li>
-								<Link
-									to="/toolkit"
-									className={`text-teal-900/90 hover:text-teal-900 transition-colors ${
-										activePage === "toolkit" ? "font-bold" : ""
-									}`}
-								>
+								<HashLink
+									smooth
+									to="/#toolkit"
+									className={`text-yellow-50/90 hover:text-white transition-colors ${
+										activePage === "toolkit"
+											? "font-bold"
+											: ""
+									}`}>
 									The Toolkit
-								</Link>
+								</HashLink>
 							</li>
 							<li>
-								<Link
-									to="/training"
-									className={`text-teal-900/90 hover:text-teal-900 transition-colors ${
-										activePage === "training" ? "font-bold" : ""
-									}`}
-								>
+								<HashLink
+									smooth
+									to="/#training"
+									className={`text-yellow-50/90 hover:text-white transition-colors ${
+										activePage === "training"
+											? "font-bold"
+											: ""
+									}`}>
 									Training
-								</Link>
+								</HashLink>
 							</li>
 						</ul>
 					</div>
@@ -99,13 +107,12 @@ export const Footer: React.FC = () => {
 					<div className="col-span-1">
 						<h4 className="text-lg font-semibold mb-4">Explore</h4>
 						<ul className="space-y-2">
-							{newNavLinks.map((link) => (
+							{newNavLinks.map(link => (
 								<li key={link.name}>
 									<HashLink
 										smooth
 										to={link.path}
-										className="text-teal-900/90 hover:text-teal-900 transition-colors duration-300"
-									>
+										className="text-yellow-50/90 hover:text-yellow-50 transition-colors duration-300">
 										{link.name}
 									</HashLink>
 								</li>
@@ -115,17 +122,18 @@ export const Footer: React.FC = () => {
 
 					{/* Social Media Links */}
 					<div className="col-span-1">
-						<h4 className="text-lg font-semibold mb-4">Follow Us</h4>
+						<h4 className="text-lg font-semibold mb-4">
+							Follow Us
+						</h4>
 						<div className="flex space-x-4">
-							{socialLinks.map((social) => (
+							{socialLinks.map(social => (
 								<a
 									key={social.name}
 									href={social.path}
 									target="_blank"
 									rel="noopener noreferrer"
 									aria-label={social.name}
-									className="p-2 rounded-full bg-teal-100 text-teal-900/80 hover:bg-teal-300 hover:text-teal-900 icon-rotate-on-hover transition-all duration-300"
-								>
+									className="p-2 rounded-full bg-teal-100 text-teal-900/80 hover:bg-teal-300 hover:text-teal-900 icon-rotate-on-hover transition-all duration-300">
 									<social.icon className="h-6 w-6" />
 								</a>
 							))}
@@ -134,10 +142,10 @@ export const Footer: React.FC = () => {
 				</div>
 
 				{/* Footer Bottom */}
-				<div className="mt-12 border-t border-teal-300 pt-8 text-center">
-					<p className="text-sm text-teal-900/70">
-						&copy; {new Date().getFullYear()} CorePath International. All
-						rights reserved.
+				<div className="mt-12 border-t border-yellow-50 pt-8 text-center">
+					<p className="text-sm text-yellow-50/70">
+						&copy; {new Date().getFullYear()} CorePath
+						International. All rights reserved.
 					</p>
 				</div>
 			</div>
