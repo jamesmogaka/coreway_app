@@ -22,93 +22,21 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "../ui/dialog";
-import { getOrders } from "@/lib/orders";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { Order, OrderStatus } from "../../types/admin";
 
-// Type for the raw data fetched from Supabase
-type FetchedOrder = {
-	id: string;
-	created_at: string;
-	delivery_address: string; // This is a JSON string
-	total: number;
-	status: OrderStatus;
-	is_paid: boolean;
-	order_items: {
-		quantity: number;
-		unit_price: number;
-		products: {
-			name: string;
-		} | null;
-	}[];
-};
-type ShippingAddress = {
-	email: string;
-	firstName: string;
-	lastName: string;
-	county: string;
-	subcounty: string;
-	ward: string;
-	streetAddress: string;
-	areaCode: string;
-	phoneNumber: string;
-};
-
-// Extended Order type to include the shipping address
-interface OrderWithShipping extends Order {
-	shippingAddress: ShippingAddress;
-	isPaid: boolean;
-}
-
 type OrdersTableProps = {
+	orders: Order[];
 	onStatusChange: (orderId: string, status: OrderStatus) => void;
 };
 
-export function OrdersTable({ onStatusChange }: OrdersTableProps) {
-	const [orders, setOrders] = useState<OrderWithShipping[]>([]);
-	const [selectedOrder, setSelectedOrder] =
-		useState<OrderWithShipping | null>(null);
+export function OrdersTable({ orders, onStatusChange }: OrdersTableProps) {
+	const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 	const [paymentFilter, setPaymentFilter] = useState<
 		"all" | "paid" | "unpaid"
 	>("all");
 
-	useEffect(() => {
-		const fetchOrders = async () => {
-			const { data, success } = await getOrders();
-			if (success && data) {
-				const formattedOrders: OrderWithShipping[] = (
-					data as FetchedOrder[]
-				).map((order: FetchedOrder) => {
-					const shippingInfo: ShippingAddress = JSON.parse(
-						order.delivery_address
-					);
-					const total = order.order_items.reduce(
-						(sum, item) => sum + item.unit_price * item.quantity,
-						0
-					);
-					return {
-						id: order.id,
-						shippingInfo: order.delivery_address,
-						date: new Date(order.created_at).toLocaleDateString(),
-						total,
-						status: order.status,
-						isPaid: order.is_paid,
-						items: order.order_items.map(item => ({
-							name: item.products?.name || "Unknown Product",
-							quantity: item.quantity,
-							price: item.unit_price,
-						})),
-						shippingAddress: shippingInfo,
-					};
-				});
-				setOrders(formattedOrders);
-			}
-		};
-
-		fetchOrders();
-	}, []);
-
-	const handleRowClick = (order: OrderWithShipping) => {
+	const handleRowClick = (order: Order) => {
 		setSelectedOrder(order);
 	};
 
