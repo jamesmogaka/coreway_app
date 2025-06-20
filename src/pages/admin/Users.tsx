@@ -9,10 +9,33 @@ import {
 	FiLoader,
 	FiRefreshCw,
 	FiUserX,
+	FiUser,
 } from "react-icons/fi";
 
 const ITEMS_PER_PAGE = 10;
 
+// Type definitions for Supabase data
+interface Role {
+	name: string;
+}
+
+interface UserRole {
+	roles: Role[] | null;
+}
+
+interface FetchedUser {
+	id: string;
+	first_name: string | null;
+	last_name: string | null;
+	county: string | null;
+	sub_county: string | null;
+	ward: string | null;
+	street_address: string | null;
+	phone_number: string | null;
+	user_roles: UserRole[];
+}
+
+// Combined User type for the component state
 interface User {
 	id: string;
 	email: string;
@@ -20,6 +43,11 @@ interface User {
 	last_sign_in_at?: string;
 	full_name?: string;
 	user_role?: "admin" | "user";
+	county?: string | null;
+	sub_county?: string | null;
+	ward?: string | null;
+	street_address?: string | null;
+	phone_number?: string | null;
 }
 
 interface UserFilters {
@@ -49,10 +77,55 @@ export default function UsersPage() {
 		try {
 			setDataLoading(true);
 
-			const { data, error } = await supabase.from("users").select("*");
+			const { data, error } = await supabase.from("profiles").select(`
+				id,
+				first_name,
+				last_name,
+				county,
+				sub_county,
+				ward,
+				street_address,
+				phone_number,
+				user_roles (
+					roles (
+						name
+					)
+				)
+			`);
+			console.log(data);
+			console.log(error);
 			if (error) throw error;
 
-			setUsers(data || []);
+			if (data) {
+				const formattedUsers: User[] = (data as FetchedUser[]).map(
+					profile => {
+						const roles = profile.user_roles
+							.flatMap(ur => ur.roles || [])
+							.map(role => role.name)
+							.filter((name): name is string => !!name);
+						const userRole = roles.length > 0 ? roles[0] : "user";
+
+						return {
+							id: profile.id,
+							email: "", // email is not available in profiles table
+							created_at: "", // created_at is not available in profiles table
+							last_sign_in_at: undefined, // last_sign_in_at is not available in profiles table
+							full_name: `${profile.first_name || ""} ${
+								profile.last_name || ""
+							}`.trim(),
+							user_role: userRole as "admin" | "user",
+							county: profile.county,
+							sub_county: profile.sub_county,
+							ward: profile.ward,
+							street_address: profile.street_address,
+							phone_number: profile.phone_number,
+						};
+					}
+				);
+				setUsers(formattedUsers);
+			} else {
+				setUsers([]);
+			}
 		} catch (error) {
 			toast.error(
 				(error instanceof Error && error.message) ||
@@ -87,18 +160,33 @@ export default function UsersPage() {
 		);
 
 		try {
-			const { error } = await supabase
-				.from("auth.users")
-				.update({ user_role: newRole })
-				.eq("id", userId);
+			// 1. Get the role ID from the roles table
+			const { data: roleData, error: roleError } = await supabase
+				.from("roles")
+				.select("id")
+				.eq("name", newRole)
+				.single();
 
-			if (error) {
-				setUsers(originalUsers);
-				throw error;
+			if (roleError || !roleData) {
+				throw new Error(`Role '${newRole}' not found.`);
+			}
+			const roleId = roleData.id;
+
+			// 2. Upsert the user's role in the user_roles table
+			const { error: upsertError } = await supabase
+				.from("user_roles")
+				.upsert(
+					{ user_id: userId, role_id: roleId },
+					{ onConflict: "user_id" }
+				);
+
+			if (upsertError) {
+				throw upsertError;
 			}
 
 			toast.success(`User role has been updated to ${newRole}.`);
 		} catch (error) {
+			setUsers(originalUsers);
 			toast.error(
 				(error instanceof Error && error.message) ||
 					"Failed to update user role."
@@ -113,6 +201,7 @@ export default function UsersPage() {
 				?.toLowerCase()
 				.includes(searchTerm);
 			const emailMatch = user.email.toLowerCase().includes(searchTerm);
+			const phoneMatch = user.phone_number?.includes(searchTerm);
 
 			const roleMatch =
 				filters.role === "all" || user.user_role === filters.role;
@@ -124,7 +213,11 @@ export default function UsersPage() {
 				filters.status === "all" ||
 				(filters.status === "active" ? !!lastActive : !lastActive);
 
-			return (nameMatch || emailMatch) && roleMatch && statusMatch;
+			return (
+				(nameMatch || emailMatch || phoneMatch) &&
+				roleMatch &&
+				statusMatch
+			);
 		});
 	}, [users, filters]);
 
@@ -164,7 +257,9 @@ export default function UsersPage() {
 		return (
 			<div className="flex flex-col items-center justify-center min-h-[calc(100vh-200px)] text-center">
 				<FiUserX className="w-16 h-16 mb-4 text-red-400" />
-				<h1 className="text-2xl font-bold text-[#FFD59A]">Access Denied</h1>
+				<h1 className="text-2xl font-bold text-[#FFD59A]">
+					Access Denied
+				</h1>
 				<p className="text-[#F5F5F5]">
 					You do not have permission to view this page.
 				</p>
@@ -211,8 +306,7 @@ export default function UsersPage() {
 							role: e.target.value as UserFilters["role"],
 						})
 					}
-					className="w-full px-4 py-2 bg-black/20 border border-[#C2EAE7] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFD59A] text-[#F5F5F5]"
-				>
+					className="w-full px-4 py-2 bg-black/20 border border-[#C2EAE7] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFD59A] text-[#F5F5F5]">
 					<option value="all">All Roles</option>
 					<option value="admin">Admins</option>
 					<option value="user">Users</option>
@@ -224,8 +318,7 @@ export default function UsersPage() {
 							status: e.target.value as UserFilters["status"],
 						})
 					}
-					className="w-full px-4 py-2 bg-black/20 border border-[#C2EAE7] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFD59A] text-[#F5F5F5]"
-				>
+					className="w-full px-4 py-2 bg-black/20 border border-[#C2EAE7] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFD59A] text-[#F5F5F5]">
 					<option value="all">All Statuses</option>
 					<option value="active">Active</option>
 					<option value="inactive">Inactive</option>
@@ -236,76 +329,102 @@ export default function UsersPage() {
 				<table className="min-w-full leading-normal">
 					<thead>
 						<tr>
-							<th className="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+							<th className="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-400 uppercase bg-black/20 border-b-2 border-gray-700">
 								User
 							</th>
-							<th className="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+							<th className="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-400 uppercase bg-black/20 border-b-2 border-gray-700">
+								Location
+							</th>
+							<th className="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-400 uppercase bg-black/20 border-b-2 border-gray-700">
 								Role
 							</th>
-							<th className="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+							<th className="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-400 uppercase bg-black/20 border-b-2 border-gray-700">
 								Status
 							</th>
-							<th className="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+							<th className="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-400 uppercase bg-black/20 border-b-2 border-gray-700">
 								Last Active
 							</th>
-							<th className="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+							<th className="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-400 uppercase bg-black/20 border-b-2 border-gray-700">
 								Actions
 							</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody className="bg-black/10">
 						{paginatedUsers.length > 0 ? (
 							paginatedUsers.map(user => (
-								<tr key={user.id}>
-									<td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+								<tr
+									key={user.id}
+									className="border-b border-gray-700 hover:bg-black/20">
+									<td className="px-5 py-5 text-sm">
 										<div className="flex items-center">
-											<div className="divide-y divide-white/20">
+											<div className="flex-shrink-0">
+												<div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-600 rounded-full">
+													<FiUser className="w-6 h-6 text-gray-300" />
+												</div>
+											</div>
+											<div className="ml-4">
 												<p className="font-semibold text-[#F5F5F5]">
 													{user.full_name || "N/A"}
 												</p>
 												<p className="text-sm text-gray-400">
 													{user.email}
 												</p>
+												<p className="text-sm text-gray-500">
+													{user.phone_number ||
+														"No phone"}
+												</p>
 											</div>
 										</div>
 									</td>
-									<td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+									<td className="px-5 py-5 text-sm">
+										<p className="text-[#F5F5F5]">{`${
+											user.street_address || ""
+										}${
+											user.street_address && user.ward
+												? ", "
+												: ""
+										}${user.ward || ""}`}</p>
+										<p className="text-sm text-gray-400">{`${
+											user.sub_county || ""
+										}${
+											user.sub_county && user.county
+												? ", "
+												: ""
+										}${user.county || ""}`}</p>
+									</td>
+									<td className="px-5 py-5 text-sm">
 										<span
-											className={`relative inline-block px-3 py-1 font-semibold leading-tight ${
-												user.last_sign_in_at
-													? "bg-green-400/20 text-green-300"
-													: "bg-gray-400/20 text-gray-300"
-											}`}
-										>
+											className={`relative inline-block px-3 py-1 font-semibold leading-tight capitalize ${
+												user.user_role === "admin"
+													? "text-orange-400"
+													: "text-green-300"
+											}`}>
 											<span
 												aria-hidden
 												className={`absolute inset-0 ${
-													user.last_sign_in_at
-														? "bg-green-400/20"
-														: "bg-gray-400/20"
-												}`}
-											></span>
+													user.user_role === "admin"
+														? "bg-orange-400/20"
+														: "bg-green-400/20"
+												} rounded-full opacity-50`}></span>
 											<span className="relative">
 												{user.user_role}
 											</span>
 										</span>
 									</td>
-									<td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+									<td className="px-5 py-5 text-sm">
 										<span
 											className={`relative inline-block px-3 py-1 font-semibold leading-tight ${
 												user.last_sign_in_at
-													? "bg-green-400/20 text-green-300"
-													: "bg-gray-400/20 text-gray-300"
-											}`}
-										>
+													? "text-green-300"
+													: "text-gray-400"
+											}`}>
 											<span
 												aria-hidden
 												className={`absolute inset-0 ${
 													user.last_sign_in_at
 														? "bg-green-400/20"
 														: "bg-gray-400/20"
-												}`}
-											></span>
+												} rounded-full opacity-50`}></span>
 											<span className="relative">
 												{user.last_sign_in_at
 													? "Active"
@@ -313,14 +432,16 @@ export default function UsersPage() {
 											</span>
 										</span>
 									</td>
-									<td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-										{user.last_sign_in_at
-											? new Date(
-													user.last_sign_in_at
-											  ).toLocaleDateString()
-											: "Never"}
+									<td className="px-5 py-5 text-sm">
+										<p className="text-gray-400 whitespace-no-wrap">
+											{user.last_sign_in_at
+												? new Date(
+														user.last_sign_in_at
+												  ).toLocaleDateString()
+												: "Never"}
+										</p>
 									</td>
-									<td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+									<td className="px-5 py-5 text-sm">
 										{user.id === currentUser?.id ? (
 											<span className="text-sm font-semibold text-gray-500">
 												N/A (You)
@@ -336,8 +457,7 @@ export default function UsersPage() {
 															| "user"
 													)
 												}
-												className="w-full px-4 py-2 bg-black/20 border border-[#C2EAE7] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFD59A] text-[#F5F5F5]"
-											>
+												className="w-full px-4 py-2 bg-black/20 border border-[#C2EAE7] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFD59A] text-[#F5F5F5]">
 												<option value="user">
 													User
 												</option>
@@ -352,9 +472,8 @@ export default function UsersPage() {
 						) : (
 							<tr>
 								<td
-									colSpan={5}
-									className="py-10 text-center text-gray-400"
-								>
+									colSpan={6}
+									className="py-10 text-center text-gray-400">
 									No users found.
 								</td>
 							</tr>
@@ -372,15 +491,13 @@ export default function UsersPage() {
 						<button
 							onClick={() => handlePageChange(currentPage - 1)}
 							disabled={currentPage === 1}
-							className="w-full px-4 py-2 bg-black/20 border border-[#C2EAE7] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFD59A] text-[#F5F5F5]"
-						>
+							className="w-full px-4 py-2 bg-black/20 border border-[#C2EAE7] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFD59A] text-[#F5F5F5]">
 							<FiChevronLeft />
 						</button>
 						<button
 							onClick={() => handlePageChange(currentPage + 1)}
 							disabled={currentPage === totalPages}
-							className="w-full px-4 py-2 bg-black/20 border border-[#C2EAE7] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFD59A] text-[#F5F5F5]"
-						>
+							className="w-full px-4 py-2 bg-black/20 border border-[#C2EAE7] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFD59A] text-[#F5F5F5]">
 							<FiChevronRight />
 						</button>
 					</div>
