@@ -1,65 +1,52 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { getOrders } from '../lib/orders';
-
-// Shape of data for an order item from Supabase
-interface OrderItemFromDB {
-    quantity: number;
-    unit_price: number;
-}
-
-// Shape of data for an order from Supabase
-interface OrderFromDB {
-  id: string;
-  is_paid: boolean;
-  status: 'pending' | 'shipped' | 'delivered';
-  order_items: OrderItemFromDB[];
-  delivery_address: string;
-  user_id?: string;
-  created_at: string;
-}
-
-
-// Shape of data used in the application components
-export interface Order {
-  id: string;
-  paid: boolean;
-  status: 'pending' | 'shipped' | 'delivered';
-  total: number;
-}
+import type { Order, FetchedOrder, ShippingAddress } from '../types/admin';
 
 export function useOrders() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await getOrders();
-        if (response.success && response.data) {
-          const transformedOrders = (response.data as OrderFromDB[]).map(order => {
-            const total = order.order_items.reduce((sum, item) => sum + item.quantity * item.unit_price, 0);
-            return {
-              id: order.id,
-              paid: order.is_paid,
-              status: order.status,
-              total: total,
-            };
-          });
-          setOrders(transformedOrders);
-        } else {
-          const errorMessage = typeof response.error === 'string' ? response.error : (response.error as Error)?.message || 'Failed to fetch orders';
-          throw new Error(errorMessage);
-        }
-      } catch (err) {
-        setError(err as Error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchOrders = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await getOrders();
+      if (response.success && response.data) {
+        const transformedOrders = (response.data as FetchedOrder[]).map(order => {
+          const shippingAddress: ShippingAddress = JSON.parse(order.delivery_address);
+          const shippingInfo = `${shippingAddress.firstName} ${shippingAddress.lastName}`;
 
-    fetchOrders();
+          return {
+            id: order.id,
+            shippingInfo: shippingInfo,
+            total: order.order_items.reduce((sum, item) => sum + (item.unit_price * item.quantity), 0),
+            status: order.status,
+            date: new Date(order.created_at).toLocaleDateString(),
+            items: order.order_items.map(item => ({
+              name: item.products?.name || 'Unknown Product',
+              quantity: item.quantity,
+              price: item.unit_price,
+            })),
+            isPaid: order.is_paid,
+            shippingAddress: shippingAddress,
+          };
+        });
+        setOrders(transformedOrders);
+      } else {
+        const errorMessage = typeof response.error === 'string' ? response.error : (response.error as Error)?.message || 'Failed to fetch orders';
+        throw new Error(errorMessage);
+      }
+    } catch (err) {
+      setError(err as Error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  return { orders, loading, error };
+  useEffect(() => {
+    fetchOrders();
+  }, [fetchOrders]);
+
+  return { orders, loading, error, refetch: fetchOrders };
 }

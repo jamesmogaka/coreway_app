@@ -4,21 +4,22 @@ import { StatsCards } from "../components/admin/StatsCards";
 import { ShopHeader } from "../components/ShopHeader";
 import { useProducts } from "../hooks/useProducts";
 import { useOrders } from "../hooks/useOrders";
+import { AdminProvider } from "../contexts/AdminContext";
 
 export function AdminLayout() {
   // Fetch products and orders
   const { products, loading: productsLoading, error: productsError } = useProducts();
-  const { orders, loading: ordersLoading, error: ordersError } = useOrders();
+  const { orders, loading: ordersLoading, error: ordersError, refetch: refetchOrders } = useOrders();
 
   // Calculate stats
   const totalProducts = products?.length || 0;
   const totalOrders = orders?.length || 0;
-  const pendingOrders = orders?.filter(order => order.paid && order.status === 'pending').length || 0;
-  const totalRevenue = orders?.filter(order => order.paid).reduce((sum, order) => sum + order.total, 0) || 0;
+  const pendingOrders = orders?.filter(order => order.isPaid && order.status === 'pending').length || 0;
+  const totalRevenue = orders?.filter(order => order.isPaid).reduce((sum, order) => sum + order.total, 0) || 0;
 
   if (productsLoading || ordersLoading) return <div>Loading...</div>;
   if (productsError) return <div>Error loading data: {productsError.message}</div>;
-  if (ordersError) return <div>Error loading data: {ordersError.message}</div>;
+  if (ordersError) return <div>Error loading orders: {ordersError.message}</div>;
 
   return (
     <div className="flex flex-col min-h-screen bg-[#096B68]">
@@ -47,7 +48,9 @@ export function AdminLayout() {
             
             {/* This Outlet is where the nested routes will be rendered */}
             <div className="mt-6">
-              <Outlet />
+              <AdminProvider value={{ orders, refetchOrders, totalProducts }}>
+                <Outlet />
+              </AdminProvider>
             </div>
           </div>
         </main>

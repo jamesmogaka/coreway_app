@@ -8,15 +8,13 @@ import { ProductsTable } from "../../components/admin/ProductsTable";
 import { OrdersTable } from "../../components/admin/OrdersTable";
 import { BlogTable } from "../../components/admin/BlogTable";
 import { useState, useEffect } from "react";
+import { useAdminContext } from "../../contexts/AdminContext";
 import { useProducts } from "../../hooks/useProducts";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { supabase } from "../../lib/supabase";
 import type {
-	Order,
 	OrderStatus,
-	FetchedOrder,
-	ShippingAddress,
 } from "../../types/admin";
 import type {
 	Product,
@@ -71,8 +69,7 @@ export function AdminDashboard() {
 	const [postToDeleteName, setPostToDeleteName] = useState<string>("");
 	const [isBlogDeleteDialogOpen, setIsBlogDeleteDialogOpen] = useState(false);
 
-	// Orders state
-	const [orders, setOrders] = useState<Order[]>([]);
+	const { orders, refetchOrders } = useAdminContext();
 
 	const [categories, setCategories] = useState<Category[]>([]);
 	const [values, setValues] = useState<Value[]>([]);
@@ -105,7 +102,6 @@ export function AdminDashboard() {
 				setBlogPosts(blogData);
 			}
 
-			await fetchOrders();
 		};
 		fetchInitialData();
 	}, []);
@@ -294,49 +290,6 @@ export function AdminDashboard() {
 	const navigateToUsers = () => navigate("/admin/users");
 	const navigateToContacts = () => navigate("/admin/contacts");
 
-	const fetchOrders = async () => {
-		const { data, error } = await supabase.from("orders").select(`
-				*, 
-				order_items (
-					quantity,
-					unit_price,
-					products (name)
-				)
-			`);
-
-		if (error) {
-			toast.error("Failed to fetch orders");
-			return;
-		}
-
-		const formattedOrders: Order[] = (data as FetchedOrder[]).map(
-			(order: FetchedOrder) => {
-				const shippingInfo: ShippingAddress = JSON.parse(
-					order.delivery_address
-				);
-				const total = order.order_items.reduce(
-					(sum, item) => sum + item.unit_price * item.quantity,
-					0
-				);
-				return {
-					id: order.id,
-					shippingInfo: order.delivery_address,
-					date: new Date(order.created_at).toLocaleDateString(),
-					total,
-					status: order.status,
-					isPaid: order.is_paid,
-					items: order.order_items.map(item => ({
-						name: item.products?.name || "Unknown Product",
-						quantity: item.quantity,
-						price: item.unit_price,
-					})),
-					shippingAddress: shippingInfo,
-				};
-			}
-		);
-		setOrders(formattedOrders);
-	};
-
 	const handleStatusChange = async (orderId: string, status: OrderStatus) => {
 		const { error } = await supabase
 			.from("orders")
@@ -347,7 +300,7 @@ export function AdminDashboard() {
 			toast.error("Failed to update order status");
 		} else {
 			toast.success("Order status updated successfully");
-			await fetchOrders(); // Refetch orders to show the update
+			refetchOrders();
 		}
 	};
 
@@ -531,6 +484,8 @@ export function AdminDashboard() {
 				onConfirm={handleDeletePost}
 				itemName={postToDeleteName}
 			/>
+
+
 
 			<div className="flex justify-between items-center mb-6">
 				<h2 className="text-2xl font-bold text-[#FFD59A]">
