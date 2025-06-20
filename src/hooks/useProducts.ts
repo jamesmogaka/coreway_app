@@ -15,8 +15,10 @@ export const useProducts = () => {
 			try {
 				const { data, error: supabaseError } = await supabase
 					.from("products")
-					.select("*")
-					.eq("product", id)
+					.select(
+						"*, category:categories(id, name, description), values:product_values(values(id, name)), contents:product_contents(*), features:product_features(feature)"
+					)
+					.eq("product_id", id)
 					.single();
 
 				if (supabaseError) {
@@ -41,8 +43,9 @@ export const useProducts = () => {
 		try {
 			const { data, error: supabaseError } = await supabase
 				.from("products")
-				.select("*");
-
+				.select(
+					"*, category:categories(id, name, description), values:product_values(values(id, name)), contents:product_contents(*), features:product_features(feature)"
+				);
 			if (supabaseError) {
 				throw supabaseError;
 			}

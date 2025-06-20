@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
 	Tabs,
 	TabsContent,
@@ -13,9 +14,7 @@ import { useProducts } from "../../hooks/useProducts";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { supabase } from "../../lib/supabase";
-import type {
-	OrderStatus,
-} from "../../types/admin";
+import type { OrderStatus } from "../../types/admin";
 import type {
 	Product,
 	Category,
@@ -101,7 +100,6 @@ export function AdminDashboard() {
 			} else {
 				setBlogPosts(blogData);
 			}
-
 		};
 		fetchInitialData();
 	}, []);
@@ -210,7 +208,7 @@ export function AdminDashboard() {
 
 		try {
 			let productId = currentProduct.product_id;
-			const { contents, features, values, ...productData } =
+			const { product_id, contents, features, values, category, ...productData } =
 				currentProduct;
 
 			if (isEditing) {
@@ -254,8 +252,13 @@ export function AdminDashboard() {
 				.delete()
 				.eq("product_id", productId);
 			if (features && features.length > 0) {
-				const featuresToInsert = features.map(f => ({
-					...f,
+				const uniqueFeatures = features.filter(
+					(feature, index, self) =>
+						index ===
+						self.findIndex(f => f.feature === feature.feature)
+				);
+				const featuresToInsert = uniqueFeatures.map(f => ({
+					feature: f.feature,
 					product_id: productId,
 				}));
 				await supabase
@@ -484,8 +487,6 @@ export function AdminDashboard() {
 				onConfirm={handleDeletePost}
 				itemName={postToDeleteName}
 			/>
-
-
 
 			<div className="flex justify-between items-center mb-6">
 				<h2 className="text-2xl font-bold text-[#FFD59A]">
