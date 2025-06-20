@@ -1,5 +1,5 @@
 import { Button } from "../ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
@@ -31,9 +31,12 @@ export function BlogFormDialog({
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="bg-[#129990] border-0 text-[#F5F5F5] max-w-3xl">
 				<DialogHeader>
-					<DialogTitle className="text-2xl font-semibold text-[#FFD59A]">
-						{isEditing ? "Edit Post" : "Add New Post"}
+					<DialogTitle>
+						{isEditing ? "Edit Blog Post" : "Create New Blog Post"}
 					</DialogTitle>
+					<DialogDescription className="sr-only">
+						{isEditing ? "Update the details of your blog post." : "Fill in the details to create a new blog post."}
+					</DialogDescription>
 				</DialogHeader>
 				<form className="text-sm">
 					<div className="grid gap-4 py-4">

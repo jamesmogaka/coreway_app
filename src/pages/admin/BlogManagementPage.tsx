@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { BlogTable } from "@/components/admin/BlogTable";
 import { BlogFormDialog } from "@/components/admin/BlogFormDialog";
+import { DeleteDialog } from "@/components/admin/DeleteDialog";
 import {
 	getBlogPosts,
 	createBlogPost,
@@ -20,6 +21,8 @@ const BlogManagementPage: React.FC = () => {
 	const [editingPost, setEditingPost] = useState<Partial<BlogPost> | null>(
 		null
 	);
+	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+	const [postToDelete, setPostToDelete] = useState<{ id: string; title: string } | null>(null);
 
 	const fetchPosts = useCallback(async () => {
 		try {
@@ -48,15 +51,23 @@ const BlogManagementPage: React.FC = () => {
 		setDialogOpen(true);
 	};
 
-	const handleDelete = async (postId: string, postTitle: string) => {
-		if (window.confirm(`Are you sure you want to delete "${postTitle}"?`)) {
-			try {
-				await deleteBlogPost(postId);
-				toast.success(`Post "${postTitle}" deleted successfully.`);
-				fetchPosts();
-			} catch {
-				toast.error("Failed to delete post.");
-			}
+	const handleDelete = (postId: string, postTitle: string) => {
+		setPostToDelete({ id: postId, title: postTitle });
+		setIsDeleteDialogOpen(true);
+	};
+
+	const handleConfirmDelete = async () => {
+		if (!postToDelete) return;
+
+		try {
+			await deleteBlogPost(postToDelete.id);
+			toast.success(`Post "${postToDelete.title}" deleted successfully.`);
+			fetchPosts();
+		} catch (error) {
+			toast.error("Failed to delete post.");
+		} finally {
+			setIsDeleteDialogOpen(false);
+			setPostToDelete(null);
 		}
 	};
 
@@ -131,11 +142,18 @@ const BlogManagementPage: React.FC = () => {
 				open={isDialogOpen}
 				onOpenChange={setDialogOpen}
 				post={editingPost}
-				isEditing={!!(editingPost && "id" in editingPost)}
+				onChange={setEditingPost}
 				onSubmit={handleFormSubmit}
-				onInputChange={handleInputChange}
-				onPublishChange={handlePublishChange}
+				isEditing={!!editingPost?.id}
 			/>
+			{postToDelete && (
+				<DeleteDialog
+					open={isDeleteDialogOpen}
+					onOpenChange={setIsDeleteDialogOpen}
+					onConfirm={handleConfirmDelete}
+					itemName={postToDelete.title}
+				/>
+			)}
 		</div>
 	);
 };
