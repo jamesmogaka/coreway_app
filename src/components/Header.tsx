@@ -115,7 +115,7 @@ export const Header: React.FC = () => {
 		return () => {
 			observer.current?.disconnect();
 		};
-	}, []);
+	}, [location]);
 
 	return (
 		<motion.header

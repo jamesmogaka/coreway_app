@@ -77,7 +77,7 @@ export const HomePage: React.FC = () => {
 					overflow-x: hidden;
 				}
 			`}</style>
-			<div className="bg-teal-900 min-h-screen" id="home">
+			<div className="bg-teal-900 min-h-screen">
 				<HeroSection />
 
 				{/* Features Section - Dark Teal */}
