@@ -30,23 +30,19 @@ const features = [
 const predisposition = [
 	{
 		name: "Gold",
-		color: "yellow-400/90",
-		text: "gray-900",
+		className: "bg-yellow-400/90 text-gray-900",
 	},
 	{
 		name: "Blue",
-		color: "blue-400/90",
-		text: "white",
+		className: "bg-blue-400/90 text-white",
 	},
 	{
 		name: "Green",
-		color: "green-400/90",
-		text: "white",
+		className: "bg-green-400/90 text-white",
 	},
 	{
 		name: "Orange",
-		color: "orange-400/90",
-		text: "white",
+		className: "bg-orange-400/90 text-white",
 	},
 ];
 
@@ -155,7 +151,7 @@ export const HomePage: React.FC = () => {
 									whileTap={{ scale: 0.9 }}>
 									<HashLink
 										to={`/#${type.name.toLowerCase()}`}
-										className={`bg-${type.color} text-${type.text} px-4 py-2 rounded-full font-semibold shadow-md transition-transform hover:shadow-lg`}>
+										className={`${type.className} px-4 py-2 rounded-full font-semibold shadow-md transition-transform hover:shadow-lg`}>
 										{type.name}
 									</HashLink>
 								</motion.div>
