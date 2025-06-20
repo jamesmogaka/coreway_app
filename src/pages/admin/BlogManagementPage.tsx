@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect, useCallback } from "react";
 import { BlogTable } from "@/components/admin/BlogTable";
 import { BlogFormDialog } from "@/components/admin/BlogFormDialog";
@@ -75,15 +76,13 @@ const BlogManagementPage: React.FC = () => {
 		}
 	};
 
-	const handleFormSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
+	const handleFormSubmit = async () => {
 		if (!editingPost || !user) return;
-
 		try {
 			if ("id" in editingPost && editingPost.id) {
 				// Update existing post
-				const { id, ...updateData } = editingPost as BlogPost;
-				await updateBlogPost(id, updateData);
+				const { id, created_at, updated_at, ...updateData } = editingPost as BlogPost;
+				await updateBlogPost(id, { ...updateData, author_id: user.id });
 				toast.success("Post updated successfully!");
 			} else {
 				// Create new post
@@ -101,7 +100,6 @@ const BlogManagementPage: React.FC = () => {
 			fetchPosts();
 		} catch (error) {
 			toast.error("Failed to save post.");
-			console.error(error);
 		}
 	};
 

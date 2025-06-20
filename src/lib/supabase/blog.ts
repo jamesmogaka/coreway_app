@@ -57,16 +57,12 @@ export const updateBlogPost = async (
 	id: string,
 	updates: Partial<BlogPost>
 ): Promise<BlogPost> => {
-	console.log(id);
-	console.log(updates);
 	const { data, error } = await supabase
 		.from(BLOG_TABLE)
 		.update(updates)
 		.eq("id", id)
 		.select()
 		.single();
-	console.log(data);
-	console.log(error);
 
 	if (error) {
 		console.error(`Error updating blog post with id ${id}:`, error);

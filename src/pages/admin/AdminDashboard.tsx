@@ -365,24 +365,29 @@ export function AdminDashboard() {
 		setCurrentPost(prev => ({ ...prev, is_published }));
 	};
 
-	const handleBlogSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
+	const handleBlogSubmit = async () => {
 		if (!currentPost) return;
 
-		try {
-			const postData = { ...currentPost, author_id: 'd3b2e81e-8b48-4f08-9b8d-31135b1e6a24' }; // TODO: Replace with actual user ID
+		const { data: { user } } = await supabase.auth.getUser();
 
-			if (isEditingPost) {
+		if (!user) {
+			toast.error("You must be logged in to create or update a post.");
+			return;
+		}
+
+		try {
+			const { title, summary, content, is_published } = currentPost;
+			const postData = { title, summary, content, is_published, author_id: user.id };
+
+			if (isEditingPost && currentPost.id) {
 				const { error } = await supabase
 					.from("blog_posts")
 					.update(postData)
-					.eq("id", postData.id);
+					.eq("id", currentPost.id);
 				if (error) throw error;
 				toast.success("Post updated successfully");
 			} else {
-				const { error } = await supabase
-					.from("blog_posts")
-					.insert([postData]);
+				const { error } = await supabase.from("blog_posts").insert([postData]);
 				if (error) throw error;
 				toast.success("Post created successfully");
 			}
