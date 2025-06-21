@@ -73,7 +73,7 @@ export const HomePage: React.FC = () => {
 					overflow-x: hidden;
 				}
 			`}</style>
-			<div className="bg-teal-900 min-h-screen">
+			<div className="min-h-screen">
 				<HeroSection />
 
 				{/* Features Section - Dark Teal */}
@@ -123,7 +123,7 @@ export const HomePage: React.FC = () => {
 				</AnimatedSection>
 
 				{/* Personality Types Section - Medium Teal */}
-				<AnimatedSection className="bg-teal-600 text-yellow-50 py-20">
+				<AnimatedSection className="text-yellow-50 py-20">
 					<div className="container mx-auto px-6">
 						<div className="text-center mb-12">
 							<h2 className="text-3xl md:text-4xl font-bold mb-4">
