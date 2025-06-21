@@ -158,7 +158,7 @@ export function AboutPage() {
 					}}
 					whileHover={{ scale: 1.05 }}
 					whileTap={{ scale: 0.95 }}>
-					<HashLink to="/about-details">
+					<HashLink to="/about-details#about-details">
 						<Button
 							variant="outline"
 							size="lg"
