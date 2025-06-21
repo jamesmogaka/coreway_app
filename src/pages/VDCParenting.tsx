@@ -104,6 +104,9 @@ function VdcSection({
 	);
 }
 
+import { HashLink } from "react-router-hash-link";
+import { ArrowLeft } from "lucide-react";
+
 export default function VdcParenting() {
 	return (
 		<>
@@ -137,6 +140,21 @@ export default function VdcParenting() {
 						reverse={index % 2 === 1}
 					/>
 				))}
+				<div className="flex justify-center mt-12 mb-10">
+					<HashLink to="/#home" smooth>
+						<button
+							className="text-white font-semibold px-8 py-3 rounded-lg shadow-lg text-lg flex items-center justify-center gap-2 transition-colors duration-200 border-2 border-cyan-500"
+							style={{
+								background:
+									"linear-gradient(to left, #14b8a6 0%, #14b8a6cc 40%, #14b8a644 60%, transparent 100%)",
+							}}>
+							<span className="mr-2 flex items-center">
+								<ArrowLeft className="w-5 h-5" />
+							</span>
+							Back to Home
+						</button>
+					</HashLink>
+				</div>
 			</div>
 		</>
 	);
