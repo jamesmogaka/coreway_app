@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { Target, Lightbulb } from "lucide-react";
+import { Target, Lightbulb, ArrowRight } from "lucide-react";
 import { HashLink } from "react-router-hash-link";
 
 import aboutPattern from "@/assets/patterns/about-pattern.svg";
@@ -160,10 +160,12 @@ export function AboutPage() {
 					whileTap={{ scale: 0.95 }}>
 					<HashLink to="/about-details#about-details">
 						<Button
-							variant="outline"
 							size="lg"
-							className="border-yellow-50 text-yellow-50 hover:bg-teal-medium hover:text-cream hover:border-teal-medium transition-all duration-200">
+							className="text-white font-semibold px-8 py-3 rounded-lg shadow-lg text-lg flex items-center justify-center gap-2 transition-all duration-200 border-2 border-yellow-50"
+							style={{ background: 'linear-gradient(to right, #14b8a6 0%, #14b8a6cc 40%, #14b8a644 60%, transparent 100%)' }}
+						>
 							Learn More
+							<span className="ml-2 flex items-center"><ArrowRight className="w-5 h-5" /></span>
 						</Button>
 					</HashLink>
 				</motion.div>
