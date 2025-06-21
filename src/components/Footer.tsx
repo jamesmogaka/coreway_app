@@ -5,7 +5,7 @@ import { Facebook, Youtube } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 
 const newNavLinks = [
-	{ name: "Blog", path: "#blog" },
+	{ name: "Blog", path: "/blog#" },
 	{ name: "Products", path: "#products" },
 	{ name: "Resources", path: "#resources" },
 	{ name: "Events", path: "#events" },
