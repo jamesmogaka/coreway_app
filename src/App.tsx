@@ -23,17 +23,18 @@ import { AdminLayout } from "./layouts/AdminLayout";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import UsersPage from "./pages/admin/Users";
 import ContactsPage from "./pages/admin/ContactsPage";
-import BlogManagementPage from './pages/admin/BlogManagementPage';
+import BlogManagementPage from "./pages/admin/BlogManagementPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import ProductsPage from "./pages/Products";
 import Testimonials from "./pages/Testimonials";
 import BlogListPage from "./pages/blog/BlogListPage";
 import BlogDetailPage from "./pages/blog/BlogDetailPage";
+import VdcParenting from "./pages/VDCParenting";
 
 function AppContent() {
 	return (
 		<Router>
-			<div className="bg-gray-50 min-h-screen w-full flex flex-col">
+			<div className="min-h-screen w-full flex flex-col bg-transparent">
 				<Header />
 				<main>
 					<Routes>
@@ -55,6 +56,10 @@ function AppContent() {
 						<Route path="/auth" element={<Auth />} />
 						<Route path="/blog" element={<BlogListPage />} />
 						<Route path="/blog/:id" element={<BlogDetailPage />} />
+						<Route
+							path="/vdc-parenting"
+							element={<VdcParenting />}
+						/>
 						<Route
 							path="/about-details"
 							element={<AboutDetailsPage />}
@@ -78,7 +83,10 @@ function AppContent() {
 							/>
 							<Route path="users" element={<UsersPage />} />
 							<Route path="contacts" element={<ContactsPage />} />
-							<Route path="blog" element={<BlogManagementPage />} />
+							<Route
+								path="blog"
+								element={<BlogManagementPage />}
+							/>
 						</Route>
 
 						{/* 404 - Catch all unmatched routes */}
