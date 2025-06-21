@@ -8,6 +8,11 @@ import {
 } from "../components/ui/hover-card";
 import { kit1Data, kit2Data } from "../data/toolkitData";
 import { AnimatedSection } from "../components/AnimatedSection";
+import { Badge } from "@/components/ui/badge";
+import { CardContent, CardHeader, CardTitle, Card } from "@/components/ui/card";
+import { HashLink } from "react-router-hash-link";
+import { CheckCircle, Download, ShoppingCart } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 // Type Definitions
 interface Value {
@@ -44,18 +49,6 @@ interface DescriptionProps {
 	data: Predisposition;
 	active: ColorKey;
 }
-
-// Animation Variants
-const staggerContainerVariants: Variants = {
-	hidden: { opacity: 0 },
-	visible: {
-		opacity: 1,
-		transition: {
-			staggerChildren: 0.1,
-			when: "beforeChildren",
-		},
-	},
-};
 
 const staggerItemVariants: Variants = {
 	hidden: { opacity: 0, y: 20 },
@@ -131,21 +124,21 @@ const ValueList: React.FC<{ data: ValueData }> = ({ data }) => (
 		{Object.entries(data).map(([name, valueData]: [string, Value]) => (
 			<HoverCard key={name}>
 				<HoverCardTrigger asChild>
-					<div className="p-4 text-lg font-semibold rounded-md cursor-pointer bg-teal-800 hover:bg-teal-700 transition-colors">
+					<div className="p-4 text-lg font-semibold rounded-md cursor-pointer bg-white/20 hover:bg-white/30 border border-white/30 backdrop-blur-md shadow-lg transition-colors">
 						{name}
 					</div>
 				</HoverCardTrigger>
-				<HoverCardContent className="w-80 bg-teal-700 text-white border-none">
-					<p className="text-base mb-2">{valueData.description}</p>
+				<HoverCardContent className="w-80 bg-white/30 text-gray-900 border border-white/30 backdrop-blur-md shadow-xl text-lg">
+					<p className="text-lg mb-2">{valueData.description}</p>
 					<div className="mt-2">
 						<h4 className="text-base font-semibold">
 							Why it's important:
 						</h4>
-						<p className="text-sm mb-2">{valueData.importance}</p>
+						<p className="text-base mb-2">{valueData.importance}</p>
 						<h4 className="text-base font-semibold">
 							What it looks like when lacking:
 						</h4>
-						<p className="text-sm">{valueData.lacking}</p>
+						<p className="text-base">{valueData.lacking}</p>
 					</div>
 				</HoverCardContent>
 			</HoverCard>
@@ -153,7 +146,12 @@ const ValueList: React.FC<{ data: ValueData }> = ({ data }) => (
 	</div>
 );
 
-const Card: React.FC<CardProps> = ({ color, children, active, onClick }) => {
+const PredispositionCard: React.FC<CardProps> = ({
+	color,
+	children,
+	active,
+	onClick,
+}) => {
 	const styles = colorStyles[color];
 	return (
 		<motion.div
@@ -211,49 +209,185 @@ export const ToolkitPage: React.FC = () => {
 	return (
 		<div className="fade-in" id="toolkit">
 			{/* Toolkit Section */}
-			<AnimatedSection className="py-20 bg-teal-600 text-yellow-50">
-				<div className="container mx-auto px-6">
-					<h1 className="text-4xl md:text-5xl font-bold text-center mb-12">
+			<AnimatedSection className="py-20 text-yellow-50">
+				<motion.div
+					className="container mx-auto px-6"
+					initial={{ opacity: 0, y: 40 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.7, ease: "easeOut" }}>
+					<motion.div
+						className="flex justify-center mt-8"
+						initial={{ opacity: 0, y: 20 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ delay: 0.1, duration: 0.5 }}>
+						<Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100 mb-4">
+							VGC Train-up Toolkit
+						</Badge>
+					</motion.div>
+					<motion.h2
+						className="text-4xl md:text-5xl font-bold text-center mb-12 text-yellow-50"
+						initial={{ opacity: 0, y: 20 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ delay: 0.15, duration: 0.6 }}>
 						The VDC Train-up Toolkit
-					</h1>
-					<p className="text-lg md:text-xl text-center max-w-4xl mx-auto mb-16">
+					</motion.h2>
+					<motion.p
+						className="text-lg md:text-xl text-center max-w-4xl mx-auto mb-16 text-yellow-50"
+						initial={{ opacity: 0, y: 20 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ delay: 0.2, duration: 0.6 }}>
 						The VDC Train-up Toolkit comprises two distinct
 						age-specific kits, each meticulously tailored to cater
 						to specific developmental stages. This ensures that
 						character education is relevant, engaging, and impactful
 						throughout a child’s growth.
-					</p>
+					</motion.p>
 					<motion.div
-						className="grid lg:grid-cols-2 gap-12"
-						variants={staggerContainerVariants}>
+						className="grid lg:grid-cols-2 gap-8 lg:gap-12 mb-16"
+						initial="hidden"
+						whileInView="visible"
+						viewport={{ once: true, amount: 0.2 }}
+						variants={{
+							hidden: {},
+							visible: {
+								transition: {
+									staggerChildren: 0.18,
+								},
+							},
+						}}>
 						<motion.div
-							className="bg-teal-700 p-8 rounded-lg shadow-lg"
-							variants={staggerItemVariants}>
-							<h2 className="text-3xl font-bold text-white mb-4">
-								Kit 1: Early Development (4-9 Years)
-							</h2>
-							<p className="text-base md:text-lg mb-6">
-								This kit focuses on 12 core values that form the
-								basis of moral and ethical growth during early
-								childhood.
-							</p>
-							<ValueList data={kit1Data} />
+							className="space-y-4 lg:space-y-16"
+							initial="hidden"
+							animate="visible"
+							variants={{
+								hidden: {},
+								visible: {
+									transition: { staggerChildren: 0.1 },
+								},
+							}}>
+							<motion.div
+								className="bg-gradient-to-br from-teal-400 via-teal-500 to-cyan-500 p-8 rounded-lg shadow-lg"
+								initial={{ opacity: 0, y: 30 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ delay: 0.25, duration: 0.6 }}>
+								<h2 className="text-3xl font-bold text-white mb-4">
+									Kit 1: Early Development (4-9 Years)
+								</h2>
+								<p className="text-base md:text-lg mb-6 text-yellow-50">
+									This kit focuses on 12 core values that form
+									the basis of moral and ethical growth during
+									early childhood.
+								</p>
+								<ValueList data={kit1Data} />
+							</motion.div>
+							<motion.div
+								className="bg-gradient-to-br from-teal-400 via-teal-500 to-cyan-500 p-8 rounded-lg shadow-lg"
+								initial={{ opacity: 0, y: 30 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ delay: 0.35, duration: 0.6 }}>
+								<h2 className="text-3xl font-bold text-white mb-4">
+									Kit 2: Transitional Core Values (10-18
+									Years)
+								</h2>
+								<p className="text-base md:text-lg mb-6 text-yellow-50">
+									This kit focuses on 12 essential values that
+									support the complex transition from
+									childhood into young adulthood.
+								</p>
+								<ValueList data={kit2Data} />
+							</motion.div>
+							<motion.div
+								className="flex justify-center mt-6"
+								initial={{ opacity: 0, y: 20 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ delay: 0.45, duration: 0.5 }}>
+								<HashLink to="/vdc-parenting#" smooth>
+									<Button className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-2 rounded-lg shadow-lg">
+										Learn More About VDC Parenting
+									</Button>
+								</HashLink>
+							</motion.div>
 						</motion.div>
 						<motion.div
-							className="bg-teal-700 p-8 rounded-lg shadow-lg"
-							variants={staggerItemVariants}>
-							<h2 className="text-3xl font-bold text-white mb-4">
-								Kit 2: Transitional Core Values (10-18 Years)
-							</h2>
-							<p className="text-base md:text-lg mb-6">
-								This kit focuses on 12 essential values that
-								support the complex transition from childhood
-								into young adulthood.
-							</p>
-							<ValueList data={kit2Data} />
+							className="space-y-6"
+							initial="hidden"
+							animate="visible"
+							variants={{
+								hidden: {},
+								visible: {
+									transition: { staggerChildren: 0.1 },
+								},
+							}}>
+							<motion.img
+								src="/images/1.png"
+								alt="VGC Toolkit materials"
+								width={400}
+								height={300}
+								className="rounded-xl shadow-lg w-full"
+								initial={{ opacity: 0, scale: 0.95 }}
+								animate={{ opacity: 1, scale: 1 }}
+								transition={{ delay: 0.55, duration: 0.6 }}
+							/>
+							<motion.div
+								initial={{ opacity: 0, y: 30 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ delay: 0.65, duration: 0.6 }}>
+								<Card className="bg-blue-50 border-blue-200">
+									<CardHeader>
+										<CardTitle className="text-blue-900">
+											Why the VGC Toolkit Works:
+										</CardTitle>
+									</CardHeader>
+									<CardContent className="space-y-3">
+										<div className="flex items-center space-x-3">
+											<CheckCircle className="h-5 w-5 text-blue-600" />
+											<span className="text-blue-800">
+												Addresses root causes of
+												misbehavior, not just surface
+												actions
+											</span>
+										</div>
+										<div className="flex items-center space-x-3">
+											<CheckCircle className="h-5 w-5 text-blue-600" />
+											<span className="text-blue-800">
+												Fosters habitual value formation
+												through daily repetition
+											</span>
+										</div>
+										<div className="flex items-center space-x-3">
+											<CheckCircle className="h-5 w-5 text-blue-600" />
+											<span className="text-blue-800">
+												Provides customized parenting
+												strategies for each child
+											</span>
+										</div>
+									</CardContent>
+								</Card>
+							</motion.div>
+							<motion.div
+								className="flex flex-col sm:flex-row flex-wrap gap-3"
+								initial={{ opacity: 0, y: 20 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ delay: 0.7, duration: 0.5 }}>
+								<HashLink to="/sample-toolkit#" smooth>
+									<Button variant="outline">
+										<Download className="h-4 w-4 mr-2" />
+										Sample Toolkit
+									</Button>
+								</HashLink>
+								<HashLink to="/demo#" smooth>
+									<Button variant="outline">Free Demo</Button>
+								</HashLink>
+								<HashLink to="/shop#shop" smooth>
+									<Button className="bg-orange-600 hover:bg-orange-700">
+										<ShoppingCart className="h-4 w-4 mr-2" />
+										Buy Toolkit
+									</Button>
+								</HashLink>
+							</motion.div>
 						</motion.div>
 					</motion.div>
-				</div>
+				</motion.div>
 			</AnimatedSection>
 
 			{/* Principles Section */}
@@ -262,7 +396,7 @@ export const ToolkitPage: React.FC = () => {
 			</AnimatedSection>
 
 			{/* Predispositions Section */}
-			<AnimatedSection className="py-20 bg-teal-600 text-yellow-50">
+			<AnimatedSection className="py-20 text-yellow-50">
 				<div className="container mx-auto px-6">
 					<h1 className="text-4xl md:text-5xl font-bold text-center mb-4">
 						The Four-Color Predispositions
@@ -280,7 +414,7 @@ export const ToolkitPage: React.FC = () => {
 								<motion.div
 									key={key}
 									variants={staggerItemVariants}>
-									<Card
+									<PredispositionCard
 										color={key}
 										active={active}
 										onClick={handleCardClick}>
@@ -289,7 +423,7 @@ export const ToolkitPage: React.FC = () => {
 												":"
 											)[0]
 										}
-									</Card>
+									</PredispositionCard>
 									<Description
 										color={key}
 										data={predispositions[key]}
