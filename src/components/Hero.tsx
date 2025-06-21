@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, Users, Heart, CheckCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { motion, type Variants } from "framer-motion";
 import { AnimatedArrow } from "./AnimatedArrow";
 
@@ -24,7 +25,9 @@ const itemVariants: Variants = {
 		transition: { duration: 0.5, ease: "easeOut" },
 	},
 };
+
 export function HeroSection() {
+	const navigate = useNavigate();
 	return (
 		<section
 			id="home"
@@ -112,7 +115,8 @@ export function HeroSection() {
 							<Button
 								size="lg"
 								variant="outline"
-								className="bg-teal-900 hover:bg-teal-400 text-yellow-50 w-full sm:w-auto border border-yellow-50">
+								className="bg-teal-900 hover:bg-teal-400 text-yellow-50 w-full sm:w-auto border border-yellow-50"
+								onClick={() => navigate("/patner")}>
 								<Heart className="h-5 w-5 mr-2" />
 								Partner With Us
 							</Button>

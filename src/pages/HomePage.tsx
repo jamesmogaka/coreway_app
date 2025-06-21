@@ -103,13 +103,9 @@ export const HomePage: React.FC = () => {
 							{features.map((item, index) => (
 								<motion.div
 									key={index}
-									className="p-6 bg-teal-700 rounded-lg shadow-md transition-all duration-300"
+									className="p-6 bg-white/10 backdrop-blur-lg border-2 border-white/20 rounded-lg shadow-md transition-all duration-300"
 									variants={itemVariants}
-									whileHover={{
-										y: -5,
-										boxShadow:
-											"0px 10px 20px rgba(0,0,0,0.1)",
-									}}>
+									whileHover={{ y: -5 }}>
 									<h3 className="text-2xl font-bold mb-4">
 										{item.title}
 									</h3>

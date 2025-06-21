@@ -11,7 +11,6 @@ import { TrainingPage } from "./pages/TrainingPage";
 import { ContactPage } from "./pages/ContactPage";
 import { ShopLayout } from "./components/ShopLayout";
 import { ToolkitPage } from "./pages/ToolkitPage";
-import { AboutPage } from "./pages/AboutPage";
 import { AboutDetailsPage } from "./pages/AboutDetailsPage";
 import { HomePage } from "./pages/HomePage";
 import { Footer } from "./components/Footer";
@@ -30,6 +29,7 @@ import Testimonials from "./pages/Testimonials";
 import BlogListPage from "./pages/blog/BlogListPage";
 import BlogDetailPage from "./pages/blog/BlogDetailPage";
 import VdcParenting from "./pages/VDCParenting";
+import { AboutPage } from "./pages/AboutPage";
 
 function AppContent() {
 	return (
