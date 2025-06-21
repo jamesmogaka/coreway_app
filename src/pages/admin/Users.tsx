@@ -154,39 +154,41 @@ export default function UsersPage() {
 
 		const originalUsers = [...users];
 		setUsers(currentUsers =>
-			currentUsers.map(u =>
-				u.id === userId ? { ...u, user_role: newRole } : u
+			currentUsers.map(
+				u =>
+					u.id === userId ? { ...u, user_role: newRole } : u
 			)
 		);
 
 		try {
-			// 1. Get the role ID from the roles table
+			// 1. Get the role ID for 'admin'
 			const { data: roleData, error: roleError } = await supabase
 				.from("roles")
 				.select("id")
-				.eq("name", newRole)
+				.eq("name", "admin")
 				.single();
 
-			if (roleError || !roleData) {
-				throw new Error(`Role '${newRole}' not found.`);
+			if (roleError) throw new Error("Could not find the admin role.");
+			const adminRoleId = roleData.id;
+
+			if (newRole === "admin") {
+				// Add admin role
+				const { error: insertError } = await supabase
+					.from("user_roles")
+					.insert({ user_id: userId, role_id: adminRoleId });
+				if (insertError) throw insertError;
+				toast.success("User promoted to admin.");
+			} else {
+				// Remove admin role
+				const { error: deleteError } = await supabase
+					.from("user_roles")
+					.delete()
+					.match({ user_id: userId, role_id: adminRoleId });
+				if (deleteError) throw deleteError;
+				toast.success("User demoted to regular user.");
 			}
-			const roleId = roleData.id;
-
-			// 2. Upsert the user's role in the user_roles table
-			const { error: upsertError } = await supabase
-				.from("user_roles")
-				.upsert(
-					{ user_id: userId, role_id: roleId },
-					{ onConflict: "user_id" }
-				);
-
-			if (upsertError) {
-				throw upsertError;
-			}
-
-			toast.success(`User role has been updated to ${newRole}.`);
 		} catch (error) {
-			setUsers(originalUsers);
+			setUsers(originalUsers); // Revert optimistic update on error
 			toast.error(
 				(error instanceof Error && error.message) ||
 					"Failed to update user role."
@@ -447,24 +449,17 @@ export default function UsersPage() {
 												N/A (You)
 											</span>
 										) : (
-											<select
-												value={user.user_role || "user"}
-												onChange={e =>
-													handleUpdateRole(
-														user.id,
-														e.target.value as
-															| "admin"
-															| "user"
-													)
-												}
-												className="w-full px-4 py-2 bg-black/20 border border-[#C2EAE7] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFD59A] text-[#F5F5F5]">
-												<option value="user">
-													User
-												</option>
-												<option value="admin">
-													Admin
-												</option>
-											</select>
+											<button
+												onClick={() => handleUpdateRole(user.id, user.user_role === 'admin' ? 'user' : 'admin')}
+												className={`relative inline-flex items-center h-6 rounded-full w-11 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FFD59A] ${
+													user.user_role === 'admin' ? 'bg-green-500' : 'bg-gray-600'
+												}`}>
+												<span
+													className={`inline-block w-4 h-4 transform bg-white rounded-full transition-transform duration-200 ease-in-out ${
+														user.user_role === 'admin' ? 'translate-x-6' : 'translate-x-1'
+													}`}
+												/>
+											</button>
 										)}
 									</td>
 								</tr>
