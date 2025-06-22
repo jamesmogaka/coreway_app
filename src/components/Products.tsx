@@ -8,11 +8,7 @@ import { useProducts } from "../hooks/useProducts";
 import { Swiper, SwiperSlide, type SwiperRef } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/swiper-bundle.css";
-
 import type { Product } from "../types/product";
-
-// ProductCard and FlipCard components remain the same as in your original code.
-// They are included here for completeness.
 
 const ProductCard: React.FC<{ product: Product; isBack?: boolean }> = ({
 	product,
@@ -20,11 +16,11 @@ const ProductCard: React.FC<{ product: Product; isBack?: boolean }> = ({
 }) => (
 	<div
 		className={`
-        absolute inset-0 w-full 
-        bg-white rounded-lg shadow-md p-4 
-        flex flex-col items-center 
-        h-[28rem] min-h-[28rem] max-h-[28rem]
-        ${isBack ? "transform rotateY-180" : ""}
+        absolute inset-0 w-full
+        bg-white rounded-lg shadow-md p-4
+        flex flex-col items-center
+        h-full
+        ${isBack ? "rotate-y-180" : ""}
     `}
 		style={{
 			backfaceVisibility: "hidden",
@@ -42,11 +38,6 @@ const ProductCard: React.FC<{ product: Product; isBack?: boolean }> = ({
 			{product.description}
 		</p>
 		<span className="text-primary font-bold mb-2">${product.price}</span>
-		{isBack && (
-			<div className="absolute top-2 right-2">
-				<Badge className="bg-blue-100 text-blue-800">Back</Badge>
-			</div>
-		)}
 	</div>
 );
 
@@ -55,68 +46,52 @@ const FlipCard: React.FC<{
 	backProduct: Product;
 	isFlipped: boolean;
 	index: number;
-}> = ({ frontProduct, backProduct, isFlipped }) => {
+}> = ({ frontProduct, backProduct, isFlipped, index }) => {
 	return (
-		<div
-			className="relative w-full h-[28rem]"
-			style={{ perspective: "1000px" }}>
-			<motion.div
-				className="relative w-full h-full transition-transform duration-700 ease-in-out"
-				style={{
-					transformStyle: "preserve-3d",
-					position: "relative",
-				}}
-				animate={{
-					rotateY: isFlipped ? 180 : 0,
-				}}
-				transition={{
-					duration: 0.8,
-					ease: [0.25, 0.46, 0.45, 0.94],
-				}}>
-				{/* The front of the card always shows the front product */}
-				<ProductCard product={frontProduct} isBack={false} />
-
-				{/* The back of the card always shows the back product */}
-				<ProductCard product={backProduct} isBack={true} />
-			</motion.div>
-		</div>
+		<motion.div
+			className="relative w-full h-full"
+			style={{ transformStyle: "preserve-3d" }}
+			animate={{ rotateY: isFlipped ? 180 : 0 }}
+			transition={{
+				ease: "easeIn",
+				duration: 0.5,
+				delay: index * 0.1,
+			}}>
+			<ProductCard product={frontProduct} isBack={false} />
+			<ProductCard product={backProduct} isBack={true} />
+		</motion.div>
 	);
 };
 
 const ProductsCarousel: React.FC = () => {
 	const { products, loading, error } = useProducts();
-
-	const [selected_category, set_selected_category] = useState<string | null>(
-		null
-	);
-	const [previous_category, set_previous_category] = useState<string | null>(
-		null
-	);
-
-	// CHANGE: The is_flipped state is now the single source of truth for the flip animation.
-	// We will toggle this to initiate the flip.
+	const [selected_category, set_selected_category] = useState<string | null>(null);
+	const [previous_category, set_previous_category] = useState<string | null>(null);
 	const [is_flipped, set_is_flipped] = useState(false);
-
-	const transition_ref = useRef(false);
+	const [is_transitioning, set_is_transitioning] = useState(false);
 	const swiper_ref = useRef<SwiperRef | null>(null);
 
 	const categories = useMemo(() => {
 		const category_list = products
 			.map(p => p.category)
 			.filter(c => c && c.id && c.name) as { id: string; name: string }[];
-
 		const unique: { id: string; name: string }[] = [];
-
 		category_list.forEach(cat => {
 			if (!unique.some(u => u.id === cat.id)) {
 				unique.push(cat);
 			}
 		});
-
 		return unique;
 	}, [products]);
 
-	// CHANGE: Simplified product memos. These now only depend on the category IDs.
+	useEffect(() => {
+		if (!selected_category && categories.length > 0) {
+			const firstId = categories[0].id;
+			set_selected_category(firstId);
+			set_previous_category(firstId);
+		}
+	}, [categories, selected_category]);
+
 	const current_products = useMemo(() => {
 		if (!selected_category) return [];
 		return products.filter(
@@ -131,14 +106,17 @@ const ProductsCarousel: React.FC = () => {
 		);
 	}, [products, previous_category]);
 
-	// CHANGE: Simplified the card pairing logic.
-	// The "front" and "back" are now determined by the flip state.
-	// This ensures the correct products are on each face during the animation.
+	const maxProducts = useMemo(() => {
+		const categoryCounts = categories.map(
+			cat => products.filter(p => p.category && p.category.id === cat.id).length
+		);
+		return Math.max(0, ...categoryCounts);
+	}, [categories, products]);
+
 	const card_pairs = useMemo(() => {
-		const placeholderProduct: Product = {
-			product_id: "placeholder",
+		const placeholderTemplate: Omit<Product, "product_id"> = {
 			name: "No Product",
-			description: "No product in this category.",
+			description: "This spot is awaiting a new discovery!",
 			price: 0,
 			image_url: "https://via.placeholder.com/150",
 			category: { id: "none", name: "None" },
@@ -146,73 +124,58 @@ const ProductsCarousel: React.FC = () => {
 			age_range: "",
 		};
 
-		const frontFaceProducts = is_flipped
-			? previous_products
-			: current_products;
-		const backFaceProducts = is_flipped
-			? current_products
-			: previous_products;
-
-		const maxLength = Math.max(
-			frontFaceProducts.length,
-			backFaceProducts.length
-		);
-		if (maxLength === 0) return [];
+		const frontFaceProducts = !is_flipped ? current_products : previous_products;
+		const backFaceProducts = is_flipped ? current_products : previous_products;
 
 		const pairs = [];
-		for (let i = 0; i < maxLength; i++) {
+		for (let i = 0; i < maxProducts; i++) {
 			pairs.push({
-				front: frontFaceProducts[i] || placeholderProduct,
-				back: backFaceProducts[i] || placeholderProduct,
+				front: frontFaceProducts[i] || { ...placeholderTemplate, product_id: `ph-front-${i}` },
+				back: backFaceProducts[i] || { ...placeholderTemplate, product_id: `ph-back-${i}` },
 			});
 		}
 		return pairs;
-	}, [current_products, previous_products, is_flipped]);
+	}, [current_products, previous_products, is_flipped, maxProducts]);
 
-	// CHANGE: Reworked handler for smooth, uninterruptible transitions.
 	const handle_category_change = useCallback(
 		(new_category: string) => {
-			if (transition_ref.current || new_category === selected_category)
-				return;
+			if (is_transitioning || new_category === selected_category) return;
 
-			transition_ref.current = true;
-
+			set_is_transitioning(true);
 			set_previous_category(selected_category);
 			set_selected_category(new_category);
 			set_is_flipped(prev => !prev);
 
-			// Allow the flip animation to complete before another can start.
+			const flip_duration = 500 + (maxProducts > 0 ? maxProducts - 1 : 0) * 100;
+
 			setTimeout(() => {
-				transition_ref.current = false;
-			}, 800); // Should match the flip duration
+				set_is_transitioning(false);
+			}, flip_duration);
 		},
-		[selected_category]
+		[selected_category, is_transitioning, maxProducts]
 	);
 
 	useEffect(() => {
-		if (!selected_category && categories.length > 0) {
-			const firstId = categories[0].id;
-			set_selected_category(firstId);
-			set_previous_category(firstId); // Initialize previous to avoid empty back card
+		if (is_transitioning || categories.length <= 1) {
+			return;
 		}
-	}, [categories, selected_category]);
 
-	useEffect(() => {
-		if (categories.length < 2) return; // No need to rotate if only one category
-
-		const interval = setInterval(() => {
-			const current_index = categories.findIndex(
-				cat => cat.id === selected_category
-			);
+		const timer = setInterval(() => {
+			const current_index = categories.findIndex(cat => cat.id === selected_category);
 			const next_index = (current_index + 1) % categories.length;
-			handle_category_change(categories[next_index].id);
-		}, 5000);
+			const next_category_id = categories[next_index].id;
+			handle_category_change(next_category_id);
+		}, 7000);
 
-		return () => clearInterval(interval);
-	}, [categories, selected_category, handle_category_change]);
+		return () => clearInterval(timer);
+	}, [categories, selected_category, is_transitioning, handle_category_change]);
 
 	if (loading) return <div>Loading products...</div>;
-	if (error) return <div>Error loading products: {error.message}</div>;
+	if (error) return <div>Error: {(error as Error).message}</div>;
+	if (products.length === 0) return <div>No products found.</div>;
+	if (!selected_category) {
+		return <div>Initializing products...</div>;
+	}
 
 	return (
 		<div className="w-full max-w-6xl mx-auto py-8">
@@ -226,39 +189,42 @@ const ProductsCarousel: React.FC = () => {
 				</h2>
 			</div>
 
-				<div className="relative">
+			<div className="relative">
 				<Swiper
 					ref={swiper_ref}
 					modules={[Navigation, Pagination]}
 					navigation
 					pagination={{ clickable: true }}
-					loop={true}
 					speed={500}
 					allowTouchMove={true}
 					spaceBetween={24}
-					slidesPerView={'auto'}
+					slidesPerView={"auto"}
 					breakpoints={{
 						320: { slidesPerView: 1 },
 						640: { slidesPerView: 2 },
 						1024: { slidesPerView: 3 },
 					}}
 					className="product-swiper">
-					{card_pairs.length === 0 ? (
-						<div className="col-span-3 text-center py-8">
-							No products found in this category.
-						</div>
-					) : (
-						card_pairs.map((pair, index) => (
-							<SwiperSlide key={index}>
-								<FlipCard
-									frontProduct={pair.front}
-									backProduct={pair.back}
-									isFlipped={is_flipped}
-									index={index}
-								/>
+					{card_pairs.map((pair, index) => {
+						const isVisible = index < current_products.length;
+
+						return (
+							<SwiperSlide key={`slide-${index}`}>
+								<motion.div
+									className="h-[28rem]"
+									style={{ perspective: "1000px" }}
+									animate={{ opacity: isVisible ? 1 : 0 }}
+									transition={{ duration: 0.3 }}>
+									<FlipCard
+										frontProduct={pair.front}
+										backProduct={pair.back}
+										isFlipped={is_flipped}
+										index={index}
+									/>
+								</motion.div>
 							</SwiperSlide>
-						))
-					)}
+						);
+					})}
 				</Swiper>
 			</div>
 
@@ -274,7 +240,7 @@ const ProductsCarousel: React.FC = () => {
 						style={{ cursor: "pointer" }}
 						aria-label={`Go to category ${cat.name}`}
 						onClick={() => handle_category_change(cat.id)}
-						disabled={transition_ref.current}
+						disabled={is_transitioning}
 					/>
 				))}
 			</div>
@@ -295,9 +261,8 @@ const ProductsCarousel: React.FC = () => {
 					</Button>
 				</HashLink>
 			</div>
-
-			<style>{`
-                .rotateY-180 {
+            <style>{`
+                .rotate-y-180 {
                     transform: rotateY(180deg);
                 }
             `}</style>
