@@ -76,9 +76,9 @@ export function AboutPage() {
 					</motion.p>
 				</motion.div>
 
-				<div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
+				<div className="grid md:grid-cols-2 gap-4 lg:gap-8 items-center">
 					<motion.div
-						className="relative"
+						className="relative flex justify-center"
 						initial={{ opacity: 0, x: -40 }}
 						whileInView={{ opacity: 1, x: 0 }}
 						viewport={{ once: true, amount: 0.4 }}
@@ -162,10 +162,14 @@ export function AboutPage() {
 						<Button
 							size="lg"
 							className="text-white font-semibold px-8 py-3 rounded-lg shadow-lg text-lg flex items-center justify-center gap-2 transition-all duration-200 border-2 border-yellow-50"
-							style={{ background: 'linear-gradient(to right, #14b8a6 0%, #14b8a6cc 40%, #14b8a644 60%, transparent 100%)' }}
-						>
+							style={{
+								background:
+									"linear-gradient(to right, #14b8a6 0%, #14b8a6cc 40%, #14b8a644 60%, transparent 100%)",
+							}}>
 							Learn More
-							<span className="ml-2 flex items-center"><ArrowRight className="w-5 h-5" /></span>
+							<span className="ml-2 flex items-center">
+								<ArrowRight className="w-5 h-5" />
+							</span>
 						</Button>
 					</HashLink>
 				</motion.div>
