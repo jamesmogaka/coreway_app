@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { ShopPage } from "../pages/ShopPage";
 import ProductDetail from "../pages/ProductDetail";
 import CheckoutPage from "../pages/CheckoutPage";
-import { ShopHeader } from "./ShopHeader";
+
 import { Auth } from "../pages/Auth";
 import { CartSidebar } from "./CartSidebar";
 import { useCart } from "../contexts/useCart";
@@ -13,7 +13,6 @@ export function ShopLayout() {
 
 	return (
 		<div className="min-h-screen w-full" id="shop">
-			<ShopHeader />
 			<main>
 				<Routes>
 					<Route index element={<ShopPage />} />

@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useCart } from "@/contexts/useCart";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { HashLink } from "react-router-hash-link";
@@ -90,11 +91,28 @@ const navLinkVariants: Variants = {
 export const Header: React.FC = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const { user, logout } = useAuth();
+	const { user, logout, isAdmin } = useAuth();
+	const { itemCount, openCart } = useCart();
+	const [isUserAdmin, setIsUserAdmin] = useState(false);
+
+	useEffect(() => {
+		const checkAdminStatus = async () => {
+			const adminStatus = await isAdmin();
+			setIsUserAdmin(adminStatus);
+		};
+		if (user) {
+			checkAdminStatus();
+		}
+	}, [isAdmin, user]);
 	const [isMobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 	const [activePage, setActivePage] = useState(
 		() => location.hash.replace("#", "") || "home"
 	);
+
+	const displayedNavLinks = [...navLinks];
+	if (isUserAdmin) {
+		displayedNavLinks.push({ id: "admin", title: "Dashboard", path: "/admin" });
+	}
 	const observer = useRef<IntersectionObserver | null>(null);
 
 	useEffect(() => {
@@ -140,7 +158,7 @@ export const Header: React.FC = () => {
 						</span>
 					</Link>
 					<div className="hidden md:flex items-center space-x-1 group">
-						{navLinks.map((link, index) => (
+						{displayedNavLinks.map((link, index) => (
 							<motion.div
 								key={link.id}
 								custom={index}
@@ -156,12 +174,24 @@ export const Header: React.FC = () => {
 							</motion.div>
 						))}
 						{user ? (
-							<div className="ml-4 flex items-center space-x-2">
+							<div className="ml-4 flex items-center space-x-4">
+								{!isUserAdmin && (
+									<button
+										onClick={openCart}
+										className="relative inline-flex items-center text-base font-medium text-[#FFFBDE] hover:text-[#C2EAE7] hover:underline">
+										Cart
+										{itemCount > 0 && (
+											<span className="absolute -top-2 -right-3.5 flex items-center justify-center h-5 w-5 rounded-full bg-[#FFD59A] text-[#3A3A3A] text-xs font-bold">
+												{itemCount}
+											</span>
+										)}
+									</button>
+								)}
 								<Button
 									variant="outline"
 									size="sm"
 									onClick={logout}
-									className="ml-4 border-[#FFFBDE] text-[#FFFBDE] hover:bg-[#129990] hover:text-[#FFFBDE] hover:border-[#129990] transition-all duration-200">
+									className="border-[#FFFBDE] text-[#FFFBDE] hover:bg-[#129990] hover:text-[#FFFBDE] hover:border-[#129990] transition-all duration-200">
 									Logout
 								</Button>
 							</div>
@@ -215,7 +245,7 @@ export const Header: React.FC = () => {
 			</nav>
 			{isMobileMenuOpen && (
 				<nav className="flex-1 p-4 space-y-2 bg-opacity-95 backdrop-blur-sm">
-					{navLinks.map(link => (
+					{displayedNavLinks.map(link => (
 						<MobileNavLink
 							key={link.id}
 							pageId={link.id}
@@ -225,31 +255,48 @@ export const Header: React.FC = () => {
 							setMobileMenuOpen={setMobileMenuOpen}
 						/>
 					))}
-					{user ? (
-						<div className="pt-4 mt-4 border-t border-[#FFFBDE]/20">
+					<div className="pt-4 mt-4 border-t border-[#FFFBDE]/20">
+						{user ? (
+							<>
+								{!isUserAdmin && (
+									<button
+										onClick={() => {
+											openCart();
+											setMobileMenuOpen(false);
+										}}
+										className="relative block w-full text-left px-6 py-3 text-lg font-medium rounded-lg text-[#FFFBDE] hover:bg-[#129990]">
+										Cart
+										{itemCount > 0 && (
+											<span className="absolute top-3 right-4 flex items-center justify-center h-5 w-5 rounded-full bg-[#FFD59A] text-[#3A3A3A] text-xs font-bold">
+												{itemCount}
+											</span>
+										)}
+									</button>
+								)}
+								<Button
+									variant="outline"
+									size="sm"
+									onClick={() => {
+										logout();
+										setMobileMenuOpen(false);
+									}}
+									className="w-full mt-2 border-[#FFFBDE] text-[#FFFBDE] hover:bg-[#129990] hover:text-[#FFFBDE] hover:border-[#129990] transition-all duration-200">
+									Logout
+								</Button>
+							</>
+						) : (
 							<Button
 								variant="outline"
 								size="sm"
 								onClick={() => {
-									logout();
+									navigate("/auth");
 									setMobileMenuOpen(false);
 								}}
-								className="w-full mt-2 border-[#FFFBDE] text-[#FFFBDE] hover:bg-[#129990] hover:text-[#FFFBDE] hover:border-[#129990] transition-all duration-200">
-								Logout
+								className="w-full mt-4 border-[#FFFBDE] text-[#FFFBDE] hover:bg-[#129990] hover:text-[#FFFBDE] hover:border-[#129990] transition-all duration-200">
+								Login
 							</Button>
-						</div>
-					) : (
-						<Button
-							variant="outline"
-							size="sm"
-							onClick={() => {
-								navigate("/auth");
-								setMobileMenuOpen(false);
-							}}
-							className="w-full mt-4 border-[#FFFBDE] text-[#FFFBDE] hover:bg-[#129990] hover:text-[#FFFBDE] hover:border-[#129990] transition-all duration-200">
-							Login
-						</Button>
-					)}
+						)}
+					</div>
 				</nav>
 			)}
 		</motion.header>
