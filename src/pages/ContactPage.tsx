@@ -2,6 +2,7 @@ import * as react from "react";
 import { useState } from "react";
 import { z } from "zod";
 import { supabase } from "../lib/supabase";
+import aboutPattern from "@/assets/patterns/about-pattern.svg";
 
 // Define the form schema with validation rules
 const contactFormSchema = z.object({
@@ -91,8 +92,25 @@ export const ContactPage: react.FC = () => {
 	};
 
 	return (
-		<div className="fade-in bg-teal-600 text-yellow-50" id="contact">
-			<section className="py-20">
+		<section
+			id="contact"
+			className="relative py-20 bg-gradient-to-br from-teal-700 via-teal-600 via-70% to-cyan-700 overflow-hidden text-yellow-50">
+			{/* Creative accent overlays for vibrancy and depth */}
+			<div className="absolute inset-0 -z-10 pointer-events-none">
+				{/* Sophisticated SVG pattern overlay */}
+				<img
+					src={aboutPattern}
+					alt="decorative pattern"
+					className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay pointer-events-none select-none"
+				/>
+
+				{/* Main creative linear gradient overlay */}
+				<div className="absolute inset-0 w-full h-full bg-gradient-to-br from-teal-700/80 via-teal-600/60 to-cyan-700/40 opacity-100" />
+				{/* Subtle orange highlight for contrast */}
+				<div className="absolute top-[-10%] left-[60%] w-[38vw] h-[38vw] bg-gradient-radial from-orange-400/20 via-transparent to-transparent opacity-40 blur-2xl rotate-12" />
+				{/* Vibrant cyan/teal radial highlight */}
+				<div className="absolute bottom-[-18%] right-[-10%] w-[54vw] h-[54vw] bg-gradient-radial from-cyan-300/20 via-transparent to-transparent opacity-30 blur-2xl" />
+			</div>
 				<div className="container mx-auto px-6">
 					<div className="max-w-2xl mx-auto bg-teal-900 p-8 rounded-lg shadow-lg text-yellow-50">
 						<h1 className="text-4xl font-bold text-center mb-8">
@@ -202,7 +220,6 @@ export const ContactPage: react.FC = () => {
 						</form>
 					</div>
 				</div>
-			</section>
-		</div>
+		</section>
 	);
 };

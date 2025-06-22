@@ -31,7 +31,7 @@ const testimonials = [
 export default function Testimonials() {
 	return (
 		<div id="testimonials">
-			<AnimatedSection className="px-4 py-12 bg-teal-900 text-yellow-50">
+			<AnimatedSection className="px-4 py-12 text-yellow-50">
 				<h2 className="text-3xl font-bold text-yellow-50 text-center mb-10">
 					Testimonials & Impact Stories
 				</h2>

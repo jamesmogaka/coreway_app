@@ -1,6 +1,7 @@
 import * as react from "react";
 import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
+import aboutPattern from "@/assets/patterns/about-pattern.svg";
 
 // Animation variants with proper TypeScript types
 const fadeInUp: Variants = {
@@ -46,10 +47,23 @@ const cardItem: Variants = {
 export const TrainingPage: react.FC = () => (
 	<div id="training" className="overflow-x-hidden">
 		<motion.section
-			className="py-20 bg-teal-600 text-yellow-50"
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			transition={{ duration: 0.5 }}>
+			className="relative py-20 bg-gradient-to-br from-teal-700 via-teal-600 via-70% to-cyan-700 overflow-hidden text-yellow-50">
+			{/* Creative accent overlays for vibrancy and depth */}
+			<div className="absolute inset-0 -z-10 pointer-events-none">
+				{/* Sophisticated SVG pattern overlay */}
+				<img
+					src={aboutPattern}
+					alt="decorative pattern"
+					className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay pointer-events-none select-none"
+				/>
+
+				{/* Main creative linear gradient overlay */}
+				<div className="absolute inset-0 w-full h-full bg-gradient-to-br from-teal-700/80 via-teal-600/60 to-cyan-700/40 opacity-100" />
+				{/* Subtle orange highlight for contrast */}
+				<div className="absolute top-[-10%] left-[60%] w-[38vw] h-[38vw] bg-gradient-radial from-orange-400/20 via-transparent to-transparent opacity-40 blur-2xl rotate-12" />
+				{/* Vibrant cyan/teal radial highlight */}
+				<div className="absolute bottom-[-18%] right-[-10%] w-[54vw] h-[54vw] bg-gradient-radial from-cyan-300/20 via-transparent to-transparent opacity-30 blur-2xl" />
+			</div>
 			<div className="container mx-auto px-6">
 				<motion.div
 					initial="hidden"
