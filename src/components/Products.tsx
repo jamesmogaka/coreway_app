@@ -1,4 +1,10 @@
-import React, { useState, useMemo, useEffect, useRef, useCallback } from "react";
+import React, {
+	useState,
+	useMemo,
+	useEffect,
+	useRef,
+	useCallback,
+} from "react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -25,50 +31,52 @@ const ProductCard: React.FC<{ product: Product; isBack?: boolean }> = ({
 	};
 
 	return (
-	<div
-		className={`absolute inset-0 w-full h-full bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-2xl shadow-lg overflow-hidden flex flex-col group ${isBack ? "rotate-y-180" : ""}`}
-		style={{
-			backfaceVisibility: "hidden",
-			WebkitBackfaceVisibility: "hidden",
-		}}>
-		<div className="relative h-48 w-full overflow-hidden">
-			<img
-				src={product.image_url}
-				alt={product.name}
-				className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-			/>
-			<div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
-		</div>
-		<div className="p-4 flex flex-col flex-1">
-			<h3 className="font-bold text-xl mb-2 text-gray-800 dark:text-white truncate">
-				{product.name}
-			</h3>
-			<p className="text-gray-600 dark:text-gray-300 text-sm mb-4 flex-1 overflow-hidden relative">
-				<span className="line-clamp-3">{product.description}</span>
-			</p>
-			<div className="flex justify-between items-center mt-auto">
-				<span className="text-teal-600 dark:text-teal-400 font-extrabold text-2xl">
-					KSh {product.price.toLocaleString()}
-				</span>
-				{product.stock > 0 ? (
-					<HoverBorderGradient
-						containerClassName="rounded-full"
-						as="button"
-						className="bg-white dark:bg-black text-black dark:text-white flex items-center space-x-2 px-4 py-2"
-						onClick={handleAddToCart}>
-						<ShoppingCart className="h-5 w-5" />
-						<span>Add to Cart</span>
-					</HoverBorderGradient>
-				) : (
-					<Button
-						disabled
-						className="rounded-full bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed flex items-center space-x-2 px-4 py-2">
-						<span>Out of stock</span>
-					</Button>
-				)}
+		<div
+			className={`absolute inset-0 w-full h-full bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-2xl shadow-lg overflow-hidden flex flex-col group ${
+				isBack ? "rotate-y-180" : ""
+			}`}
+			style={{
+				backfaceVisibility: "hidden",
+				WebkitBackfaceVisibility: "hidden",
+			}}>
+			<div className="relative h-48 w-full overflow-hidden">
+				<img
+					src={product.image_url}
+					alt={product.name}
+					className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+				/>
+				<div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
+			</div>
+			<div className="p-4 flex flex-col flex-1">
+				<h3 className="font-bold text-xl mb-2 text-gray-800 dark:text-white truncate">
+					{product.name}
+				</h3>
+				<p className="text-gray-600 dark:text-gray-300 text-sm mb-4 flex-1 overflow-hidden relative">
+					<span className="line-clamp-3">{product.description}</span>
+				</p>
+				<div className="flex justify-between items-center mt-auto">
+					<span className="text-teal-600 dark:text-teal-400 font-extrabold text-2xl">
+						KSh {product.price.toLocaleString()}
+					</span>
+					{product.stock > 0 ? (
+						<HoverBorderGradient
+							containerClassName="rounded-full"
+							as="button"
+							className="bg-white dark:bg-black text-black dark:text-white flex items-center space-x-2 px-4 py-2"
+							onClick={handleAddToCart}>
+							<ShoppingCart className="h-5 w-5" />
+							<span>Add to Cart</span>
+						</HoverBorderGradient>
+					) : (
+						<Button
+							disabled
+							className="rounded-full bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed flex items-center space-x-2 px-4 py-2">
+							<span>Out of stock</span>
+						</Button>
+					)}
+				</div>
 			</div>
 		</div>
-	</div>
 	);
 };
 
@@ -96,8 +104,12 @@ const FlipCard: React.FC<{
 
 const ProductsCarousel: React.FC = () => {
 	const { products, loading, error } = useProducts();
-	const [selected_category, set_selected_category] = useState<string | null>(null);
-	const [previous_category, set_previous_category] = useState<string | null>(null);
+	const [selected_category, set_selected_category] = useState<string | null>(
+		null
+	);
+	const [previous_category, set_previous_category] = useState<string | null>(
+		null
+	);
 	const [is_flipped, set_is_flipped] = useState(false);
 	const [is_transitioning, set_is_transitioning] = useState(false);
 	const [is_hovering, set_is_hovering] = useState(false);
@@ -140,7 +152,9 @@ const ProductsCarousel: React.FC = () => {
 
 	const maxProducts = useMemo(() => {
 		const categoryCounts = categories.map(
-			cat => products.filter(p => p.category && p.category.id === cat.id).length
+			cat =>
+				products.filter(p => p.category && p.category.id === cat.id)
+					.length
 		);
 		return Math.max(0, ...categoryCounts);
 	}, [categories, products]);
@@ -156,14 +170,24 @@ const ProductsCarousel: React.FC = () => {
 			age_range: "",
 		};
 
-		const frontFaceProducts = !is_flipped ? current_products : previous_products;
-		const backFaceProducts = is_flipped ? current_products : previous_products;
+		const frontFaceProducts = !is_flipped
+			? current_products
+			: previous_products;
+		const backFaceProducts = is_flipped
+			? current_products
+			: previous_products;
 
 		const pairs = [];
 		for (let i = 0; i < maxProducts; i++) {
 			pairs.push({
-				front: frontFaceProducts[i] || { ...placeholderTemplate, product_id: `ph-front-${i}` },
-				back: backFaceProducts[i] || { ...placeholderTemplate, product_id: `ph-back-${i}` },
+				front: frontFaceProducts[i] || {
+					...placeholderTemplate,
+					product_id: `ph-front-${i}`,
+				},
+				back: backFaceProducts[i] || {
+					...placeholderTemplate,
+					product_id: `ph-back-${i}`,
+				},
 			});
 		}
 		return pairs;
@@ -178,7 +202,8 @@ const ProductsCarousel: React.FC = () => {
 			set_selected_category(new_category);
 			set_is_flipped(prev => !prev);
 
-			const flip_duration = 500 + (maxProducts > 0 ? maxProducts - 1 : 0) * 100;
+			const flip_duration =
+				500 + (maxProducts > 0 ? maxProducts - 1 : 0) * 100;
 
 			setTimeout(() => {
 				set_is_transitioning(false);
@@ -193,7 +218,9 @@ const ProductsCarousel: React.FC = () => {
 		}
 
 		const timer = setInterval(() => {
-			const current_index = categories.findIndex(cat => cat.id === selected_category);
+			const current_index = categories.findIndex(
+				cat => cat.id === selected_category
+			);
 			const next_index = (current_index + 1) % categories.length;
 			const next_category_id = categories[next_index].id;
 			handle_category_change(next_category_id);
@@ -301,7 +328,7 @@ const ProductsCarousel: React.FC = () => {
 					</Button>
 				</HashLink>
 			</div>
-            <style>{`
+			<style>{`
                 .rotate-y-180 {
                     transform: rotateY(180deg);
                 }
