@@ -3,5 +3,8 @@ module.exports = {
 	darkMode: "class",
 	content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
 	theme: {},
-	plugins: [require("@tailwindcss/typography")],
+	plugins: [
+		require("@tailwindcss/typography"),
+		require("@tailwindcss/line-clamp"),
+	],
 };

@@ -1,0 +1,308 @@
+import React, { useState, useMemo, useEffect, useRef, useCallback } from "react";
+import { motion } from "framer-motion";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import { HashLink } from "react-router-hash-link";
+import { useProducts } from "../hooks/useProducts";
+import { Swiper, SwiperSlide, type SwiperRef } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import "swiper/swiper-bundle.css";
+
+import type { Product } from "../types/product";
+
+// ProductCard and FlipCard components remain the same as in your original code.
+// They are included here for completeness.
+
+const ProductCard: React.FC<{ product: Product; isBack?: boolean }> = ({
+	product,
+	isBack = false,
+}) => (
+	<div
+		className={`
+        absolute inset-0 w-full 
+        bg-white rounded-lg shadow-md p-4 
+        flex flex-col items-center 
+        h-[28rem] min-h-[28rem] max-h-[28rem]
+        ${isBack ? "transform rotateY-180" : ""}
+    `}
+		style={{
+			backfaceVisibility: "hidden",
+			WebkitBackfaceVisibility: "hidden",
+		}}>
+		<img
+			src={product.image_url}
+			alt={product.name}
+			className="h-40 w-40 object-cover rounded mb-2"
+		/>
+		<h3 className="font-semibold text-lg mb-1 text-center line-clamp-2">
+			{product.name}
+		</h3>
+		<p className="text-gray-600 text-sm mb-2 text-center flex-1 line-clamp-3">
+			{product.description}
+		</p>
+		<span className="text-primary font-bold mb-2">${product.price}</span>
+		{isBack && (
+			<div className="absolute top-2 right-2">
+				<Badge className="bg-blue-100 text-blue-800">Back</Badge>
+			</div>
+		)}
+	</div>
+);
+
+const FlipCard: React.FC<{
+	frontProduct: Product;
+	backProduct: Product;
+	isFlipped: boolean;
+	index: number;
+}> = ({ frontProduct, backProduct, isFlipped }) => {
+	return (
+		<div
+			className="relative w-full h-[28rem]"
+			style={{ perspective: "1000px" }}>
+			<motion.div
+				className="relative w-full h-full transition-transform duration-700 ease-in-out"
+				style={{
+					transformStyle: "preserve-3d",
+					position: "relative",
+				}}
+				animate={{
+					rotateY: isFlipped ? 180 : 0,
+				}}
+				transition={{
+					duration: 0.8,
+					ease: [0.25, 0.46, 0.45, 0.94],
+				}}>
+				{/* The front of the card always shows the front product */}
+				<ProductCard product={frontProduct} isBack={false} />
+
+				{/* The back of the card always shows the back product */}
+				<ProductCard product={backProduct} isBack={true} />
+			</motion.div>
+		</div>
+	);
+};
+
+const ProductsCarousel: React.FC = () => {
+	const { products, loading, error } = useProducts();
+
+	const [selected_category, set_selected_category] = useState<string | null>(
+		null
+	);
+	const [previous_category, set_previous_category] = useState<string | null>(
+		null
+	);
+
+	// CHANGE: The is_flipped state is now the single source of truth for the flip animation.
+	// We will toggle this to initiate the flip.
+	const [is_flipped, set_is_flipped] = useState(false);
+
+	const transition_ref = useRef(false);
+	const swiper_ref = useRef<SwiperRef | null>(null);
+
+	const categories = useMemo(() => {
+		const category_list = products
+			.map(p => p.category)
+			.filter(c => c && c.id && c.name) as { id: string; name: string }[];
+
+		const unique: { id: string; name: string }[] = [];
+
+		category_list.forEach(cat => {
+			if (!unique.some(u => u.id === cat.id)) {
+				unique.push(cat);
+			}
+		});
+
+		return unique;
+	}, [products]);
+
+	// CHANGE: Simplified product memos. These now only depend on the category IDs.
+	const current_products = useMemo(() => {
+		if (!selected_category) return [];
+		return products.filter(
+			p => p.category && p.category.id === selected_category
+		);
+	}, [products, selected_category]);
+
+	const previous_products = useMemo(() => {
+		if (!previous_category) return [];
+		return products.filter(
+			p => p.category && p.category.id === previous_category
+		);
+	}, [products, previous_category]);
+
+	// CHANGE: Simplified the card pairing logic.
+	// The "front" and "back" are now determined by the flip state.
+	// This ensures the correct products are on each face during the animation.
+	const card_pairs = useMemo(() => {
+		const placeholderProduct: Product = {
+			product_id: "placeholder",
+			name: "No Product",
+			description: "No product in this category.",
+			price: 0,
+			image_url: "https://via.placeholder.com/150",
+			category: { id: "none", name: "None" },
+			stock: 0,
+			age_range: "",
+		};
+
+		const frontFaceProducts = is_flipped
+			? previous_products
+			: current_products;
+		const backFaceProducts = is_flipped
+			? current_products
+			: previous_products;
+
+		const maxLength = Math.max(
+			frontFaceProducts.length,
+			backFaceProducts.length
+		);
+		if (maxLength === 0) return [];
+
+		const pairs = [];
+		for (let i = 0; i < maxLength; i++) {
+			pairs.push({
+				front: frontFaceProducts[i] || placeholderProduct,
+				back: backFaceProducts[i] || placeholderProduct,
+			});
+		}
+		return pairs;
+	}, [current_products, previous_products, is_flipped]);
+
+	// CHANGE: Reworked handler for smooth, uninterruptible transitions.
+	const handle_category_change = useCallback(
+		(new_category: string) => {
+			if (transition_ref.current || new_category === selected_category)
+				return;
+
+			transition_ref.current = true;
+
+			set_previous_category(selected_category);
+			set_selected_category(new_category);
+			set_is_flipped(prev => !prev);
+
+			// Allow the flip animation to complete before another can start.
+			setTimeout(() => {
+				transition_ref.current = false;
+			}, 800); // Should match the flip duration
+		},
+		[selected_category]
+	);
+
+	useEffect(() => {
+		if (!selected_category && categories.length > 0) {
+			const firstId = categories[0].id;
+			set_selected_category(firstId);
+			set_previous_category(firstId); // Initialize previous to avoid empty back card
+		}
+	}, [categories, selected_category]);
+
+	useEffect(() => {
+		if (categories.length < 2) return; // No need to rotate if only one category
+
+		const interval = setInterval(() => {
+			const current_index = categories.findIndex(
+				cat => cat.id === selected_category
+			);
+			const next_index = (current_index + 1) % categories.length;
+			handle_category_change(categories[next_index].id);
+		}, 5000);
+
+		return () => clearInterval(interval);
+	}, [categories, selected_category, handle_category_change]);
+
+	if (loading) return <div>Loading products...</div>;
+	if (error) return <div>Error loading products: {error.message}</div>;
+
+	return (
+		<div className="w-full max-w-6xl mx-auto py-8">
+			<div className="flex flex-col items-center mb-4">
+				<Badge className="bg-purple-100 text-purple-800 hover:bg-purple-100 mb-4">
+					Products
+				</Badge>
+				<h2 className="mt-2 text-5xl font-extrabold text-center tracking-tight text-yellow-50 relative mb-2">
+					Products we offer
+					<span className="block mx-auto mt-2 h-1 w-16 rounded bg-gradient-to-r from-purple-400 via-pink-400 to-yellow-400 opacity-80"></span>
+				</h2>
+			</div>
+
+				<div className="relative">
+				<Swiper
+					ref={swiper_ref}
+					modules={[Navigation, Pagination]}
+					navigation
+					pagination={{ clickable: true }}
+					loop={true}
+					speed={500}
+					allowTouchMove={true}
+					spaceBetween={24}
+					slidesPerView={'auto'}
+					breakpoints={{
+						320: { slidesPerView: 1 },
+						640: { slidesPerView: 2 },
+						1024: { slidesPerView: 3 },
+					}}
+					className="product-swiper">
+					{card_pairs.length === 0 ? (
+						<div className="col-span-3 text-center py-8">
+							No products found in this category.
+						</div>
+					) : (
+						card_pairs.map((pair, index) => (
+							<SwiperSlide key={index}>
+								<FlipCard
+									frontProduct={pair.front}
+									backProduct={pair.back}
+									isFlipped={is_flipped}
+									index={index}
+								/>
+							</SwiperSlide>
+						))
+					)}
+				</Swiper>
+			</div>
+
+			<div className="flex justify-center mt-4">
+				{categories.map(cat => (
+					<button
+						key={cat.id}
+						className={`mx-1 w-3 h-3 rounded-full transition-all duration-300 focus:outline-none border border-gray-300 transform hover:scale-110 ${
+							selected_category === cat.id
+								? "bg-white shadow-lg"
+								: "bg-gray-400 hover:bg-gray-300"
+						}`}
+						style={{ cursor: "pointer" }}
+						aria-label={`Go to category ${cat.name}`}
+						onClick={() => handle_category_change(cat.id)}
+						disabled={transition_ref.current}
+					/>
+				))}
+			</div>
+
+			<div className="flex justify-center mt-10">
+				<HashLink to="/products#">
+					<Button
+						size="lg"
+						className="text-white font-semibold px-8 py-3 rounded-lg shadow-lg text-lg flex items-center justify-center gap-2 transition-all duration-200 border-2 border-yellow-50 hover:shadow-xl transform hover:scale-105"
+						style={{
+							background:
+								"linear-gradient(to right, #14b8a6 0%, #14b8a6cc 40%, #14b8a644 60%, transparent 100%)",
+						}}>
+						View Products
+						<span className="ml-2 flex items-center">
+							<ArrowRight className="w-5 h-5" />
+						</span>
+					</Button>
+				</HashLink>
+			</div>
+
+			<style>{`
+                .rotateY-180 {
+                    transform: rotateY(180deg);
+                }
+            `}</style>
+		</div>
+	);
+};
+
+export default ProductsCarousel;
