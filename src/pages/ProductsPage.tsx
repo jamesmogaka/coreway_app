@@ -22,13 +22,13 @@ import {
 	Star,
 	Heart,
 	BookOpen,
-	Users,
 	Gift,
 	CheckCircle2,
 } from "lucide-react";
 import React from "react";
 import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
+import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 
 // Animation variants
 const fadeInUp: Variants = {
@@ -196,24 +196,6 @@ const ProductsPage: React.FC = () => {
 					</ProductCategorySection>
 
 					<ProductCategorySection
-						title="Training & Memberships"
-						description="Extended support, learning, and community engagement.">
-						<motion.div
-							className="grid grid-cols-1 md:grid-cols-2 gap-8"
-							variants={staggerContainer}
-							initial="hidden"
-							whileInView="visible"
-							viewport={{ once: true, margin: "-50px" }}>
-							<motion.div variants={cardItem}>
-								<OnlineCourse />
-							</motion.div>
-							<motion.div variants={cardItem}>
-								<CommunityMembership />
-							</motion.div>
-						</motion.div>
-					</ProductCategorySection>
-
-					<ProductCategorySection
 						title="Gifts & Accessories"
 						description="Meaningful and value-themed branded products.">
 						<motion.div
@@ -327,12 +309,18 @@ const ToolkitCard1: React.FC = () => (
 					</div>
 				</CardContent>
 				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-teal-800">
-						KSh 79.99
-					</span>
 					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
+					<HoverBorderGradient
+						containerClassName="rounded-full"
+						as="a"
+						href="/shop#"
+						onClick={(e: React.MouseEvent) => e.stopPropagation()}
+						className="dark:bg-black bg-black text-white dark:text-white flex items-center space-x-2">
+						<ShoppingCart className="h-4 w-4" />
+						<span>Visit Shop</span>
+					</HoverBorderGradient>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
@@ -449,10 +437,7 @@ const ToolkitCard1: React.FC = () => (
 					</DetailSection>
 				</div>
 			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">
-					KSh 79.99
-				</span>
+			<DialogFooter className="flex sm:justify-end items-center border-t border-teal-200/50 pt-4 mt-auto">
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
@@ -480,7 +465,7 @@ const ToolkitCard2: React.FC = () => (
 					</CardDescription>
 				</CardHeader>
 				<CardContent className="flex-grow">
-					<p className="mb-4">
+					<p>
 						This toolkit is designed to support parents in guiding
 						their 10–18-year-olds through this critical stage of
 						maturity using a structured, values-based approach
@@ -507,12 +492,18 @@ const ToolkitCard2: React.FC = () => (
 					</div>
 				</CardContent>
 				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-teal-800">
-						KSh 89.99
-					</span>
 					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
+					<HoverBorderGradient
+						containerClassName="rounded-full"
+						as="a"
+						href="/shop#"
+						onClick={(e: React.MouseEvent) => e.stopPropagation()}
+						className="dark:bg-black bg-black text-white dark:text-white flex items-center space-x-2">
+						<ShoppingCart className="h-4 w-4" />
+						<span>Visit Shop</span>
+					</HoverBorderGradient>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
@@ -644,10 +635,7 @@ const ToolkitCard2: React.FC = () => (
 					</blockquote>
 				</div>
 			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">
-					KSh 89.99
-				</span>
+			<DialogFooter className="flex sm:justify-end items-center border-t border-teal-200/50 pt-4 mt-auto">
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
@@ -679,12 +667,18 @@ const TrainUpCards: React.FC = () => (
 					</p>
 				</CardContent>
 				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-teal-800">
-						KSh 19.99
-					</span>
 					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
+					<HoverBorderGradient
+						containerClassName="rounded-full"
+						as="a"
+						href="/shop#"
+						onClick={(e: React.MouseEvent) => e.stopPropagation()}
+						className="dark:bg-black bg-black text-white dark:text-white flex items-center space-x-2">
+						<ShoppingCart className="h-4 w-4" />
+						<span>Visit Shop</span>
+					</HoverBorderGradient>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
@@ -746,10 +740,7 @@ const TrainUpCards: React.FC = () => (
 					</p>
 				</DetailSection>
 			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">
-					KSh 19.99
-				</span>
+			<DialogFooter className="flex sm:justify-end items-center border-t border-teal-200/50 pt-4 mt-auto">
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
@@ -781,12 +772,18 @@ const CorrectiveCards: React.FC = () => (
 					</p>
 				</CardContent>
 				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-teal-800">
-						KSh 19.99
-					</span>
 					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
+					<HoverBorderGradient
+						containerClassName="rounded-full"
+						as="a"
+						href="/shop#"
+						onClick={(e: React.MouseEvent) => e.stopPropagation()}
+						className="dark:bg-black bg-black text-white dark:text-white flex items-center space-x-2">
+						<ShoppingCart className="h-4 w-4" />
+						<span>Visit Shop</span>
+					</HoverBorderGradient>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
@@ -850,10 +847,7 @@ const CorrectiveCards: React.FC = () => (
 					</p>
 				</DetailSection>
 			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">
-					KSh 19.99
-				</span>
+			<DialogFooter className="flex sm:justify-end items-center border-t border-teal-200/50 pt-4 mt-auto">
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
@@ -883,12 +877,18 @@ const StarRewardCards: React.FC = () => (
 					</p>
 				</CardContent>
 				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-teal-800">
-						KSh 14.99
-					</span>
 					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
+					<HoverBorderGradient
+						containerClassName="rounded-full"
+						as="a"
+						href="/shop#"
+						onClick={(e: React.MouseEvent) => e.stopPropagation()}
+						className="dark:bg-black bg-black text-white dark:text-white flex items-center space-x-2">
+						<ShoppingCart className="h-4 w-4" />
+						<span>Visit Shop</span>
+					</HoverBorderGradient>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
@@ -960,10 +960,7 @@ const StarRewardCards: React.FC = () => (
 					</p>
 				</DetailSection>
 			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">
-					KSh 14.99
-				</span>
+			<DialogFooter className="flex sm:justify-end items-center border-t border-teal-200/50 pt-4 mt-auto">
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
@@ -993,12 +990,18 @@ const VdcRewardChart: React.FC = () => (
 					</p>
 				</CardContent>
 				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-teal-800">
-						KSh 9.99
-					</span>
 					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
+					<HoverBorderGradient
+						containerClassName="rounded-full"
+						as="a"
+						href="/shop#"
+						onClick={(e: React.MouseEvent) => e.stopPropagation()}
+						className="dark:bg-black bg-black text-white dark:text-white flex items-center space-x-2">
+						<ShoppingCart className="h-4 w-4" />
+						<span>Visit Shop</span>
+					</HoverBorderGradient>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
@@ -1071,9 +1074,6 @@ const VdcRewardChart: React.FC = () => (
 				</DetailSection>
 			</div>
 			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">
-					KSh 9.99
-				</span>
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
@@ -1104,12 +1104,18 @@ const PredispositionTest: React.FC = () => (
 					</p>
 				</CardContent>
 				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-teal-800">
-						KSh 24.99
-					</span>
 					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
+					<HoverBorderGradient
+						containerClassName="rounded-full"
+						as="a"
+						href="/shop#"
+						onClick={(e: React.MouseEvent) => e.stopPropagation()}
+						className="dark:bg-black bg-black text-white dark:text-white flex items-center space-x-2">
+						<ShoppingCart className="h-4 w-4" />
+						<span>Visit Shop</span>
+					</HoverBorderGradient>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
@@ -1222,9 +1228,6 @@ const PredispositionTest: React.FC = () => (
 				</div>
 			</div>
 			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">
-					KSh 24.99
-				</span>
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
@@ -1256,12 +1259,18 @@ const ParentingGuidebook: React.FC = () => (
 					</p>
 				</CardContent>
 				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-teal-800">
-						KSh 29.99
-					</span>
 					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
+					<HoverBorderGradient
+						containerClassName="rounded-full"
+						as="a"
+						href="/shop#"
+						onClick={(e: React.MouseEvent) => e.stopPropagation()}
+						className="dark:bg-black bg-black text-white dark:text-white flex items-center space-x-2">
+						<ShoppingCart className="h-4 w-4" />
+						<span>Visit Shop</span>
+					</HoverBorderGradient>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
@@ -1372,9 +1381,6 @@ const ParentingGuidebook: React.FC = () => (
 				</div>
 			</div>
 			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">
-					KSh 29.99
-				</span>
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
@@ -1405,12 +1411,18 @@ const AffirmationCards: React.FC = () => (
 					</p>
 				</CardContent>
 				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-teal-800">
-						KSh 19.99
-					</span>
 					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
+					<HoverBorderGradient
+						containerClassName="rounded-full"
+						as="a"
+						href="/shop#"
+						onClick={(e: React.MouseEvent) => e.stopPropagation()}
+						className="dark:bg-black bg-black text-white dark:text-white flex items-center space-x-2">
+						<ShoppingCart className="h-4 w-4" />
+						<span>Visit Shop</span>
+					</HoverBorderGradient>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
@@ -1481,9 +1493,6 @@ const AffirmationCards: React.FC = () => (
 				</DetailSection>
 			</div>
 			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">
-					KSh 19.99
-				</span>
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
@@ -1514,12 +1523,18 @@ const ParentingDevotional: React.FC = () => (
 					</p>
 				</CardContent>
 				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-teal-800">
-						KSh 17.99
-					</span>
 					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
+					<HoverBorderGradient
+						containerClassName="rounded-full"
+						as="a"
+						href="/shop#"
+						onClick={(e: React.MouseEvent) => e.stopPropagation()}
+						className="dark:bg-black bg-black text-white dark:text-white flex items-center space-x-2">
+						<ShoppingCart className="h-4 w-4" />
+						<span>Visit Shop</span>
+					</HoverBorderGradient>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
@@ -1579,9 +1594,6 @@ const ParentingDevotional: React.FC = () => (
 				</DetailSection>
 			</div>
 			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">
-					KSh 17.99
-				</span>
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
@@ -1612,12 +1624,18 @@ const ReflectionJournal: React.FC = () => (
 					</p>
 				</CardContent>
 				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-teal-800">
-						KSh 22.99
-					</span>
 					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
+					<HoverBorderGradient
+						containerClassName="rounded-full"
+						as="a"
+						href="/shop#"
+						onClick={(e: React.MouseEvent) => e.stopPropagation()}
+						className="dark:bg-black bg-black text-white dark:text-white flex items-center space-x-2">
+						<ShoppingCart className="h-4 w-4" />
+						<span>Visit Shop</span>
+					</HoverBorderGradient>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
@@ -1684,243 +1702,10 @@ const ReflectionJournal: React.FC = () => (
 				</DetailSection>
 			</div>
 			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">
-					KSh 22.99
-				</span>
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
 					<Heart className="mr-2 h-5 w-5" /> Add to Cart
-				</Button>
-			</DialogFooter>
-		</DialogContent>
-	</Dialog>
-);
-
-const OnlineCourse: React.FC = () => (
-	<Dialog>
-		<DialogTrigger asChild>
-			<Card className="bg-yellow-50 text-teal-800 border-teal-200 flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-teal-200 transition-all duration-300">
-				<CardHeader>
-					<CardTitle className="text-2xl font-bold">
-						Complete Online Parenting Course
-					</CardTitle>
-					<CardDescription className="text-teal-800/80">
-						Parent with vision, confidence, and biblical
-						clarity—guided every step of the way.{" "}
-					</CardDescription>
-				</CardHeader>
-				<CardContent className="flex-grow">
-					<p>
-						An interactive course that walks you step-by-step
-						through the VDC Parenting Framework, including its 6
-						core principles and 22 foundational values.{" "}
-					</p>
-				</CardContent>
-				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-teal-800">
-						KSh 299.99
-					</span>
-					<Button variant="link" className="text-teal-600">
-						View Details
-					</Button>
-				</CardFooter>
-			</Card>
-		</DialogTrigger>
-		<DialogContent className="bg-yellow-50 text-teal-800 sm:max-w-3xl max-h-[90vh] flex flex-col">
-			<DialogHeader>
-				<DialogTitle className="text-3xl font-bold text-teal-800">
-					Complete Online Parenting Course (Instructor-Led – VDC
-					Toolkit Based){" "}
-				</DialogTitle>
-				<DialogDescription className="text-teal-800/80 text-md">
-					Parent with vision, confidence, and biblical clarity—guided
-					every step of the way.{" "}
-				</DialogDescription>
-			</DialogHeader>
-			<div className="overflow-y-auto pr-4 -mr-4 grid grid-cols-1 md:grid-cols-2 gap-6 py-4">
-				<div className="md:col-span-2">
-					<p>
-						This interactive course walks you step-by-step through
-						the VDC Parenting Framework, including its 6 core
-						principles, the 22 foundational values, and the
-						exclusive approach to parenting based on your child’s
-						natural predisposition. Each session is designed to
-						bring real change—not just to your children, but to you
-						as a parent—through live teaching, reflection, Q&A, and
-						practical assignments.{" "}
-					</p>
-				</div>
-				<div>
-					<DetailSection title="What Makes This Course Transformational: ">
-						<ul className="space-y-2">
-							<FeatureListItem>
-								Instructor-Led Guidance – Live facilitation by
-								certified VDC coaches or founders{" "}
-							</FeatureListItem>
-							<FeatureListItem>
-								Structured Weekly Sessions – Interactive Zoom
-								calls with guided instruction{" "}
-							</FeatureListItem>
-							<FeatureListItem>
-								Personalized Application – Learn to apply the
-								VDC Toolkit to your unique family{" "}
-							</FeatureListItem>
-							<FeatureListItem>
-								Faith-Centered Focus – Every session is rooted
-								in Scripture{" "}
-							</FeatureListItem>
-							<FeatureListItem>
-								Supportive Community – Learn alongside other
-								parents{" "}
-							</FeatureListItem>
-						</ul>
-					</DetailSection>
-					<DetailSection title="Course Modules: ">
-						<ul className="list-decimal list-inside text-teal-800/90">
-							<li>
-								Module 1: Conventional Parenting & The VDC
-								Solution{" "}
-							</li>
-							<li>
-								Module 2: Understanding the 6 VDC Principles{" "}
-							</li>
-							<li>
-								Module 3: Using the ATTR Cycle – Affirm, Train,
-								Track, Reward{" "}
-							</li>
-							<li>
-								Module 4: Color Predisposition Parenting – Blue,
-								Gold, Green & Orange{" "}
-							</li>
-							<li>
-								Module 5: Applying the Toolkit: Train-up Cards,
-								Reward Charts, Corrective Cards{" "}
-							</li>
-							<li>
-								Module 6: Consequences & Discipline with Grace{" "}
-							</li>
-							<li>
-								Module 7: Spiritual Reinforcement & Daily
-								Integration{" "}
-							</li>
-							<li>
-								Module 8: Building Long-Term Value Culture in
-								Your Home{" "}
-							</li>
-						</ul>
-					</DetailSection>
-				</div>
-				<div>
-					<DetailSection title="What’s Included: ">
-						<ul className="space-y-2">
-							<FeatureListItem>
-								8 Weeks – 1 live session per week (2 Hours){" "}
-							</FeatureListItem>
-							<FeatureListItem>
-								Live Zoom Instruction & Q&A{" "}
-							</FeatureListItem>
-							<FeatureListItem>
-								Printed VDC Parenting Workbook{" "}
-							</FeatureListItem>
-							<FeatureListItem>
-								24 Value Overviews with action steps{" "}
-							</FeatureListItem>
-							<FeatureListItem>
-								Color Predisposition Summary Sheets{" "}
-							</FeatureListItem>
-							<FeatureListItem>
-								Parenting Growth Journal{" "}
-							</FeatureListItem>
-							<FeatureListItem>
-								Bonus Access to community discussion group{" "}
-							</FeatureListItem>
-						</ul>
-					</DetailSection>
-				</div>
-			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">
-					KSh 299.99
-				</span>
-				<Button
-					size="lg"
-					className="bg-teal-600 hover:bg-teal-600/90 text-white">
-					<Users className="mr-2 h-5 w-5" /> Enroll Now
-				</Button>
-			</DialogFooter>
-		</DialogContent>
-	</Dialog>
-);
-
-const CommunityMembership: React.FC = () => (
-	<Dialog>
-		<DialogTrigger asChild>
-			<Card className="bg-yellow-50 text-teal-800 border-teal-200 flex flex-col cursor-pointer hover:shadow-lg hover:ring-2 hover:ring-teal-200 transition-all duration-300">
-				<CardHeader>
-					<CardTitle className="text-2xl font-bold">
-						VDC Community Membership
-					</CardTitle>
-					<CardDescription className="text-teal-800/80">
-						Join a values-driven parenting community.{" "}
-					</CardDescription>
-				</CardHeader>
-				<CardContent className="flex-grow">
-					<p>
-						Get monthly content, downloadable value packs, group
-						coaching calls, and access to new VDC tools.{" "}
-					</p>
-				</CardContent>
-				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-2xl font-bold text-teal-800">
-						KSh 14.99/mo
-					</span>
-					<Button variant="link" className="text-teal-600">
-						View Details
-					</Button>
-				</CardFooter>
-			</Card>
-		</DialogTrigger>
-		<DialogContent className="bg-yellow-50 text-teal-800 sm:max-w-xl max-h-[90vh] flex flex-col">
-			<DialogHeader>
-				<DialogTitle className="text-3xl font-bold text-teal-800">
-					VDC Community Membership
-				</DialogTitle>
-				<DialogDescription className="text-teal-800/80 text-md">
-					Join a values-driven parenting community.{" "}
-				</DialogDescription>
-			</DialogHeader>
-			<div className="overflow-y-auto pr-4 -mr-4 py-4">
-				<p className="mb-4">
-					Receive ongoing support and encouragement on your parenting
-					journey. This membership ensures you always have fresh
-					resources and a community to lean on.
-				</p>
-				<DetailSection title="Membership Benefits: ">
-					<ul className="space-y-2">
-						<FeatureListItem>
-							Monthly value-themed parenting pack{" "}
-						</FeatureListItem>
-						<FeatureListItem>
-							Group mentorship & Q&A forums{" "}
-						</FeatureListItem>
-						<FeatureListItem>
-							Access to new VDC tools{" "}
-						</FeatureListItem>
-						<FeatureListItem>
-							Ideal for ongoing growth and encouragement{" "}
-						</FeatureListItem>
-					</ul>
-				</DetailSection>
-			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-3xl font-bold text-teal-800">
-					KSh 14.99/mo
-				</span>
-				<Button
-					size="lg"
-					className="bg-teal-600 hover:bg-teal-600/90 text-white">
-					<Users className="mr-2 h-5 w-5" /> Join Now
 				</Button>
 			</DialogFooter>
 		</DialogContent>
@@ -1946,12 +1731,18 @@ const ThemedMerch: React.FC = () => (
 					</p>
 				</CardContent>
 				<CardFooter className="flex justify-between items-center bg-teal-800/5 rounded-b-lg p-4 mt-auto">
-					<span className="text-xl font-bold text-teal-800">
-						From KSh 12.99
-					</span>
 					<Button variant="link" className="text-teal-600">
 						View Details
 					</Button>
+					<HoverBorderGradient
+						containerClassName="rounded-full"
+						as="a"
+						href="/shop#"
+						onClick={(e: React.MouseEvent) => e.stopPropagation()}
+						className="dark:bg-black bg-black text-white dark:text-white flex items-center space-x-2">
+						<ShoppingCart className="h-4 w-4" />
+						<span>Visit Shop</span>
+					</HoverBorderGradient>
 				</CardFooter>
 			</Card>
 		</DialogTrigger>
@@ -1986,10 +1777,7 @@ const ThemedMerch: React.FC = () => (
 					</ul>
 				</DetailSection>
 			</div>
-			<DialogFooter className="flex sm:justify-between items-center border-t border-teal-200/50 pt-4 mt-auto">
-				<span className="text-2xl font-bold text-teal-800">
-					From KSh 12.99
-				</span>
+			<DialogFooter className="flex sm:justify-end items-center border-t border-teal-200/50 pt-4 mt-auto">
 				<Button
 					size="lg"
 					className="bg-teal-600 hover:bg-teal-600/90 text-white">
