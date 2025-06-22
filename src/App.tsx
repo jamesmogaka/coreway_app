@@ -31,8 +31,17 @@ import BlogDetailPage from "./pages/blog/BlogDetailPage";
 import VdcParenting from "./pages/VDCParenting";
 import { AboutPage } from "./pages/AboutPage";
 import ProductsCarousel from "./components/Products";
+import { useCart } from "./contexts/useCart";
+import { CartSidebar } from "./components/CartSidebar";
 
 function AppContent() {
+	const {
+		isCartOpen,
+		closeCart,
+		cartItems,
+		removeFromCart,
+		updateQuantity,
+	} = useCart();
 	return (
 		<Router>
 			<div className="min-h-screen w-full flex flex-col bg-transparent">
@@ -98,6 +107,13 @@ function AppContent() {
 				<Footer />
 			</div>
 			<Toaster />
+			<CartSidebar
+				isOpen={isCartOpen}
+				onClose={closeCart}
+				cartItems={cartItems}
+				onRemoveItem={removeFromCart}
+				onQuantityChange={updateQuantity}
+			/>
 		</Router>
 	);
 }

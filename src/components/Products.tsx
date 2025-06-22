@@ -2,9 +2,11 @@ import React, { useState, useMemo, useEffect, useRef, useCallback } from "react"
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ShoppingCart } from "lucide-react";
+import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { HashLink } from "react-router-hash-link";
 import { useProducts } from "../hooks/useProducts";
+import { useCart } from "../contexts/useCart";
 import { Swiper, SwiperSlide, type SwiperRef } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/swiper-bundle.css";
@@ -13,33 +15,62 @@ import type { Product } from "../types/product";
 const ProductCard: React.FC<{ product: Product; isBack?: boolean }> = ({
 	product,
 	isBack = false,
-}) => (
+}) => {
+	const { addToCart } = useCart();
+
+	const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		e.stopPropagation();
+		addToCart(product);
+	};
+
+	return (
 	<div
-		className={`
-        absolute inset-0 w-full
-        bg-white rounded-lg shadow-md p-4
-        flex flex-col items-center
-        h-full
-        ${isBack ? "rotate-y-180" : ""}
-    `}
+		className={`absolute inset-0 w-full h-full bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-2xl shadow-lg overflow-hidden flex flex-col group ${isBack ? "rotate-y-180" : ""}`}
 		style={{
 			backfaceVisibility: "hidden",
 			WebkitBackfaceVisibility: "hidden",
 		}}>
-		<img
-			src={product.image_url}
-			alt={product.name}
-			className="h-40 w-40 object-cover rounded mb-2"
-		/>
-		<h3 className="font-semibold text-lg mb-1 text-center line-clamp-2">
-			{product.name}
-		</h3>
-		<p className="text-gray-600 text-sm mb-2 text-center flex-1 line-clamp-3">
-			{product.description}
-		</p>
-		<span className="text-primary font-bold mb-2">${product.price}</span>
+		<div className="relative h-48 w-full overflow-hidden">
+			<img
+				src={product.image_url}
+				alt={product.name}
+				className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+			/>
+			<div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
+		</div>
+		<div className="p-4 flex flex-col flex-1">
+			<h3 className="font-bold text-xl mb-2 text-gray-800 dark:text-white truncate">
+				{product.name}
+			</h3>
+			<p className="text-gray-600 dark:text-gray-300 text-sm mb-4 flex-1 overflow-hidden relative">
+				<span className="line-clamp-3">{product.description}</span>
+			</p>
+			<div className="flex justify-between items-center mt-auto">
+				<span className="text-teal-600 dark:text-teal-400 font-extrabold text-2xl">
+					KSh {product.price.toLocaleString()}
+				</span>
+				{product.stock > 0 ? (
+					<HoverBorderGradient
+						containerClassName="rounded-full"
+						as="button"
+						className="bg-white dark:bg-black text-black dark:text-white flex items-center space-x-2 px-4 py-2"
+						onClick={handleAddToCart}>
+						<ShoppingCart className="h-5 w-5" />
+						<span>Add to Cart</span>
+					</HoverBorderGradient>
+				) : (
+					<Button
+						disabled
+						className="rounded-full bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed flex items-center space-x-2 px-4 py-2">
+						<span>Out of stock</span>
+					</Button>
+				)}
+			</div>
+		</div>
 	</div>
-);
+	);
+};
 
 const FlipCard: React.FC<{
 	frontProduct: Product;
@@ -69,6 +100,7 @@ const ProductsCarousel: React.FC = () => {
 	const [previous_category, set_previous_category] = useState<string | null>(null);
 	const [is_flipped, set_is_flipped] = useState(false);
 	const [is_transitioning, set_is_transitioning] = useState(false);
+	const [is_hovering, set_is_hovering] = useState(false);
 	const swiper_ref = useRef<SwiperRef | null>(null);
 
 	const categories = useMemo(() => {
@@ -156,7 +188,7 @@ const ProductsCarousel: React.FC = () => {
 	);
 
 	useEffect(() => {
-		if (is_transitioning || categories.length <= 1) {
+		if (is_transitioning || categories.length <= 1 || is_hovering) {
 			return;
 		}
 
@@ -168,7 +200,13 @@ const ProductsCarousel: React.FC = () => {
 		}, 7000);
 
 		return () => clearInterval(timer);
-	}, [categories, selected_category, is_transitioning, handle_category_change]);
+	}, [
+		categories,
+		selected_category,
+		is_transitioning,
+		handle_category_change,
+		is_hovering,
+	]);
 
 	if (loading) return <div>Loading products...</div>;
 	if (error) return <div>Error: {(error as Error).message}</div>;
@@ -211,6 +249,8 @@ const ProductsCarousel: React.FC = () => {
 						return (
 							<SwiperSlide key={`slide-${index}`}>
 								<motion.div
+									onMouseEnter={() => set_is_hovering(true)}
+									onMouseLeave={() => set_is_hovering(false)}
 									className="h-[28rem]"
 									style={{ perspective: "1000px" }}
 									animate={{ opacity: isVisible ? 1 : 0 }}

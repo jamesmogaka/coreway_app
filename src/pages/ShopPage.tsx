@@ -43,7 +43,7 @@ export const ShopPage: React.FC = () => {
 			if (error) throw error;
 			//Map the data to match the Product type
 			const formattedProducts = (data || []).map(product => ({
-				product: product.product_id,
+				product_id: product.product_id,
 				image_url: product.image_url,
 				name: product.name,
 				description: product.description,
@@ -74,8 +74,8 @@ export const ShopPage: React.FC = () => {
 					<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 						{products.map(product => (
 							<Link
-								to={`/shop/product/${product.product}`}
-								key={product.product}
+								to={`/shop/product/${product.product_id}`}
+								key={product.product_id}
 								className="block h-full group">
 								<Card className="bg-[#129990] rounded-lg shadow-lg overflow-hidden h-full flex flex-col transition-all duration-300 group-hover:shadow-2xl group-hover:-translate-y-1">
 									<CardHeader className="p-0">

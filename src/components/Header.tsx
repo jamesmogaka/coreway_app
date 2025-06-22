@@ -7,6 +7,7 @@ import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { HashLink } from "react-router-hash-link";
 import { motion, type Variants } from "framer-motion";
+import { FaShoppingCart } from "react-icons/fa";
 export interface NavLinkProps {
 	pageId: string;
 	title: string;
@@ -175,13 +176,13 @@ export const Header: React.FC = () => {
 						))}
 						{user ? (
 							<div className="ml-4 flex items-center space-x-4">
-								{!isUserAdmin && (
+									{!location.pathname.startsWith("/admin") && (
 									<button
 										onClick={openCart}
-										className="relative inline-flex items-center text-base font-medium text-[#FFFBDE] hover:text-[#C2EAE7] hover:underline">
-										Cart
+										className="relative inline-flex items-center p-2 text-base font-medium text-[#FFFBDE] hover:text-[#C2EAE7] rounded-full hover:bg-white/10">
+										<FaShoppingCart className="h-5 w-5" />
 										{itemCount > 0 && (
-											<span className="absolute -top-2 -right-3.5 flex items-center justify-center h-5 w-5 rounded-full bg-[#FFD59A] text-[#3A3A3A] text-xs font-bold">
+											<span className="absolute -top-1 -right-1 flex items-center justify-center h-5 w-5 rounded-full bg-[#FFD59A] text-[#3A3A3A] text-xs font-bold">
 												{itemCount}
 											</span>
 										)}
@@ -258,14 +259,15 @@ export const Header: React.FC = () => {
 					<div className="pt-4 mt-4 border-t border-[#FFFBDE]/20">
 						{user ? (
 							<>
-								{!isUserAdmin && (
+									{!location.pathname.startsWith("/admin") && (
 									<button
 										onClick={() => {
 											openCart();
 											setMobileMenuOpen(false);
 										}}
-										className="relative block w-full text-left px-6 py-3 text-lg font-medium rounded-lg text-[#FFFBDE] hover:bg-[#129990]">
-										Cart
+										className="relative flex items-center w-full text-left px-6 py-3 text-lg font-medium rounded-lg text-[#FFFBDE] hover:bg-[#129990]">
+										<FaShoppingCart className="h-5 w-5 mr-3" />
+										<span>Cart</span>
 										{itemCount > 0 && (
 											<span className="absolute top-3 right-4 flex items-center justify-center h-5 w-5 rounded-full bg-[#FFD59A] text-[#3A3A3A] text-xs font-bold">
 												{itemCount}
