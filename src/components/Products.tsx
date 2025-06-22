@@ -24,11 +24,11 @@ const ProductCard: React.FC<{ product: Product; isBack?: boolean }> = ({
 }) => {
 	const { addToCart } = useCart();
 
-	const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+	const handleAddToCart = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		e.stopPropagation();
 		addToCart(product);
-	};
+	}, [addToCart, product]);
 
 	return (
 		<div
@@ -115,49 +115,31 @@ const ProductsCarousel: React.FC = () => {
 	const [is_hovering, set_is_hovering] = useState(false);
 	const swiper_ref = useRef<SwiperRef | null>(null);
 
+	// Data-derivation hooks (useMemo)
 	const categories = useMemo(() => {
 		const category_list = products
 			.map(p => p.category)
 			.filter(c => c && c.id && c.name) as { id: string; name: string }[];
-		const unique: { id: string; name: string }[] = [];
-		category_list.forEach(cat => {
-			if (!unique.some(u => u.id === cat.id)) {
-				unique.push(cat);
-			}
-		});
-		return unique;
+		const unique_categories = Array.from(
+			new Map(category_list.map(c => [c.id, c])).values()
+		);
+		return unique_categories;
 	}, [products]);
 
-	useEffect(() => {
-		if (!selected_category && categories.length > 0) {
-			const firstId = categories[0].id;
-			set_selected_category(firstId);
-			set_previous_category(firstId);
-		}
-	}, [categories, selected_category]);
+	const current_products = useMemo(
+		() => products.filter(p => p.category?.id === selected_category),
+		[products, selected_category]
+	);
 
-	const current_products = useMemo(() => {
-		if (!selected_category) return [];
-		return products.filter(
-			p => p.category && p.category.id === selected_category
-		);
-	}, [products, selected_category]);
+	const previous_products = useMemo(
+		() => products.filter(p => p.category?.id === previous_category),
+		[products, previous_category]
+	);
 
-	const previous_products = useMemo(() => {
-		if (!previous_category) return [];
-		return products.filter(
-			p => p.category && p.category.id === previous_category
-		);
-	}, [products, previous_category]);
-
-	const maxProducts = useMemo(() => {
-		const categoryCounts = categories.map(
-			cat =>
-				products.filter(p => p.category && p.category.id === cat.id)
-					.length
-		);
-		return Math.max(0, ...categoryCounts);
-	}, [categories, products]);
+	const maxProducts = useMemo(
+		() => Math.max(current_products.length, previous_products.length),
+		[current_products, previous_products]
+	);
 
 	const card_pairs = useMemo(() => {
 		const placeholderTemplate: Omit<Product, "product_id"> = {
@@ -191,15 +173,16 @@ const ProductsCarousel: React.FC = () => {
 			});
 		}
 		return pairs;
-	}, [current_products, previous_products, is_flipped, maxProducts]);
+	}, [maxProducts, current_products, previous_products, is_flipped]);
 
+	// Event handlers (useCallback)
 	const handle_category_change = useCallback(
-		(new_category: string) => {
-			if (is_transitioning || new_category === selected_category) return;
+		(category_id: string) => {
+			if (category_id === selected_category || is_transitioning) return;
 
 			set_is_transitioning(true);
 			set_previous_category(selected_category);
-			set_selected_category(new_category);
+			set_selected_category(category_id);
 			set_is_flipped(prev => !prev);
 
 			const flip_duration =
@@ -211,6 +194,26 @@ const ProductsCarousel: React.FC = () => {
 		},
 		[selected_category, is_transitioning, maxProducts]
 	);
+
+	const handleMouseEnter = useCallback(() => set_is_hovering(true), []);
+	const handleMouseLeave = useCallback(() => set_is_hovering(false), []);
+
+	const handleCategoryButtonClick = useCallback(
+		(event: React.MouseEvent<HTMLButtonElement>) => {
+			const { categoryId } = event.currentTarget.dataset;
+			if (categoryId) {
+				handle_category_change(categoryId);
+			}
+		},
+		[handle_category_change]
+	);
+
+	// Side-effect hooks (useEffect)
+	useEffect(() => {
+		if (products.length > 0 && !selected_category) {
+			set_selected_category(products[0].category?.id ?? null);
+		}
+	}, [products, selected_category]);
 
 	useEffect(() => {
 		if (is_transitioning || categories.length <= 1 || is_hovering) {
@@ -276,8 +279,8 @@ const ProductsCarousel: React.FC = () => {
 						return (
 							<SwiperSlide key={`slide-${index}`}>
 								<motion.div
-									onMouseEnter={() => set_is_hovering(true)}
-									onMouseLeave={() => set_is_hovering(false)}
+									onMouseEnter={handleMouseEnter}
+									onMouseLeave={handleMouseLeave}
 									className="h-[28rem]"
 									style={{ perspective: "1000px" }}
 									animate={{ opacity: isVisible ? 1 : 0 }}
@@ -306,7 +309,8 @@ const ProductsCarousel: React.FC = () => {
 						}`}
 						style={{ cursor: "pointer" }}
 						aria-label={`Go to category ${cat.name}`}
-						onClick={() => handle_category_change(cat.id)}
+						onClick={handleCategoryButtonClick}
+						data-category-id={cat.id}
 						disabled={is_transitioning}
 					/>
 				))}

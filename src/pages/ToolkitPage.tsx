@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { PrinciplesPage } from "./PrinciplesPage";
 import { motion, type Variants } from "framer-motion";
 import {
@@ -153,6 +153,10 @@ const PredispositionCard: React.FC<CardProps> = ({
 	onClick,
 }) => {
 	const styles = colorStyles[color];
+	const handleClick = useCallback(() => {
+		onClick(color);
+	}, [color, onClick]);
+
 	return (
 		<motion.div
 			className={`p-6 ${
@@ -160,7 +164,7 @@ const PredispositionCard: React.FC<CardProps> = ({
 			} rounded-t-lg shadow-md cursor-pointer ${
 				active === color ? "active-card" : ""
 			}`}
-			onClick={() => onClick(color)}
+			onClick={handleClick}
 			whileHover={{ scale: 1.03, y: -5 }}
 			whileTap={{ scale: 0.98 }}
 			transition={{ duration: 0.2 }}>
@@ -202,9 +206,9 @@ const Description: React.FC<DescriptionProps> = ({ color, data, active }) => {
 export const ToolkitPage: React.FC = () => {
 	const [active, setActive] = useState<ColorKey>("blue");
 
-	const handleCardClick = (color: ColorKey) => {
+	const handleCardClick = useCallback((color: ColorKey) => {
 		setActive(color);
-	};
+	}, []);
 
 	return (
 		<div className="fade-in" id="toolkit">

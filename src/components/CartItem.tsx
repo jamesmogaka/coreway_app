@@ -1,4 +1,5 @@
 import type { CartItem as CartItemType } from "../contexts/cart-context.types";
+import { useCallback } from "react";
 
 interface CartItemProps {
 	item: CartItemType;
@@ -11,6 +12,9 @@ export function CartItem({
 	onRemoveItem,
 	onQuantityChange,
 }: CartItemProps) {
+	// stable quantity change handlers to avoid re-creating inline arrow funcs on each render
+	const handleDecrement = useCallback(() => onQuantityChange(item.quantity - 1), [onQuantityChange, item.quantity]);
+	const handleIncrement = useCallback(() => onQuantityChange(item.quantity + 1), [onQuantityChange, item.quantity]);
 	return (
 		<div className="py-4">
 			<div className="flex items-center">
@@ -32,7 +36,7 @@ export function CartItem({
 					</div>
 					<div className="flex items-center mt-1">
 						<button
-							onClick={() => onQuantityChange(item.quantity - 1)}
+							onClick={handleDecrement}
 							className="text-[#FFFBDE] hover:text-[#C2EAE7] w-6 h-6 flex items-center justify-center border border-[#90D1CA] rounded"
 							disabled={item.quantity <= 1}>
 							-
@@ -41,7 +45,7 @@ export function CartItem({
 							{item.quantity}
 						</span>
 						<button
-							onClick={() => onQuantityChange(item.quantity + 1)}
+							onClick={handleIncrement}
 							className="text-[#FFFBDE] hover:text-[#C2EAE7] w-6 h-6 flex items-center justify-center border border-[#90D1CA] rounded"
 							disabled={item.quantity >= item.product.stock}>
 							+

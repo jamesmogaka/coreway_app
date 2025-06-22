@@ -1,8 +1,7 @@
 import * as React from "react";
 import { useLocation } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
-import { Facebook, Mail, MapPin, Phone, Youtube } from "lucide-react";
-import { FaWhatsapp } from "react-icons/fa";
+import { Facebook, Mail, MapPin, Phone, Youtube, MessageSquare } from "lucide-react";
 import { Button } from "./ui/button";
 
 const newNavLinks = [
@@ -16,7 +15,7 @@ const newNavLinks = [
 const socialLinks = [
 	{
 		name: "WhatsApp",
-		icon: FaWhatsapp,
+		icon: MessageSquare,
 		path: "https://wa.me/your-number",
 	},
 	{
@@ -31,7 +30,7 @@ const socialLinks = [
 	},
 ];
 
-export const Footer: React.FC = () => {
+const FooterComponent: React.FC = () => {
 	const location = useLocation();
 	const activePage = location.pathname.split("/")[1];
 
@@ -233,3 +232,6 @@ export const Footer: React.FC = () => {
 		</footer>
 	);
 };
+
+// Memoized export to avoid unnecessary re-renders
+export const Footer = React.memo(FooterComponent);

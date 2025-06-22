@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, Users, Heart, CheckCircle } from "lucide-react";
+import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, type Variants } from "framer-motion";
 import { AnimatedArrow } from "./AnimatedArrow";
@@ -28,21 +29,32 @@ const itemVariants: Variants = {
 
 export function HeroSection() {
 	const navigate = useNavigate();
+
+	const handleScrollTo = useCallback((id: string) => {
+		const element = document.getElementById(id);
+		if (element) {
+			element.scrollIntoView({
+				behavior: "smooth",
+			});
+		}
+	}, []);
+
+	const handleExploreToolkitClick = useCallback(() => {
+		handleScrollTo("toolkit");
+	}, [handleScrollTo]);
+
+	const handleJoinTrainingClick = useCallback(() => {
+		handleScrollTo("training");
+	}, [handleScrollTo]);
+
+	const handlePartnerClick = useCallback(() => {
+		navigate("/patner");
+	}, [navigate]);
+
 	return (
 		<section
 			id="home"
-			className="relative bg-gradient-to-b pt-2 sm:pt-4 lg:pt-8 pb-20 sm:pb-24 lg:pb-32 overflow-hidden">
-			{/* Complicated teal gradient background */}
-			<div className="fixed inset-0 -z-10 pointer-events-none">
-				{/* Main darkened linear gradient - stays dark */}
-				<div className="absolute inset-0 w-full h-full bg-gradient-to-br from-teal-950 via-teal-900/95 to-cyan-950 opacity-100" />
-				{/* Large radial highlight - more visible, less blur, more saturated */}
-				<div className="absolute top-0 left-1/2 -translate-x-1/2 w-[110vw] h-[110vw] bg-gradient-radial from-teal-400/30 via-teal-700/0 to-transparent opacity-60 blur-2xl" />
-				{/* Bottom right shadow - more visible, less blur, more cyan */}
-				<div className="absolute bottom-0 right-0 w-2/3 h-2/3 bg-gradient-to-tl from-cyan-700/70 via-teal-900/70 to-transparent opacity-80 blur-xl" />
-				{/* Accent radial - more defined, higher opacity, less blur */}
-				<div className="absolute top-1/4 left-1/4 w-1/3 h-1/3 bg-gradient-radial from-cyan-400/40 via-transparent to-transparent opacity-50 blur" />
-			</div>
+			className="relative pt-2 sm:pt-4 lg:pt-8 pb-20 sm:pb-24 lg:pb-32">
 			<div className="container mx-auto px-4">
 				<motion.div
 					className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center"
@@ -84,15 +96,7 @@ export function HeroSection() {
 							<Button
 								size="lg"
 								className="bg-teal-900 hover:bg-teal-400 text-yellow-50 w-full sm:w-auto border border-yellow-50"
-								onClick={() => {
-									const element =
-										document.getElementById("toolkit");
-									if (element) {
-										element.scrollIntoView({
-											behavior: "smooth",
-										});
-									}
-								}}>
+								onClick={handleExploreToolkitClick}>
 								<BookOpen className="h-5 w-5 mr-2" />
 								Explore the Toolkit
 							</Button>
@@ -100,15 +104,7 @@ export function HeroSection() {
 								size="lg"
 								variant="outline"
 								className="bg-teal-900 hover:bg-teal-400 text-yellow-50 w-full sm:w-auto border border-yellow-50"
-								onClick={() => {
-									const element =
-										document.getElementById("training");
-									if (element) {
-										element.scrollIntoView({
-											behavior: "smooth",
-										});
-									}
-								}}>
+								onClick={handleJoinTrainingClick}>
 								<Users className="h-5 w-5 mr-2" />
 								Join Training
 							</Button>
@@ -116,7 +112,7 @@ export function HeroSection() {
 								size="lg"
 								variant="outline"
 								className="bg-teal-900 hover:bg-teal-400 text-yellow-50 w-full sm:w-auto border border-yellow-50"
-								onClick={() => navigate("/patner")}>
+								onClick={handlePartnerClick}>
 								<Heart className="h-5 w-5 mr-2" />
 								Partner With Us
 							</Button>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCart } from "@/contexts/useCart";
@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { HashLink } from "react-router-hash-link";
 import { motion, type Variants } from "framer-motion";
-import { FaShoppingCart } from "react-icons/fa";
+import { ShoppingCart } from "lucide-react";
 export interface NavLinkProps {
 	pageId: string;
 	title: string;
@@ -89,7 +89,7 @@ const navLinkVariants: Variants = {
 	}),
 };
 
-export const Header: React.FC = () => {
+const HeaderComponent: React.FC = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { user, logout, isAdmin } = useAuth();
@@ -110,10 +110,18 @@ export const Header: React.FC = () => {
 		() => location.hash.replace("#", "") || "home"
 	);
 
-	const displayedNavLinks = [...navLinks];
-	if (isUserAdmin) {
-		displayedNavLinks.push({ id: "admin", title: "Dashboard", path: "/admin" });
-	}
+	const displayedNavLinks = useMemo(() => {
+		const list = [...navLinks];
+		if (isUserAdmin) {
+			list.push({ id: "admin", title: "Dashboard", path: "/admin" });
+		}
+		return list;
+	}, [isUserAdmin]);
+
+	// stable callbacks
+	const handleLogin = useCallback(() => navigate("/auth"), [navigate]);
+	const toggleMobileMenu = useCallback(() => setMobileMenuOpen(prev => !prev), []);
+
 	const observer = useRef<IntersectionObserver | null>(null);
 
 	useEffect(() => {
@@ -180,7 +188,7 @@ export const Header: React.FC = () => {
 									<button
 										onClick={openCart}
 										className="relative inline-flex items-center p-2 text-base font-medium text-[#FFFBDE] hover:text-[#C2EAE7] rounded-full hover:bg-white/10">
-										<FaShoppingCart className="h-5 w-5" />
+										<ShoppingCart className="h-5 w-5" />
 										{itemCount > 0 && (
 											<span className="absolute -top-1 -right-1 flex items-center justify-center h-5 w-5 rounded-full bg-[#FFD59A] text-[#3A3A3A] text-xs font-bold">
 												{itemCount}
@@ -200,7 +208,7 @@ export const Header: React.FC = () => {
 							<Button
 								variant="outline"
 								size="sm"
-								onClick={() => navigate("/auth")}
+								onClick={handleLogin}
 								className="ml-4 border-cream text-cream hover:bg-teal-medium hover:text-cream hover:border-teal-medium transition-all duration-200">
 								Login
 							</Button>
@@ -208,7 +216,7 @@ export const Header: React.FC = () => {
 					</div>
 					<div className="md:hidden">
 						<button
-							onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
+							onClick={toggleMobileMenu}
 							className="p-2 rounded-md text-[#FFFBDE] hover:bg-[#129990] hover:bg-opacity-30 focus:outline-none transition-colors duration-200"
 							aria-label="Toggle menu">
 							{isMobileMenuOpen ? (
@@ -266,7 +274,7 @@ export const Header: React.FC = () => {
 											setMobileMenuOpen(false);
 										}}
 										className="relative flex items-center w-full text-left px-6 py-3 text-lg font-medium rounded-lg text-[#FFFBDE] hover:bg-[#129990]">
-										<FaShoppingCart className="h-5 w-5 mr-3" />
+										<ShoppingCart className="h-5 w-5 mr-3" />
 										<span>Cart</span>
 										{itemCount > 0 && (
 											<span className="absolute top-3 right-4 flex items-center justify-center h-5 w-5 rounded-full bg-[#FFD59A] text-[#3A3A3A] text-xs font-bold">
@@ -304,3 +312,7 @@ export const Header: React.FC = () => {
 		</motion.header>
 	);
 };
+
+// Export memoized component to avoid unnecessary re-renders
+export const Header = React.memo(HeaderComponent);
+

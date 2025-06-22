@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useProducts } from "../hooks/useProducts";
 import { useCart } from "../contexts/useCart";
@@ -18,7 +18,7 @@ const ProductDetail = () => {
     "description"
   );
 
-  const handleAddToCart = () => {
+  const handleAddToCart = useCallback(() => {
     if (!product) return;
 
     if (product.stock <= 0) {
@@ -28,7 +28,12 @@ const ProductDetail = () => {
 
     addToCart(product, 1);
     toast.success(`${product.name} added to cart`);
-  };
+  }, [product, addToCart]);
+
+  const handleRetry = useCallback(() => window.location.reload(), []);
+  const handleBackToShop = useCallback(() => navigate("/shop"), [navigate]);
+  const showDescription = useCallback(() => setActiveTab("description"), []);
+  const showReviews = useCallback(() => setActiveTab("reviews"), []);
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -76,7 +81,7 @@ const ProductDetail = () => {
       <div className="text-center py-12 bg-[#096B68]">
         <p className="text-red-400 mb-4">Error: {error.message}</p>
         <Button
-          onClick={() => window.location.reload()}
+          onClick={handleRetry}
           className="bg-[#FFD59A] text-[#3A3A3A] hover:bg-[#FFAD60]"
         >
           Retry
@@ -95,7 +100,7 @@ const ProductDetail = () => {
           The product you're looking for doesn't exist or has been removed.
         </p>
         <Button
-          onClick={() => navigate("/shop")}
+          onClick={handleBackToShop}
           className="bg-[#FFD59A] text-[#3A3A3A] hover:bg-[#FFAD60]"
         >
           Back to Shop
@@ -167,22 +172,14 @@ const ProductDetail = () => {
           <div className="border-b border-[#90D1CA]">
             <nav className="-mb-px flex space-x-8" aria-label="Tabs">
               <button
-                onClick={() => setActiveTab("description")}
-                className={`${`
-                  activeTab === "description"
-                    ? "border-[#FFD59A] text-[#FFFBDE]"
-                    : "border-transparent text-[#90D1CA] hover:text-[#FFFBDE] hover:border-[#FFD59A]"`
-                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg transition-colors duration-300`}
+                onClick={showDescription}
+                className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg transition-colors duration-300 ${activeTab === "description" ? "border-[#FFD59A] text-[#FFFBDE]" : "border-transparent text-[#90D1CA] hover:text-[#FFFBDE] hover:border-[#FFD59A]"}`}
               >
                 Description
               </button>
               <button
-                onClick={() => setActiveTab("reviews")}
-                className={`${`
-                  activeTab === "reviews"
-                    ? "border-[#FFD59A] text-[#FFFBDE]"
-                    : "border-transparent text-[#90D1CA] hover:text-[#FFFBDE] hover:border-[#FFD59A]"`
-                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg transition-colors duration-300`}
+                onClick={showReviews}
+                className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg transition-colors duration-300 ${activeTab === "reviews" ? "border-[#FFD59A] text-[#FFFBDE]" : "border-transparent text-[#90D1CA] hover:text-[#FFFBDE] hover:border-[#FFD59A]"}`}
               >
                 Reviews
               </button>
