@@ -4,6 +4,7 @@ import { StatsCards } from "../components/admin/StatsCards";
 import { useProducts } from "../hooks/useProducts";
 import { useOrders } from "../hooks/useOrders";
 import { AdminProvider } from "../contexts/AdminContext";
+import { AdminLayoutSkeleton } from "../components/admin/AdminLayoutSkeleton";
 
 export function AdminLayout() {
 	// Fetch products and orders
@@ -30,11 +31,14 @@ export function AdminLayout() {
 			?.filter(order => order.isPaid)
 			.reduce((sum, order) => sum + order.total, 0) || 0;
 
-	if (productsLoading || ordersLoading) return <div>Loading...</div>;
-	if (productsError)
-		return <div>Error loading data: {productsError.message}</div>;
-	if (ordersError)
-		return <div>Error loading orders: {ordersError.message}</div>;
+	if (productsLoading || ordersLoading) return <AdminLayoutSkeleton />;
+		if (productsError || ordersError) {
+		return (
+			<div className="flex items-center justify-center h-screen bg-[#096B68] text-red-400 text-2xl">
+				Error: {productsError?.message || ordersError?.message}
+			</div>
+		);
+	}
 
 	return (
 		<div className="flex flex-col min-h-screen bg-[#096B68]">

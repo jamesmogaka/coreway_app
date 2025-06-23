@@ -26,6 +26,7 @@ import type { BlogPost } from "../../types/blog";
 import { ProductFormDialog } from "../../components/admin/ProductFormDialog";
 import { BlogFormDialog } from "../../components/admin/BlogFormDialog";
 import { DeleteDialog } from "../../components/admin/DeleteDialog";
+import { AdminDashboardSkeleton } from "../../components/admin/AdminDashboardSkeleton";
 
 const initialProductState: Partial<Product> = {
 	name: "",
@@ -438,12 +439,11 @@ export function AdminDashboard() {
 		}
 	};
 
-	if (loading)
-		return <div className="text-[#F5F5F5] text-center p-8">Loading...</div>;
-	if (error)
+		if (loading) return <AdminDashboardSkeleton />;
+		if (error)
 		return (
 			<div className="text-red-400 text-center p-8">
-				Error loading products: {error.message}
+				Error: {error.message}
 			</div>
 		);
 
