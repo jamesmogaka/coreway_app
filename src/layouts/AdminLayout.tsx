@@ -5,6 +5,7 @@ import { useProducts } from "../hooks/useProducts";
 import { useOrders } from "../hooks/useOrders";
 import { AdminProvider } from "../contexts/AdminContext";
 import { AdminLayoutSkeleton } from "../components/admin/AdminLayoutSkeleton";
+import { BackgroundGradient } from "../components/ui/BackgroundGradient";
 
 export function AdminLayout() {
 	// Fetch products and orders
@@ -41,11 +42,12 @@ export function AdminLayout() {
 	}
 
 	return (
-		<div className="flex flex-col min-h-screen bg-[#096B68]">
+		<div className="flex flex-col min-h-screen bg-transparent relative">
+			<BackgroundGradient />
 			{/* Main Content Area with Sidebar */}
 			<div className="flex flex-1 overflow-hidden">
 				{/* Sidebar */}
-				<aside className="w-64 bg-[#129990] border-r-0 overflow-y-auto">
+				<aside className="w-64 bg-[#129990] border-r-0">
 					<Sidebar />
 				</aside>
 

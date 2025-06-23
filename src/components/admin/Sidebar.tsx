@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { SidebarGradient } from "../ui/SidebarGradient";
 
 type SidebarProps = {
 	className?: string;
@@ -7,8 +8,9 @@ type SidebarProps = {
 export function Sidebar({ className = "" }: SidebarProps) {
 	return (
 		<div
-			className={`h-full bg-[#129990] shadow-md overflow-y-auto ${className}`}
+			className={`h-full bg-transparent shadow-md ${className} relative`}
 			style={{ width: "16rem" }}>
+			<SidebarGradient />
 			<div className="p-4 border-b">
 				<h2 className="text-lg font-semibold text-[#FFD59A]">
 					Admin Panel

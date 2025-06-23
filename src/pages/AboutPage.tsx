@@ -5,29 +5,14 @@ import { motion } from "framer-motion";
 import { Target, Lightbulb, ArrowRight } from "lucide-react";
 import { HashLink } from "react-router-hash-link";
 
-import aboutPattern from "@/assets/patterns/about-pattern.svg";
+import { SidebarGradient } from "@/components/ui/SidebarGradient";
 
 export function AboutPage() {
 	return (
 		<section
 			id="about"
 			className="relative py-20 bg-gradient-to-br from-teal-700 via-teal-600 via-70% to-cyan-700 overflow-hidden">
-			{/* Creative accent overlays for vibrancy and depth */}
-			<div className="absolute inset-0 -z-10 pointer-events-none">
-				{/* Sophisticated SVG pattern overlay */}
-				<img
-					src={aboutPattern}
-					alt="decorative pattern"
-					className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay pointer-events-none select-none"
-				/>
-
-				{/* Main creative linear gradient overlay */}
-				<div className="absolute inset-0 w-full h-full bg-gradient-to-br from-teal-700/80 via-teal-600/60 to-cyan-700/40 opacity-100" />
-				{/* Subtle orange highlight for contrast */}
-				<div className="absolute top-[-10%] left-[60%] w-[38vw] h-[38vw] bg-gradient-radial from-orange-400/20 via-transparent to-transparent opacity-40 blur-2xl rotate-12" />
-				{/* Vibrant cyan/teal radial highlight */}
-				<div className="absolute bottom-[-18%] right-[-10%] w-[54vw] h-[54vw] bg-gradient-radial from-cyan-300/20 via-transparent to-transparent opacity-30 blur-2xl" />
-			</div>
+			<SidebarGradient />
 			<div className="container mx-auto px-4">
 				<motion.div
 					className="text-center mb-16"
