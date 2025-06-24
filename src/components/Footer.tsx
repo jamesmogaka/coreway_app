@@ -1,7 +1,14 @@
 import * as React from "react";
 import { useLocation } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
-import { Facebook, Mail, MapPin, Phone, Youtube, MessageSquare } from "lucide-react";
+import {
+	Facebook,
+	Mail,
+	MapPin,
+	Phone,
+	Youtube,
+	MessageSquare,
+} from "lucide-react";
 import { Button } from "./ui/button";
 
 const newNavLinks = [
@@ -41,7 +48,7 @@ const FooterComponent: React.FC = () => {
 					{/* Company Info */}
 					<div className="col-span-1">
 						<h3 className="text-2xl font-semibold">
-							CorePath International
+							CorePath Impact
 						</h3>
 						<p className="text-base text-yellow-50/80 mt-2">
 							Building a brighter future, one value at a time.
@@ -150,7 +157,7 @@ const FooterComponent: React.FC = () => {
 						<div className="space-y-8">
 							<div>
 								<h3 className="text-xl sm:text-2xl font-bold text-yellow-50 mb-6">
-									CoreWayParenting
+									CorePath Impact
 								</h3>
 								<div className="space-y-4">
 									<div className="flex items-center space-x-4">
@@ -224,8 +231,8 @@ const FooterComponent: React.FC = () => {
 				{/* Footer Bottom */}
 				<div className="mt-12 border-t border-yellow-50 pt-8 text-center">
 					<p className="text-sm text-yellow-50/70">
-						&copy; {new Date().getFullYear()} CorePath
-						International. All rights reserved.
+						&copy; {new Date().getFullYear()} CorePath Impact. All
+						rights reserved.
 					</p>
 				</div>
 			</div>

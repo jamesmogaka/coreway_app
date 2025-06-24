@@ -6,7 +6,7 @@ import { HashLink } from "react-router-hash-link";
 
 const testimonials = [
 	{
-		quote: `Before VGC, I didn’t know how to deal with my son’s anger
+		quote: `Before VDC, I didn’t know how to deal with my son’s anger
 				outbursts. Now I understand he needed to develop empathy.
 				This toolkit changed our home.`,
 		name: "John Doe",
@@ -15,7 +15,7 @@ const testimonials = [
 	},
 	{
 		quote: `Our school saw a dramatic drop in bullying after applying
-				VGC principles. Kids now reflect before reacting.`,
+				VDC principles. Kids now reflect before reacting.`,
 		name: "John Doe",
 		designation: "Headteacher, Kenya",
 		src: denzel,
