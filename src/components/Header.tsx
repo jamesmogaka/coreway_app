@@ -120,7 +120,10 @@ const HeaderComponent: React.FC = () => {
 
 	// stable callbacks
 	const handleLogin = useCallback(() => navigate("/auth"), [navigate]);
-	const toggleMobileMenu = useCallback(() => setMobileMenuOpen(prev => !prev), []);
+	const toggleMobileMenu = useCallback(
+		() => setMobileMenuOpen(prev => !prev),
+		[]
+	);
 
 	const observer = useRef<IntersectionObserver | null>(null);
 
@@ -163,7 +166,7 @@ const HeaderComponent: React.FC = () => {
 				<div className="flex justify-between items-center h-20">
 					<Link to="/" className="flex items-center group">
 						<span className="text-2xl font-bold text-[#FFFBDE] transition-transform duration-300 group-hover:scale-105">
-							Coreway Parenting
+							CorePath Impact
 						</span>
 					</Link>
 					<div className="hidden md:flex items-center space-x-1 group">
@@ -184,7 +187,7 @@ const HeaderComponent: React.FC = () => {
 						))}
 						{user ? (
 							<div className="ml-4 flex items-center space-x-4">
-									{!location.pathname.startsWith("/admin") && (
+								{!location.pathname.startsWith("/admin") && (
 									<button
 										onClick={openCart}
 										className="relative inline-flex items-center p-2 text-base font-medium text-[#FFFBDE] hover:text-[#C2EAE7] rounded-full hover:bg-white/10">
@@ -267,7 +270,7 @@ const HeaderComponent: React.FC = () => {
 					<div className="pt-4 mt-4 border-t border-[#FFFBDE]/20">
 						{user ? (
 							<>
-									{!location.pathname.startsWith("/admin") && (
+								{!location.pathname.startsWith("/admin") && (
 									<button
 										onClick={() => {
 											openCart();
@@ -315,4 +318,3 @@ const HeaderComponent: React.FC = () => {
 
 // Export memoized component to avoid unnecessary re-renders
 export const Header = React.memo(HeaderComponent);
-

@@ -117,7 +117,15 @@ const colorStyles = {
 		descriptionText: "text-green-600",
 	},
 };
-
+//
+//
+const whyVDC = [
+	"Personalized – Built around each child’s unique God-given design (using the Color Predisposition Quiz).",
+	"Proactive – Focused on instilling values before problems arise, not after.",
+	"Purposeful – Anchored in six timeless principles of spiritual, emotional, and behavioral growth.",
+	"Structured – Uses the ATTR Cycle: Affirm – Train – Track – Reward to guide your daily parenting rhythm.",
+	"Scripture-rooted – Every value is reinforced through Bible truths, not just feel-good sayings.",
+];
 // Sub-components
 const ValueList: React.FC<{ data: ValueData }> = ({ data }) => (
 	<div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-center">
@@ -343,28 +351,16 @@ export const ToolkitPage: React.FC = () => {
 										</CardTitle>
 									</CardHeader>
 									<CardContent className="space-y-3">
-										<div className="flex items-center space-x-3">
-											<CheckCircle className="h-5 w-5 text-blue-600" />
-											<span className="text-blue-800">
-												Addresses root causes of
-												misbehavior, not just surface
-												actions
-											</span>
-										</div>
-										<div className="flex items-center space-x-3">
-											<CheckCircle className="h-5 w-5 text-blue-600" />
-											<span className="text-blue-800">
-												Fosters habitual value formation
-												through daily repetition
-											</span>
-										</div>
-										<div className="flex items-center space-x-3">
-											<CheckCircle className="h-5 w-5 text-blue-600" />
-											<span className="text-blue-800">
-												Provides customized parenting
-												strategies for each child
-											</span>
-										</div>
+										{whyVDC.map((item, index) => (
+											<div
+												key={index}
+												className="flex items-center space-x-3">
+												<CheckCircle className="h-5 w-5 text-blue-600" />
+												<span className="text-blue-800">
+													{item}
+												</span>
+											</div>
+										))}
 									</CardContent>
 								</Card>
 							</motion.div>

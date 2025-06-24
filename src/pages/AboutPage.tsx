@@ -30,7 +30,7 @@ export function AboutPage() {
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.7, ease: "easeOut" }}>
 						<Badge className="bg-orange-100 text-orange-800 hover:bg-orange-100 mb-4">
-							About CoreWayParenting
+							About CorePath Impact
 						</Badge>
 					</motion.div>
 					<motion.h2
