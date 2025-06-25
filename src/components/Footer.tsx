@@ -183,7 +183,7 @@ const FooterComponent: React.FC = () => {
 												Phone
 											</p>
 											<p className="text-yellow-50">
-												+254 xxx xxx xxx
+												+254 720 979570
 											</p>
 										</div>
 									</div>
