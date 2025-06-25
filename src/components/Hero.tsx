@@ -76,14 +76,19 @@ export function HeroSection() {
 							<motion.h1
 								className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight break-words"
 								variants={itemVariants}>
-								Intentional, Deliberate, Structured,
-								Value-Driven Parenting.
+								Intentional, Deliberate, Structured, Value
+								Driven Parenting.
 							</motion.h1>
 							<motion.p
 								className="text-lg sm:text-xl max-w-2xl"
 								variants={itemVariants}>
-								Nurture morally grounded, resilient, and
-								successful children with the VDC Toolkit.
+								At CorePath Impact, we believe parenting is
+								sacred stewardship — a divine calling to shape
+								the heart of every child with timeless values
+								that anchor identity and unlock divine purpose.
+								We equip families with structured, spiritual
+								tools to raise children of character,
+								compassion, and calling.
 							</motion.p>
 						</div>
 
@@ -91,8 +96,8 @@ export function HeroSection() {
 							className="bg-yellow-50 p-6 rounded-lg shadow-lg border-l-4 border-orange-500"
 							variants={itemVariants}>
 							<h3 className="text-lg font-semibold text-gray-900">
-								Transform Behavior. Build Character. Shape
-								Destiny.
+								Restoring the Soul of Society — Where Values Are
+								Rooted and Purpose Is Lived
 							</h3>
 						</motion.div>
 
