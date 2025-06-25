@@ -38,12 +38,17 @@ const ProductCard: React.FC<{ product: Product; isBack?: boolean }> = ({
 			id="products"
 			className={`absolute inset-0 w-full h-full bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-2xl shadow-lg overflow-hidden flex flex-col group ${
 				isBack ? "rotate-y-180" : ""
-			}`}
+			} 
+			px-3 py-3
+			md:px-0 md:py-0
+			max-w-xs mx-auto
+			md:max-w-full
+		`}
 			style={{
 				backfaceVisibility: "hidden",
 				WebkitBackfaceVisibility: "hidden",
 			}}>
-			<div className="relative h-48 w-full overflow-hidden">
+			<div className="relative h-36 w-full overflow-hidden md:h-48">
 				<img
 					src={product.image_url}
 					alt={product.name}
@@ -255,9 +260,11 @@ const ProductsCarousel: React.FC = () => {
 				<Badge className="bg-purple-100 text-purple-800 hover:bg-purple-100 mb-4">
 					Products
 				</Badge>
-				<h2 className="mt-2 text-5xl font-extrabold text-center tracking-tight text-yellow-50 relative mb-2">
+				<h2
+	className="mt-2 text-2xl sm:text-3xl md:text-5xl font-extrabold text-center tracking-tight text-yellow-50 relative mb-2 px-2 sm:px-0 leading-tight"
+>
 					Products we offer
-					<span className="block mx-auto mt-2 h-1 w-16 rounded bg-gradient-to-r from-purple-400 via-pink-400 to-yellow-400 opacity-80"></span>
+					<span className="block mx-auto mt-2 h-0.5 w-10 sm:w-16 rounded bg-gradient-to-r from-purple-400 via-pink-400 to-yellow-400 opacity-80"></span>
 				</h2>
 			</div>
 
