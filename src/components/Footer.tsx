@@ -169,7 +169,7 @@ const FooterComponent: React.FC = () => {
 												Email
 											</p>
 											<p className="text-yellow-50">
-												info@corepathimpact.org
+												info@corepathimpact.com
 											</p>
 										</div>
 									</div>

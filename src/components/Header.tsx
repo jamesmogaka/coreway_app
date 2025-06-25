@@ -127,34 +127,96 @@ const HeaderComponent: React.FC = () => {
 
 	const observer = useRef<IntersectionObserver | null>(null);
 
-	useEffect(() => {
-		const sections = navLinks
-			.map(link => document.getElementById(link.id))
-			.filter((el): el is HTMLElement => el !== null);
+	// Function to update active page based on current URL
+	const updateActivePage = useCallback(() => {
+		// First check for hash links
+		if (location.hash) {
+			const id = location.hash.replace("#", "");
+			if (id) {
+				setActivePage(id);
+				return;
+			}
+		}
 
-		if (sections.length === 0) {
+		// Then check for exact path matches
+		const exactMatch = navLinks.find(
+			link => link.path === location.pathname
+		);
+		if (exactMatch) {
+			setActivePage(exactMatch.id);
 			return;
 		}
 
-		const observerCallback = (entries: IntersectionObserverEntry[]) => {
-			entries.forEach(entry => {
-				if (entry.isIntersecting) {
-					setActivePage(entry.target.id);
-				}
+		// Then check for partial path matches (for nested routes)
+		const partialMatch = navLinks.find(
+			link => link.path !== "/" && location.pathname.startsWith(link.path)
+		);
+		if (partialMatch) {
+			setActivePage(partialMatch.id);
+			return;
+		}
+
+		// Default to home if no matches
+		setActivePage("home");
+	}, [location.pathname, location.hash]);
+
+	// Update active page when URL changes
+	useEffect(() => {
+		updateActivePage();
+	}, [updateActivePage]);
+
+	// Set up intersection observer for scroll-based highlighting
+	useEffect(() => {
+		// Only observe sections that have corresponding hash links
+		const sectionIds = navLinks
+			.filter(link => link.path.includes("#"))
+			.map(link => link.id);
+
+		if (sectionIds.length === 0) return;
+
+		let mounted = true;
+
+		// Small delay to ensure DOM is ready
+		const timer = setTimeout(() => {
+			if (!mounted) return;
+
+			const sections = sectionIds
+				.map(id => document.getElementById(id))
+				.filter((el): el is HTMLElement => el !== null);
+
+			if (sections.length === 0) return;
+
+			const observerCallback = (entries: IntersectionObserverEntry[]) => {
+				if (!mounted) return;
+
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						setActivePage(entry.target.id);
+					}
+				});
+			};
+
+			// Use the ref to store the observer
+			observer.current = new IntersectionObserver(observerCallback, {
+				root: null,
+				rootMargin: "0px",
+				threshold: 0.5,
 			});
-		};
 
-		observer.current = new IntersectionObserver(observerCallback, {
-			rootMargin: "-50% 0px -50% 0px",
-			threshold: 0,
-		});
+			sections.forEach(section => observer.current?.observe(section));
 
-		sections.forEach(section => observer.current?.observe(section));
+			return () => {
+				if (observer.current) {
+					observer.current.disconnect();
+				}
+			};
+		}, 100);
 
 		return () => {
-			observer.current?.disconnect();
+			mounted = false;
+			clearTimeout(timer);
 		};
-	}, [location]);
+	}, [location.pathname]); // Re-run when path changes
 
 	return (
 		<motion.header

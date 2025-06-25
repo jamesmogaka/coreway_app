@@ -397,7 +397,7 @@ export const ToolkitPage: React.FC = () => {
 
 			{/* Predispositions Section */}
 			<AnimatedSection className="py-20 text-yellow-50">
-				<div className="container mx-auto px-6">
+				<div className="container mx-auto px-6" id="predispositions">
 					<h1 className="text-4xl md:text-5xl font-bold text-center mb-4">
 						The Four-Color Predispositions
 					</h1>
@@ -413,6 +413,7 @@ export const ToolkitPage: React.FC = () => {
 							key => (
 								<motion.div
 									key={key}
+									id={key}
 									variants={staggerItemVariants}>
 									<PredispositionCard
 										color={key}

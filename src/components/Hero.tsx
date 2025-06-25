@@ -63,6 +63,11 @@ export function HeroSection() {
 					animate="visible">
 					<motion.div className="space-y-6" variants={itemVariants}>
 						<div className="space-y-4 text-yellow-50">
+							<motion.h1
+								className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight break-words bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600 drop-shadow-lg mb-4"
+								variants={itemVariants}>
+								CorePath Impact
+							</motion.h1>
 							<motion.div variants={itemVariants}>
 								<Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100 text-sm">
 									Transform Children&apos;s Lives
@@ -71,7 +76,8 @@ export function HeroSection() {
 							<motion.h1
 								className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight break-words"
 								variants={itemVariants}>
-								Intentional Parenting for a Value-Driven Child
+								Intentional, Deliberate, Structured,
+								Value-Driven Parenting.
 							</motion.h1>
 							<motion.p
 								className="text-lg sm:text-xl max-w-2xl"
