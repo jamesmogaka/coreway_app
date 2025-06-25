@@ -6,24 +6,26 @@ import { HeroSection } from "@/components/Hero";
 
 const features = [
 	{
+		icon: "✅",
 		title: "Affirm",
 		description:
-			"Reinforce your child's positive self-identity by recognizing and celebrating their inherent worth.",
+			"Start by affirming the value you want to nurture — Use Affirmation Cards to speak life, truth, and purpose into your child. Affirmation builds identity and opens the heart to receive training.",
 	},
 	{
+		icon: "📘",
 		title: "Train",
 		description:
-			"Equip your child with essential life skills and values through consistent guidance and practical lessons.",
+			"Use our daily Train-Up Cards, stories, and devotionals to teach what the value looks like in real life.\n\n Children don’t grow by lecture, but by daily habits, conversations, and small wins.\n\nEach value is broken down into age-appropriate practices, rooted in Scripture and real-life situations.",
 	},
 	{
-		title: "Correct",
-		description:
-			"Guide your child with compassionate discipline that promotes learning and growth.",
+		icon: "📊",
+		title: "Track",
+		description: `Use our visual charts and reflection tools to help your child track their growth.\n\nWhen children see their progress, they feel motivated and engaged.\nThis creates consistency, builds self-awareness, and opens doors for parent-child connection.`,
 	},
 	{
-		title: "Encourage",
-		description:
-			"Foster a growth mindset by celebrating efforts and providing supportive feedback.",
+		icon: "🎉",
+		title: "Reward",
+		description: `Use our visual charts and reflection tools to help your child track their growth.\n\nWhen children see their progress, they feel motivated and engaged.\nThis creates consistency, builds self-awareness, and opens doors for parent-child connection.`,
 	},
 ];
 
@@ -76,22 +78,158 @@ export const HomePage: React.FC = () => {
 			<div className="min-h-screen">
 				<HeroSection />
 
-				{/* Features Section - Dark Teal */}
 				<AnimatedSection className="text-yellow-50 py-20">
 					<div className="container mx-auto px-6">
 						<div className="text-center mb-12">
 							<h2 className="text-3xl md:text-4xl font-bold mb-4">
-								Your Companion for Effective Parenting
+								We don’t just train behavior — we shape hearts.
 							</h2>
 							<p className="mt-6 text-lg max-w-2xl mx-auto">
-								The Value Driven Child (VDC) parenting Toolkit
-								is your essential companion for intentional and
-								effective parenting. It is meticulously designed
-								to equip parents and caregivers with proven
-								methods to nurture morally grounded, resilient,
-								and successful children in today's ever-changing
-								world.
+								CorePath Impact exists to restore the foundation
+								of society by equipping parents to raise
+								children of conviction, compassion, and calling
+								through:
 							</p>
+						</div>
+
+						<div className="grid md:grid-cols-3 gap-10 mb-16">
+							<div className="bg-white/10 backdrop-blur-lg border-2 border-yellow-400/40 rounded-xl shadow-lg p-8 text-center">
+								<div className="flex flex-col items-center mb-6">
+									<span className="text-4xl md:text-5xl text-yellow-300 mb-2">
+										💡
+									</span>
+									<h3 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-3 text-yellow-200 ">
+										Why CorePath Impact?
+									</h3>
+								</div>
+								<ul className="text-base md:text-lg mb-2 text-left mx-auto max-w-xs md:max-w-sm list-none space-y-2">
+									<li className="flex items-center gap-2">
+										<span className="text-yellow-300">
+											🌍
+										</span>
+										<span>International reach</span>
+									</li>
+									<li className="flex items-center gap-2">
+										<span className="text-yellow-300">
+											🧭
+										</span>
+										<span>
+											Deliberate, guided parenting systems
+										</span>
+									</li>
+									<li className="flex items-center gap-2">
+										<span className="text-yellow-300">
+											📘
+										</span>
+										<span>
+											Structured, age-appropriate tools
+										</span>
+									</li>
+									<li className="flex items-center gap-2">
+										<span className="text-yellow-300">
+											💛
+										</span>
+										<span>
+											Value-based, spiritually grounded
+											content
+										</span>
+									</li>
+								</ul>
+							</div>
+							<div className="bg-white/10 backdrop-blur-lg border-2 border-yellow-400/40 rounded-xl shadow-lg p-8 text-center">
+								<div className="flex flex-col items-center mb-4">
+									<span className="text-4xl md:text-5xl text-yellow-300 mb-2">
+										⚠️
+									</span>
+									<h3 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-1 text-yellow-200 drop-shadow">
+										The Challenge
+									</h3>
+								</div>
+								<p className="mb-6 text-base md:text-lg text-yellow-100 leading-relaxed font-medium">
+									Modern parenting is overwhelmed by{" "}
+									<span className="font-semibold text-yellow-300">
+										noise, distraction, and confusion
+									</span>{" "}
+									— often without clear, lasting anchors.
+									<br className="hidden md:block" />
+									<span className="block mt-2">
+										We solve this by bringing{" "}
+										<span className="font-semibold text-yellow-300">
+											clarity, structure, and spiritual
+											grounding
+										</span>{" "}
+										through tools that help parents:
+									</span>
+								</p>
+								<ul className="text-base md:text-lg mb-2 text-left mx-auto max-w-xs md:max-w-sm list-none">
+									<li className="flex items-center mb-1">
+										<span className="text-yellow-300 mr-2">
+											•
+										</span>
+										<span>Be intentional</span>
+									</li>
+									<li className="flex items-center mb-1">
+										<span className="text-yellow-300 mr-2">
+											•
+										</span>
+										<span>Be value-focused</span>
+									</li>
+									<li className="flex items-center">
+										<span className="text-yellow-300 mr-2">
+											•
+										</span>
+										<span>
+											Raise purpose-driven children
+										</span>
+									</li>
+								</ul>
+							</div>
+							<div className="bg-white/10 backdrop-blur-lg border-2 border-yellow-400/40 rounded-xl shadow-lg p-8 text-center">
+								<div className="flex flex-col items-center mb-4">
+									<span className="text-4xl md:text-5xl text-yellow-300 mb-2">
+										🛠️
+									</span>
+									<h3 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-1 text-yellow-200">
+										Our Flagship: VDC Toolkit
+									</h3>
+								</div>
+								<ul className="text-base md:text-lg mb-2 text-left mx-auto max-w-xs md:max-w-sm list-none">
+									<li className="flex items-center mb-1">
+										<span className="text-yellow-300 mr-2">
+											✳️
+										</span>
+										<span>
+											Train-Up Cards for daily habits
+										</span>
+									</li>
+									<li className="flex items-center mb-1">
+										<span className="text-yellow-300 mr-2">
+											📖
+										</span>
+										<span>Corrective & Reward Cards</span>
+									</li>
+									<li className="flex items-center mb-1">
+										<span className="text-yellow-300 mr-2">
+											🎯
+										</span>
+										<span>Reflection & Reward Charts</span>
+									</li>
+									<li className="flex items-center">
+										<span className="text-yellow-300 mr-2">
+											👨‍👩‍👧‍👦
+										</span>
+										<span>
+											Parenting Guides by predisposition
+										</span>
+									</li>
+								</ul>
+								<p className="mt-4 text-base md:text-lg text-yellow-100 leading-relaxed font-medium">
+									Instill 24 timeless values in children ages
+									4–18 with our simple, effective four-step
+									method:{" "}
+									<b>Affirm – Train – Track – Reward</b>.
+								</p>
+							</div>
 						</div>
 
 						<motion.div
@@ -102,17 +240,20 @@ export const HomePage: React.FC = () => {
 							viewport={{ once: true, amount: 0.2 }}>
 							{features.map((item, index) => (
 								<motion.div
-									key={index}
-									className="p-6 bg-white/10 backdrop-blur-lg border-2 border-white/20 rounded-lg shadow-md transition-all duration-300"
-									variants={itemVariants}
-									whileHover={{ y: -5 }}>
-									<h3 className="text-2xl font-bold mb-4">
-										{item.title}
-									</h3>
-									<p className="text-base md:text-xl">
-										{item.description}
-									</p>
-								</motion.div>
+								key={index}
+								className="p-8 bg-white/10 backdrop-blur-lg border-2 border-yellow-400/40 rounded-2xl shadow-xl flex flex-col items-center transition-all duration-300 hover:shadow-2xl hover:border-yellow-300"
+								variants={itemVariants}
+								whileHover={{ y: -8 }}>
+								<span className="text-5xl mb-4 text-yellow-300 drop-shadow-sm">
+									{item.icon}
+								</span>
+								<h3 className="text-2xl md:text-2xl font-extrabold tracking-tight mb-2 text-yellow-100">
+									{item.title}
+								</h3>
+								<p className="text-base md:text-lg text-yellow-50 leading-relaxed text-center">
+									{item.description}
+								</p>
+							</motion.div>
 							))}
 						</motion.div>
 					</div>
