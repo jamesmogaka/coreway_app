@@ -219,7 +219,7 @@ export const ToolkitPage: React.FC = () => {
 	}, []);
 
 	return (
-		<div className="fade-in" id="toolkit">
+		<section className="fade-in" id="toolkit">
 			{/* Toolkit Section */}
 			<AnimatedSection className="py-20 text-yellow-50">
 				<motion.div
@@ -436,6 +436,6 @@ export const ToolkitPage: React.FC = () => {
 					</div>
 				</div>
 			</AnimatedSection>
-		</div>
+		</section>
 	);
 };

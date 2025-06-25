@@ -55,22 +55,43 @@ const NavLink: React.FC<NavLinkProps> = ({
 	path,
 	activePage,
 }) => {
+	// Debug log to help track matching
+	console.log("NavLink", { pageId, activePage, path });
+
+	// Make the logic more robust: treat "home" as active for both "home" and empty string
+	const isActive =
+		activePage === pageId ||
+		(pageId === "home" && (activePage === "" || activePage === "home"));
+
 	const className = cn(
 		"relative px-4 py-2 mx-1 rounded-lg text-base font-medium transition-all duration-200 ease-in-out text-[#FFFBDE]",
 		"after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-[#FFFBDE] after:transition-transform after:duration-300 after:ease-in-out after:origin-center",
 		"hover:after:scale-x-100",
 		{
-			"after:scale-x-100 group-hover:after:scale-x-0":
-				activePage === pageId ||
-				(pageId === "home" && activePage === ""),
+			"after:scale-x-100": isActive,
 		}
 	);
 
 	const LinkComponent =
 		path.startsWith("/") && !path.includes("#") ? Link : HashLink;
 
+	// Custom scroll for HashLink to offset sticky header
+	const hashLinkProps =
+		LinkComponent === HashLink
+			? {
+					scroll: (el: HTMLElement) => {
+						const yOffset = -80; // adjust if your header height is different
+						const y =
+							el.getBoundingClientRect().top +
+							window.pageYOffset +
+							yOffset;
+						window.scrollTo({ top: y, behavior: "smooth" });
+					},
+			  }
+			: {};
+
 	return (
-		<LinkComponent to={path} className={className}>
+		<LinkComponent to={path} className={className} {...hashLinkProps}>
 			{title}
 		</LinkComponent>
 	);
@@ -168,9 +189,7 @@ const HeaderComponent: React.FC = () => {
 	// Set up intersection observer for scroll-based highlighting
 	useEffect(() => {
 		// Only observe sections that have corresponding hash links
-		const sectionIds = navLinks
-			.filter(link => link.path.includes("#"))
-			.map(link => link.id);
+		const sectionIds = navLinks.map(link => link.id);
 
 		if (sectionIds.length === 0) return;
 
@@ -189,18 +208,44 @@ const HeaderComponent: React.FC = () => {
 			const observerCallback = (entries: IntersectionObserverEntry[]) => {
 				if (!mounted) return;
 
+				// Debug: print all intersection ratios
+				console.log(
+					"IntersectionObserver entries:",
+					entries.map(e => ({
+						id: e.target.id,
+						ratio: e.intersectionRatio,
+						isIntersecting: e.isIntersecting,
+					}))
+				);
+
+				// Find the entry with the highest intersection ratio that is intersecting
+				let mostVisible: IntersectionObserverEntry | null = null;
 				entries.forEach(entry => {
 					if (entry.isIntersecting) {
-						setActivePage(entry.target.id);
+						if (
+							!mostVisible ||
+							entry.intersectionRatio >
+								mostVisible.intersectionRatio
+						) {
+							mostVisible = entry;
+						}
 					}
 				});
+				if (mostVisible && "target" in mostVisible) {
+					const id = (mostVisible as IntersectionObserverEntry).target
+						?.id;
+					if (id) {
+						setActivePage(id);
+						console.log("Active section set to:", id);
+					}
+				}
 			};
 
 			// Use the ref to store the observer
 			observer.current = new IntersectionObserver(observerCallback, {
 				root: null,
 				rootMargin: "0px",
-				threshold: 0.5,
+				threshold: 0.3, // Lower threshold for smoother detection
 			});
 
 			sections.forEach(section => observer.current?.observe(section));
@@ -227,9 +272,12 @@ const HeaderComponent: React.FC = () => {
 			<nav className="container mx-auto px-4">
 				<div className="flex justify-between items-center h-20">
 					<Link to="/" className="flex items-center group">
-						<span className="text-2xl font-bold text-[#FFFBDE] transition-transform duration-300 group-hover:scale-105">
-							CorePath Impact
-						</span>
+						<img
+							src="/VDC LOGO HHG-01.png"
+							alt="CorePath Impact Logo"
+							className="h-10 transition-transform duration-300 group-hover:scale-105"
+							style={{ objectFit: "contain" }}
+						/>
 					</Link>
 					<div className="hidden md:flex items-center space-x-1 group">
 						{displayedNavLinks.map((link, index) => (

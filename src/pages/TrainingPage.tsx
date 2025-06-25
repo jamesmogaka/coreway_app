@@ -45,9 +45,8 @@ const cardItem: Variants = {
 };
 
 export const TrainingPage: react.FC = () => (
-	<div id="training" className="overflow-x-hidden">
-		<motion.section
-			className="relative py-20 bg-gradient-to-br from-teal-700 via-teal-600 via-70% to-cyan-700 overflow-hidden text-yellow-50">
+	<section id="training" className="overflow-x-hidden">
+		<motion.section className="relative py-20 bg-gradient-to-br from-teal-700 via-teal-600 via-70% to-cyan-700 overflow-hidden text-yellow-50">
 			{/* Creative accent overlays for vibrancy and depth */}
 			<div className="absolute inset-0 -z-10 pointer-events-none">
 				{/* Sophisticated SVG pattern overlay */}
@@ -212,5 +211,5 @@ export const TrainingPage: react.FC = () => (
 				</motion.div>
 			</div>
 		</motion.section>
-	</div>
+	</section>
 );

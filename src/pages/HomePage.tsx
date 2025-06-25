@@ -67,7 +67,7 @@ const itemVariants: Variants = {
 
 export const HomePage: React.FC = () => {
 	return (
-		<>
+		<section id="home">
 			<style>{`
 				body {
 					overflow-x: hidden;
@@ -156,6 +156,6 @@ export const HomePage: React.FC = () => {
 					</div>
 				</AnimatedSection>
 			</div>
-		</>
+		</section>
 	);
 };

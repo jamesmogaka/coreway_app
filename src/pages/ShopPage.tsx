@@ -65,7 +65,9 @@ export const ShopPage: React.FC = () => {
 		return <div className="text-center text-red-500 py-12">{error}</div>;
 
 	return (
-		<div className="fade-in bg-[#096B68] text-[#FFFBDE] min-h-screen">
+		<section
+			id="shop"
+			className="fade-in bg-[#096B68] text-[#FFFBDE] min-h-screen">
 			<section className="py-20">
 				<div className="container mx-auto px-6">
 					<h1 className="text-3xl md:text-5xl font-bold text-center text-white mb-12">
@@ -120,6 +122,6 @@ export const ShopPage: React.FC = () => {
 					</div>
 				</div>
 			</section>
-		</div>
+		</section>
 	);
 };

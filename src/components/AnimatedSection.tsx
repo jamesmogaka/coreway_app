@@ -5,6 +5,7 @@ interface AnimatedSectionProps {
 	children: React.ReactNode;
 	className?: string;
 	delay?: number;
+	id?: string;
 }
 
 const sectionVariants: Variants = {
@@ -16,9 +17,10 @@ const sectionVariants: Variants = {
 	}),
 };
 
-export const AnimatedSection: React.FC<AnimatedSectionProps> = ({ children, className, delay = 0 }) => {
+export const AnimatedSection: React.FC<AnimatedSectionProps> = ({ children, className, delay = 0, id }) => {
 	return (
 		<motion.section
+			id={id}
 			className={className}
 			custom={delay}
 			variants={sectionVariants}

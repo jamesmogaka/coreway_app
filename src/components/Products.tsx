@@ -24,14 +24,18 @@ const ProductCard: React.FC<{ product: Product; isBack?: boolean }> = ({
 }) => {
 	const { addToCart } = useCart();
 
-	const handleAddToCart = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault();
-		e.stopPropagation();
-		addToCart(product);
-	}, [addToCart, product]);
+	const handleAddToCart = useCallback(
+		(e: React.MouseEvent<HTMLButtonElement>) => {
+			e.preventDefault();
+			e.stopPropagation();
+			addToCart(product);
+		},
+		[addToCart, product]
+	);
 
 	return (
-		<div
+		<section
+			id="products"
 			className={`absolute inset-0 w-full h-full bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-2xl shadow-lg overflow-hidden flex flex-col group ${
 				isBack ? "rotate-y-180" : ""
 			}`}
@@ -76,7 +80,7 @@ const ProductCard: React.FC<{ product: Product; isBack?: boolean }> = ({
 					)}
 				</div>
 			</div>
-		</div>
+		</section>
 	);
 };
 

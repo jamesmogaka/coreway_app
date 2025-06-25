@@ -69,9 +69,9 @@ const cardItem: Variants = {
 // Main Page Component
 const ProductsPage: React.FC = () => {
 	return (
-		<div
+		<section
 			className="relative min-h-screen text-yellow-50 p-4 sm:p-6 md:p-8 overflow-hidden"
-			id="products">
+			id="products-page">
 			{/* Complicated teal gradient background */}
 			<div className="fixed inset-0 -z-10 pointer-events-none">
 				{/* Main darkened linear gradient - stays dark */}
@@ -211,7 +211,7 @@ const ProductsPage: React.FC = () => {
 					</ProductCategorySection>
 				</motion.div>
 			</motion.main>
-		</div>
+		</section>
 	);
 };
 
