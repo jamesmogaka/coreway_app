@@ -232,6 +232,17 @@ export const HomePage: React.FC = () => {
 							</div>
 						</div>
 
+						<div className="text-center mb-12">
+							<h2 className="text-3xl md:text-4xl font-bold mb-4">
+								Our Parenting Method: Affirm – Train – Track –
+								Reward
+							</h2>
+							<p className="mt-6 text-lg max-w-2xl mx-auto">
+								At the heart of the VDC Toolkit is a simple,
+								powerful four-step system that makes value-based
+								parenting consistent, practical, and effective:
+							</p>
+						</div>
 						<motion.div
 							className="grid md:grid-cols-4 gap-8 text-center"
 							variants={containerVariants}
@@ -240,20 +251,20 @@ export const HomePage: React.FC = () => {
 							viewport={{ once: true, amount: 0.2 }}>
 							{features.map((item, index) => (
 								<motion.div
-								key={index}
-								className="p-8 bg-white/10 backdrop-blur-lg border-2 border-yellow-400/40 rounded-2xl shadow-xl flex flex-col items-center transition-all duration-300 hover:shadow-2xl hover:border-yellow-300"
-								variants={itemVariants}
-								whileHover={{ y: -8 }}>
-								<span className="text-5xl mb-4 text-yellow-300 drop-shadow-sm">
-									{item.icon}
-								</span>
-								<h3 className="text-2xl md:text-2xl font-extrabold tracking-tight mb-2 text-yellow-100">
-									{item.title}
-								</h3>
-								<p className="text-base md:text-lg text-yellow-50 leading-relaxed text-center">
-									{item.description}
-								</p>
-							</motion.div>
+									key={index}
+									className="p-8 bg-white/10 backdrop-blur-lg border-2 border-yellow-400/40 rounded-2xl shadow-xl flex flex-col items-center transition-all duration-300 hover:shadow-2xl hover:border-yellow-300"
+									variants={itemVariants}
+									whileHover={{ y: -8 }}>
+									<span className="text-5xl mb-4 text-yellow-300 drop-shadow-sm">
+										{item.icon}
+									</span>
+									<h3 className="text-2xl md:text-2xl font-extrabold tracking-tight mb-2 text-yellow-100">
+										{item.title}
+									</h3>
+									<p className="text-base md:text-lg text-yellow-50 leading-relaxed text-center">
+										{item.description}
+									</p>
+								</motion.div>
 							))}
 						</motion.div>
 					</div>
