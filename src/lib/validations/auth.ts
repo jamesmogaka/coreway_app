@@ -8,14 +8,8 @@ export const signup_schema = z.object({
     password: z.string().min(6, {
         message: 'Weak password',
     }),
-    full_name: z
-        .string()
-        .min(3, {
-            message: 'A name should have atleast 3 characters',
-        })
-        .max(50, {
-            message: 'Your name exceeds the 50 character limitation',
-        }),
+    first_name: z.string().min(2, { message: 'First name is required' }).max(30, { message: 'First name is too long' }),
+    last_name: z.string().min(2, { message: 'Last name is required' }).max(30, { message: 'Last name is too long' }),
 });
 // Infer the type from the schema
 export type signup_form_values = z.infer<typeof signup_schema>;

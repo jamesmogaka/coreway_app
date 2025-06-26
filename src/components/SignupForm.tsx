@@ -15,14 +15,14 @@ import {
 	FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from 'sonner';
 
 import { signup_schema, type signup_form_values } from "@/lib/validations/auth";
 import { useAuth } from "@/contexts/AuthContext";
 
 export function SignupForm() {
 	const { signUp } = useAuth();
-	const { toast } = useToast();
+	
 	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -32,7 +32,8 @@ export function SignupForm() {
 		defaultValues: {
 			email: "",
 			password: "",
-			full_name: "",
+			first_name: "",
+			last_name: "",
 		},
 	});
 
@@ -43,29 +44,30 @@ export function SignupForm() {
 			const { error } = await signUp(
 				values.email,
 				values.password,
-				values.full_name
+				values.first_name,
+				values.last_name
 			);
 
 			if (error) {
 				throw error;
 			}
-			toast({
-				title: "Success!",
+			toast.success("Success!", {
 				description: "Please check your email for a confirmation link.",
-				type: "success",
 				duration: 10000,
 			});
 
-			// Redirect to login or a success page
-			navigate("/auth");
+			// Redirect to login tab of auth page
+			navigate("/auth?tab=login");
 		} catch (error) {
+			const errorMessage = error instanceof Error ? error.message : "An unknown error occurred during sign-up.";
+			toast.error("Signup failed", {
+				description: errorMessage,
+				duration: 10000,
+			});
 			// If there's an error, set the error message in the form
 			form.setError("root", {
 				type: "manual",
-				message:
-					error instanceof Error
-						? error.message
-						: "An unknown error occurred during sign-up.",
+				message: errorMessage,
 			});
 		} finally {
 			setIsLoading(false);
@@ -74,26 +76,52 @@ export function SignupForm() {
 
 	return (
 		<Form {...form}>
-						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 text-sm">
-				{/* Full Name Field */}
-				<FormField
-					control={form.control}
-					name="full_name"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel className="text-[#FFFBDE] font-bold">Full Name</FormLabel>
-							<FormControl>
-								<Input
-									placeholder="John Doe"
-									className="bg-[#90D1CA] text-[#3A3A3A] border-0 focus:ring-2 focus:ring-[#FFD59A] transition-shadow duration-300 placeholder:text-gray-600 rounded-md"
-									disabled={isLoading}
-									{...field}
-								/>
-							</FormControl>
-							<FormMessage className="text-red-300" />
-						</FormItem>
-					)}
-				/>
+			<form
+				onSubmit={form.handleSubmit(onSubmit)}
+				className="space-y-6 text-sm">
+				{/* First and Last Name Fields */}
+				<div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+					<FormField
+						control={form.control}
+						name="first_name"
+						render={({ field }) => (
+							<FormItem className="flex-1">
+								<FormLabel className="text-[#FFFBDE] font-bold">
+									First Name
+								</FormLabel>
+								<FormControl>
+									<Input
+										placeholder="John"
+										className="bg-[#90D1CA] text-[#3A3A3A] border-0 focus:ring-2 focus:ring-[#FFD59A] transition-shadow duration-300 placeholder:text-gray-600 rounded-md"
+										disabled={isLoading}
+										{...field}
+									/>
+								</FormControl>
+								<FormMessage className="text-red-300" />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name="last_name"
+						render={({ field }) => (
+							<FormItem className="flex-1">
+								<FormLabel className="text-[#FFFBDE] font-bold">
+									Last Name
+								</FormLabel>
+								<FormControl>
+									<Input
+										placeholder="Doe"
+										className="bg-[#90D1CA] text-[#3A3A3A] border-0 focus:ring-2 focus:ring-[#FFD59A] transition-shadow duration-300 placeholder:text-gray-600 rounded-md"
+										disabled={isLoading}
+										{...field}
+									/>
+								</FormControl>
+								<FormMessage className="text-red-300" />
+							</FormItem>
+						)}
+					/>
+				</div>
 
 				{/* Email Field */}
 				<FormField
@@ -101,7 +129,9 @@ export function SignupForm() {
 					name="email"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel className="text-[#FFFBDE] font-bold">Email</FormLabel>
+							<FormLabel className="text-[#FFFBDE] font-bold">
+								Email
+							</FormLabel>
 							<FormControl>
 								<Input
 									type="email"
@@ -123,7 +153,9 @@ export function SignupForm() {
 					render={({ field }) => (
 						<FormItem>
 							<div className="flex items-center justify-between">
-								<FormLabel className="text-[#FFFBDE] font-bold">Password</FormLabel>
+								<FormLabel className="text-[#FFFBDE] font-bold">
+									Password
+								</FormLabel>
 								<FormDescription className="text-xs text-[#F5F5F5]">
 									At least 8 characters
 								</FormDescription>
@@ -143,7 +175,7 @@ export function SignupForm() {
 				/>
 
 				{form.formState.errors.root && (
-										<div className="font-medium text-red-300">
+					<div className="font-medium text-red-300">
 						{form.formState.errors.root.message}
 					</div>
 				)}

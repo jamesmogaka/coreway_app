@@ -31,7 +31,8 @@ type AuthContextType = {
 	signUp: (
 		email: string,
 		password: string,
-		fullName: string
+		firstName: string,
+		lastName: string
 	) => Promise<{
 		error: Error | null;
 		data: { user: SupabaseUser | null; session: Session | null } | null;
@@ -108,14 +109,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 	const signUp = async (
 		email: string,
 		password: string,
-		fullName: string
+		firstName: string,
+		lastName: string
 	) => {
 		return supabase.auth.signUp({
 			email,
 			password,
 			options: {
 				data: {
-					full_name: fullName,
+					first_name: firstName,
+					last_name: lastName,
+					full_name: `${firstName} ${lastName}`.trim(), // keep for backward compatibility
 				},
 			},
 		});
