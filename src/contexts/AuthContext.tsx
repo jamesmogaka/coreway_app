@@ -94,10 +94,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 	const isAdmin = async () => {
 		if (!session) return false;
 		try {
-			const decodedJwt = JSON.parse(atob(session.access_token.split(".")[1]));
+			const decodedJwt = JSON.parse(
+				atob(session.access_token.split(".")[1])
+			);
 			return decodedJwt.user_role === "admin";
-		} catch (e) {
-			console.error("Error decoding JWT:", e);
+		} catch {
 			return false;
 		}
 	};

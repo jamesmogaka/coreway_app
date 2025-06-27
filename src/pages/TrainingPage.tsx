@@ -46,6 +46,7 @@ const cardItem: Variants = {
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { EnrollmentModal } from "@/components/EnrollmentModal";
 
 interface TrainingCourse {
 	id: string;
@@ -57,6 +58,8 @@ interface TrainingCourse {
 }
 
 export const TrainingPage: react.FC = () => {
+	const [enrollmentOpen, setEnrollmentOpen] = react.useState(false);
+	const [selectedCourseId, setSelectedCourseId] = react.useState<string | null>(null);
 	const [courses, setCourses] = useState<TrainingCourse[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
@@ -184,7 +187,12 @@ export const TrainingPage: react.FC = () => {
 												scale: 0.98,
 												boxShadow:
 													"0 2px 4px -2px rgb(0 0 0 / 0.1)",
-											}}>
+											}}
+											onClick={() => {
+												setSelectedCourseId(course.id);
+												setEnrollmentOpen(true);
+											}}
+										>
 											Enroll Now
 										</motion.button>
 									</motion.div>
@@ -193,6 +201,11 @@ export const TrainingPage: react.FC = () => {
 					</motion.div>
 				</div>
 			</motion.section>
+			<EnrollmentModal
+				open={enrollmentOpen}
+				onClose={() => setEnrollmentOpen(false)}
+				courseId={selectedCourseId || ''}
+			/>
 		</section>
 	);
 };

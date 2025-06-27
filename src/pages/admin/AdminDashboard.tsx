@@ -8,6 +8,18 @@ import {
 import { ProductsTable } from "../../components/admin/ProductsTable";
 import { OrdersTable } from "../../components/admin/OrdersTable";
 import { BlogTable } from "../../components/admin/BlogTable";
+import { EnrollmentsTable } from "../../components/admin/EnrollmentsTable";
+import { CoursesTable } from "../../components/admin/CoursesTable";
+// Define Course type locally to avoid import error
+ type Course = {
+   id?: string;
+   title: string;
+   description: string;
+   date: string;
+   start_time: string;
+   end_time: string;
+ };
+import { CourseFormDialog } from "../../components/admin/CourseFormDialog";
 import { useState, useEffect } from "react";
 import { useAdminContext } from "../../contexts/AdminContext";
 import { useProducts } from "../../hooks/useProducts";
@@ -48,6 +60,24 @@ const initialBlogPostState: Partial<BlogPost> = {
 };
 
 export function AdminDashboard() {
+  // --- Courses Dialog State ---
+  const [isCourseDialogOpen, setIsCourseDialogOpen] = useState(false);
+  const [editingCourse, setEditingCourse] = useState<Course | null>(null);
+
+  const handleCourseEdit = (course: Course | null) => {
+    setEditingCourse(course);
+    setIsCourseDialogOpen(true);
+  };
+
+  const handleCourseDialogClose = () => {
+    setIsCourseDialogOpen(false);
+  };
+
+  const handleCourseSaved = () => {
+    setIsCourseDialogOpen(false);
+    // Optionally trigger courses table refresh if needed
+  };
+
 	const { products, loading, error, refetch } = useProducts();
 	const navigate = useNavigate();
 
@@ -439,13 +469,14 @@ export function AdminDashboard() {
 		}
 	};
 
-		if (loading) return <AdminDashboardSkeleton />;
-		if (error)
+	if (loading) return <AdminDashboardSkeleton />;
+	if (error) {
 		return (
 			<div className="text-red-400 text-center p-8">
 				Error: {error.message}
 			</div>
 		);
+	}
 
 	return (
 		<div className="w-full">
@@ -463,14 +494,6 @@ export function AdminDashboard() {
 				categories={categories}
 				values={values}
 			/>
-
-			<DeleteDialog
-				open={deleteDialogOpen}
-				onOpenChange={setDeleteDialogOpen}
-				onConfirm={handleDelete}
-				itemName={productToDeleteName}
-			/>
-
 			<BlogFormDialog
 				open={isBlogFormDialogOpen}
 				onOpenChange={setIsBlogFormDialogOpen}
@@ -480,63 +503,64 @@ export function AdminDashboard() {
 				onPublishChange={handlePublishChange}
 				isEditing={isEditingPost}
 			/>
-
+			<DeleteDialog
+				open={deleteDialogOpen}
+				onOpenChange={setDeleteDialogOpen}
+				onConfirm={handleDelete}
+				itemName={productToDeleteName}
+			/>
 			<DeleteDialog
 				open={isBlogDeleteDialogOpen}
 				onOpenChange={setIsBlogDeleteDialogOpen}
 				onConfirm={handleDeletePost}
 				itemName={postToDeleteName}
 			/>
-
-			<div className="flex justify-between items-center mb-6">
-				<h2 className="text-2xl font-bold text-[#FFD59A]">
-					Recent Activity
-				</h2>
-				<div className="flex space-x-4">
-					<button
-						onClick={navigateToUsers}
-						className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
-						Manage Users
-					</button>
-					<button
-						onClick={navigateToContacts}
-						className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
-						View Contact Submissions
-					</button>
-				</div>
-			</div>
-
-			<Tabs defaultValue="products" className="space-y-4">
-				<TabsList className="bg-transparent p-0 mb-4 border-b border-white/20 rounded-none">
-					<TabsTrigger value="products">Products</TabsTrigger>
-					<TabsTrigger value="orders">Orders</TabsTrigger>
-					<TabsTrigger value="blog">Blog</TabsTrigger>
-				</TabsList>
-
-				<TabsContent value="products">
-					<ProductsTable
-						products={products || []}
-						onEdit={handleEdit}
-						onDelete={handleDeleteClick}
-						onAddNew={handleAddNew}
-					/>
-				</TabsContent>
-				<TabsContent value="orders">
-					<OrdersTable
-						orders={orders}
-						onStatusChange={handleStatusChange}
-					/>
-				</TabsContent>
-				<TabsContent value="blog">
-					<BlogTable
-						posts={blogPosts}
-						onEdit={handleEditPost}
-						onDelete={handleDeletePostClick}
-						onTogglePublish={handleTogglePublish}
-						onAddNew={handleAddNewPost}
-					/>
-				</TabsContent>
-			</Tabs>
-		</div>
-	);
+      <Tabs defaultValue="products" className="space-y-4">
+        <TabsList className="bg-transparent p-0 mb-4 border-b border-white/20 rounded-none">
+          <TabsTrigger value="products">Products</TabsTrigger>
+          <TabsTrigger value="orders">Orders</TabsTrigger>
+          <TabsTrigger value="enrollments">Enrollments</TabsTrigger>
+          <TabsTrigger value="courses">Courses</TabsTrigger>
+          <TabsTrigger value="blog">Blog</TabsTrigger>
+        </TabsList>
+        <TabsContent value="products">
+          <ProductsTable
+            products={products || []}
+            onEdit={handleEdit}
+            onDelete={handleDeleteClick}
+            onAddNew={handleAddNew}
+          />
+        </TabsContent>
+        <TabsContent value="orders">
+          <OrdersTable
+            orders={orders}
+            onStatusChange={handleStatusChange}
+          />
+        </TabsContent>
+        <TabsContent value="enrollments">
+          <EnrollmentsTable />
+        </TabsContent>
+        <TabsContent value="courses">
+          <CoursesTable onEdit={handleCourseEdit} />
+          <CourseFormDialog
+            open={isCourseDialogOpen}
+            onOpenChange={setIsCourseDialogOpen}
+            course={editingCourse}
+            onSave={handleCourseSaved}
+          />
+        </TabsContent>
+        <TabsContent value="blog">
+          <BlogTable
+            posts={blogPosts}
+            onEdit={handleEditPost}
+            onDelete={handleDeletePostClick}
+            onTogglePublish={handleTogglePublish}
+            onAddNew={handleAddNewPost}
+          />
+        </TabsContent>
+      </Tabs>
+	</div>
+);
 }
+
+export default AdminDashboard;
