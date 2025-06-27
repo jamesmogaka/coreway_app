@@ -55,9 +55,6 @@ const NavLink: React.FC<NavLinkProps> = ({
 	path,
 	activePage,
 }) => {
-	// Debug log to help track matching
-	console.log("NavLink", { pageId, activePage, path });
-
 	// Make the logic more robust: treat "home" as active for both "home" and empty string
 	const isActive =
 		activePage === pageId ||
@@ -208,16 +205,6 @@ const HeaderComponent: React.FC = () => {
 			const observerCallback = (entries: IntersectionObserverEntry[]) => {
 				if (!mounted) return;
 
-				// Debug: print all intersection ratios
-				console.log(
-					"IntersectionObserver entries:",
-					entries.map(e => ({
-						id: e.target.id,
-						ratio: e.intersectionRatio,
-						isIntersecting: e.isIntersecting,
-					}))
-				);
-
 				// Find the entry with the highest intersection ratio that is intersecting
 				let mostVisible: IntersectionObserverEntry | null = null;
 				entries.forEach(entry => {
@@ -236,7 +223,6 @@ const HeaderComponent: React.FC = () => {
 						?.id;
 					if (id) {
 						setActivePage(id);
-						console.log("Active section set to:", id);
 					}
 				}
 			};

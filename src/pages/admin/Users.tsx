@@ -90,8 +90,6 @@ export default function UsersPage() {
 					)
 				)
 			`);
-			console.log(data);
-			console.log(error);
 			if (error) throw error;
 
 			if (data) {
