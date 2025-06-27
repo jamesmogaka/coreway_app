@@ -3,6 +3,9 @@ import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "../ui/table";
 import { Button } from "../ui/button";
 import { supabase } from "../../lib/supabase";
+import { Trash2, Edit } from "lucide-react";
+import { toast } from "sonner";
+import { DeleteDialog } from "./DeleteDialog";
 
 type Course = {
   id: string;
@@ -21,6 +24,48 @@ interface CoursesTableProps {
 export function CoursesTable({ onEdit, refreshTrigger = 0 }: CoursesTableProps) {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [courseToDelete, setCourseToDelete] = useState<Course | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleEdit = (course: Course) => {
+    onEdit(course);
+  };
+
+  const handleDeleteClick = (course: Course) => {
+    setCourseToDelete(course);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!courseToDelete) return;
+    
+    setIsDeleting(true);
+    try {
+      const { error } = await supabase
+        .from('courses')
+        .delete()
+        .eq('id', courseToDelete.id);
+
+      if (error) throw error;
+      
+      // Optimistically update the UI by removing the deleted course
+      setCourses(prevCourses => prevCourses.filter(course => course.id !== courseToDelete.id));
+      toast.success('Course deleted successfully');
+      
+      // Close the dialog and reset state
+      setDeleteDialogOpen(false);
+      setCourseToDelete(null);
+    } catch (error) {
+      console.error('Error deleting course:', error);
+      toast.error('Failed to delete course');
+      // Refresh the courses list to ensure it's in sync with the server
+      const { data } = await supabase.from('courses').select('*');
+      setCourses(data || []);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   useEffect(() => {
     async function fetchCourses() {
@@ -57,7 +102,7 @@ export function CoursesTable({ onEdit, refreshTrigger = 0 }: CoursesTableProps) 
                 <TableHead>Date</TableHead>
                 <TableHead>Start</TableHead>
                 <TableHead>End</TableHead>
-                <TableHead>Actions</TableHead>
+                <TableHead className="w-32">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -73,9 +118,25 @@ export function CoursesTable({ onEdit, refreshTrigger = 0 }: CoursesTableProps) 
                     <TableCell>{course.date}</TableCell>
                     <TableCell>{course.start_time}</TableCell>
                     <TableCell>{course.end_time}</TableCell>
-                    <TableCell>
-                      <Button variant="ghost" size="sm" className="text-blue-400 hover:text-blue-300" onClick={() => onEdit(course)}>
-                        Edit
+                    <TableCell className="flex space-x-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleEdit(course)}
+                        className="text-[#FFD59A] hover:bg-[#0d7a73] p-2 h-8 w-8"
+                        title="Edit course"
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleDeleteClick(course)}
+                        disabled={isDeleting}
+                        className="text-red-400 hover:bg-red-900/20 p-2 h-8 w-8"
+                        title="Delete course"
+                      >
+                        <Trash2 className="h-4 w-4" />
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -84,6 +145,15 @@ export function CoursesTable({ onEdit, refreshTrigger = 0 }: CoursesTableProps) 
             </TableBody>
           </Table>
         )}
+        <DeleteDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          onConfirm={handleDeleteConfirm}
+          itemName={courseToDelete?.title || 'this course'}
+          title="Delete Course"
+          description={`Are you sure you want to delete "${courseToDelete?.title}"? This action cannot be undone.`}
+          confirmText={isDeleting ? 'Deleting...' : 'Delete Course'}
+        />
       </CardContent>
     </Card>
   );
