@@ -23,7 +23,7 @@ import { CourseFormDialog } from "../../components/admin/CourseFormDialog";
 import { useState, useEffect } from "react";
 import { useAdminContext } from "../../contexts/AdminContext";
 import { useProducts } from "../../hooks/useProducts";
-import { useNavigate } from "react-router-dom";
+// Removed unused navigate import
 import { toast } from "sonner";
 import { supabase } from "../../lib/supabase";
 import type { OrderStatus } from "../../types/admin";
@@ -69,21 +69,23 @@ export function AdminDashboard() {
     setIsCourseDialogOpen(true);
   };
 
-  const handleCourseDialogClose = () => {
-    setIsCourseDialogOpen(false);
-  };
+  // Removed unused handleCourseDialogClose
+
+  const [refreshCourses, setRefreshCourses] = useState(0);
 
   const handleCourseSaved = () => {
     setIsCourseDialogOpen(false);
-    // Optionally trigger courses table refresh if needed
+    // Increment the refresh counter to trigger a refresh in the CoursesTable
+    setRefreshCourses(prev => prev + 1);
   };
 
 	const { products, loading, error, refetch } = useProducts();
-	const navigate = useNavigate();
 
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const [currentProduct, setCurrentProduct] =
-		useState<Partial<Product>>(initialProductState);
+		useState<Partial<Product> | null>(null);
+	const [formError, setFormError] = useState<string | null>(null);
+  const [blogFormError, setBlogFormError] = useState<string | null>(null);
 	const [isEditing, setIsEditing] = useState(false);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [productToDelete, setProductToDelete] = useState<string | null>(null);
@@ -313,16 +315,13 @@ export function AdminDashboard() {
 			setIsDialogOpen(false);
 			refetch();
 		} catch (err) {
-			toast.error(
-				`Error ${isEditing ? "updating" : "creating"} product: ${
-					(err as Error).message
-				}`
-			);
+			const errorMessage = `Error ${isEditing ? "updating" : "creating"} product: ${(err as Error).message}`;
+			setFormError(errorMessage);
+			toast.error(errorMessage);
 		}
 	};
 
-	const navigateToUsers = () => navigate("/admin/users");
-	const navigateToContacts = () => navigate("/admin/contacts");
+	// Removed unused navigation functions
 
 	const handleStatusChange = async (orderId: string, status: OrderStatus) => {
 		const { error } = await supabase
@@ -381,7 +380,9 @@ export function AdminDashboard() {
 			setIsBlogDeleteDialogOpen(false);
 			refetchBlogPosts();
 		} catch (err) {
-			toast.error(`Error deleting post: ${(err as Error).message}`);
+			const errorMessage = `Error deleting blog post: ${(err as Error).message}`;
+			setBlogFormError(errorMessage);
+			console.error("Error deleting blog post:", err);
 		} finally {
 			setPostToDelete(null);
 			setPostToDeleteName("");
@@ -493,6 +494,8 @@ export function AdminDashboard() {
 				isEditing={isEditing}
 				categories={categories}
 				values={values}
+				error={formError}
+				onClearError={() => setFormError(null)}
 			/>
 			<BlogFormDialog
 				open={isBlogFormDialogOpen}
@@ -502,6 +505,8 @@ export function AdminDashboard() {
 				onInputChange={handleBlogInputChange}
 				onPublishChange={handlePublishChange}
 				isEditing={isEditingPost}
+				error={blogFormError}
+				onClearError={() => setBlogFormError(null)}
 			/>
 			<DeleteDialog
 				open={deleteDialogOpen}
@@ -541,7 +546,10 @@ export function AdminDashboard() {
           <EnrollmentsTable />
         </TabsContent>
         <TabsContent value="courses">
-          <CoursesTable onEdit={handleCourseEdit} />
+          <CoursesTable 
+            onEdit={handleCourseEdit} 
+            refreshTrigger={refreshCourses} 
+          />
           <CourseFormDialog
             open={isCourseDialogOpen}
             onOpenChange={setIsCourseDialogOpen}

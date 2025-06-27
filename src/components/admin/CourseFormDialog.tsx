@@ -37,11 +37,21 @@ export function CourseFormDialog({ open, onOpenChange, course, onSave }: Props) 
   const [datePickerOpen, setDatePickerOpen] = useState(false);
 
   useEffect(() => {
-    if (course) setForm(course);
-    else setForm({ title: "", description: "", date: "", start_time: "", end_time: "" });
+    // Clear any existing errors when the dialog is opened or course changes
+    setError(null);
+    
+    if (course) {
+      setForm(course);
+    } else {
+      setForm({ title: "", description: "", date: "", start_time: "", end_time: "" });
+    }
   }, [course, open]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    // Clear any existing errors when user starts typing
+    if (error) {
+      setError(null);
+    }
     setForm(f => ({ ...f, [e.target.name]: e.target.value }));
   };
 

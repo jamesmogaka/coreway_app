@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Input } from "../ui/input";
@@ -16,6 +17,8 @@ type BlogFormDialogProps = {
 	) => void;
 	onPublishChange: (is_published: boolean) => void;
 	isEditing: boolean;
+	error?: string | null;
+	onClearError?: () => void;
 };
 
 export function BlogFormDialog({
@@ -26,9 +29,31 @@ export function BlogFormDialog({
 	onInputChange,
 	onPublishChange,
 	isEditing,
+	error,
+	onClearError,
 }: BlogFormDialogProps) {
+	// Clear errors when dialog is opened
+	useEffect(() => {
+		if (open && onClearError) {
+			onClearError();
+		}
+	}, [open, onClearError]);
+
+	const handleInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+		// Clear any existing errors when user starts typing
+		if (onClearError && error) {
+			onClearError();
+		}
+		onInputChange(e);
+	};
+
 	return (
-		<Dialog open={open} onOpenChange={onOpenChange}>
+		<Dialog open={open} onOpenChange={(isOpen) => {
+			if (!isOpen && onClearError) {
+				onClearError();
+			}
+			onOpenChange(isOpen);
+		}}>
 			<DialogContent className="bg-[#129990] border-0 text-[#F5F5F5] max-w-3xl">
 				<DialogHeader>
 					<DialogTitle>
@@ -44,11 +69,16 @@ export function BlogFormDialog({
 							<Label htmlFor="title" className="text-[#FFFBDE]">
 								Title
 							</Label>
+							{error && (
+								<div className="text-red-300 text-sm mb-2">
+									{error}
+								</div>
+							)}
 							<Input
 								id="title"
 								name="title"
 								value={post?.title || ""}
-								onChange={onInputChange}
+								onChange={handleInput}
 								className="bg-black/20 border-[#C2EAE7] text-[#F5F5F5] placeholder:text-gray-400"
 							/>
 						</div>
@@ -60,7 +90,7 @@ export function BlogFormDialog({
 								id="summary"
 								name="summary"
 								value={post?.summary || ""}
-								onChange={onInputChange}
+								onChange={handleInput}
 								className="bg-black/20 border-[#C2EAE7] text-[#F5F5F5] placeholder:text-gray-400"
 							/>
 						</div>
@@ -72,7 +102,7 @@ export function BlogFormDialog({
 								id="content"
 								name="content"
 								value={post?.content || ""}
-								onChange={onInputChange}
+								onChange={handleInput}
 								className="bg-black/20 border-[#C2EAE7] text-[#F5F5F5] placeholder:text-gray-400 h-48"
 							/>
 						</div>

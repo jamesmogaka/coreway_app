@@ -34,6 +34,8 @@ type ProductFormDialogProps = {
     isEditing: boolean;
     categories: Category[];
     values: Value[];
+    error?: string | null;
+    onClearError?: () => void;
 };
 
 export function ProductFormDialog({
@@ -49,6 +51,8 @@ export function ProductFormDialog({
     isEditing,
     categories,
     values,
+    error,
+    onClearError,
 }: ProductFormDialogProps) {
     const handleAddContent = () => {
         const newContents = [...(product?.contents || []), { name: "", details: "" }];
@@ -89,14 +93,24 @@ export function ProductFormDialog({
     };
 
     return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
+        <Dialog open={open} onOpenChange={(isOpen) => {
+    if (!isOpen && onClearError) {
+        onClearError();
+    }
+    onOpenChange(isOpen);
+}}>
             <DialogContent className="bg-[#129990] border-0 text-[#F5F5F5] max-w-3xl">
                 <DialogHeader>
                     <DialogTitle className="text-2xl font-semibold text-[#FFD59A]">
                         {isEditing ? "Edit Product" : "Add New Product"}
                     </DialogTitle>
                 </DialogHeader>
-                <form onSubmit={onSubmit} className="text-sm">
+                <form onSubmit={onSubmit} className="text-sm" onChange={() => {
+    // Clear errors when any form field changes
+    if (onClearError && error) {
+        onClearError();
+    }
+}}>
                     <Tabs defaultValue="general" className="space-y-4">
                         <TabsList className="bg-transparent p-0 mb-4 border-b border-white/20 rounded-none">
                             <TabsTrigger value="general">General</TabsTrigger>

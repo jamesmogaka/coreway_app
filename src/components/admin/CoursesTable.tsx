@@ -13,19 +13,29 @@ type Course = {
   end_time: string;
 };
 
-export function CoursesTable({ onEdit }: { onEdit: (course: Course) => void }) {
+interface CoursesTableProps {
+  onEdit: (course: Course | null) => void;
+  refreshTrigger?: number;
+}
+
+export function CoursesTable({ onEdit, refreshTrigger = 0 }: CoursesTableProps) {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchCourses() {
       setLoading(true);
-      const { data } = await supabase.from("courses").select("*");
-      setCourses(data || []);
-      setLoading(false);
+      try {
+        const { data } = await supabase.from("courses").select("*");
+        setCourses(data || []);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      } finally {
+        setLoading(false);
+      }
     }
     fetchCourses();
-  }, []);
+  }, [refreshTrigger]); // Add refreshTrigger as a dependency
 
   return (
     <Card className="bg-[#129990] border-0 text-[#F5F5F5]">
